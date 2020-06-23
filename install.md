@@ -74,7 +74,13 @@ composer require laravel/ui
 composer require laravel/ui
 ```
 
-## 5. Remover resíduos
+## 5. Adicionar o pacote Laravel Plugin Core:
+
+```
+composer require bnw/laravel-plugin-core
+```
+
+## 6. Remover resíduos
 
 Remover os seguintes arquivos:
 
@@ -92,10 +98,10 @@ rm -f database/factories/*.php
 rm -f tests/CreatesApplication.php
 ```
 
-## 5. Criar o arquivo de configuração
+## 7. Criar o arquivo de configuração
 
 ```
-touch config plugin_xxx.php
+touch config/plugin_xxx.php
 ```
 
 Adicionar o conteúdo:
@@ -116,7 +122,7 @@ return [
 ];
 ```
 
-## 6. Modificar o arquivo 'app/Http/Controllers/Controller.php'
+## 8. Modificar o arquivo 'app/Http/Controllers/Controller.php'
 
 Mudar o namespace:
 
@@ -148,7 +154,7 @@ use App\Plugin\Core\Http\Controllers\ModuleController;
 class Controller extends ModuleController
 ```
 
-## 6. Modificar o arquivo 'artisan'
+## 9. Modificar o arquivo 'artisan'
 
 Antes:
 
@@ -209,7 +215,7 @@ $app->singleton(
 );
 ```
 
-## 6. Criar um ServiceProvider
+## 10. Criar um ServiceProvider
 
 É preciso criar o service provider para atender á cnfiguração do composer.json do parâmetro "extra.laravel.providers".
 
@@ -236,7 +242,7 @@ class ServiceProvider extends PluggableServiceProvider
 }
 ```
 
-## 7. Editar os scripts do composer
+## 11. Editar os scripts do composer
 
 Antes:
 
@@ -293,7 +299,7 @@ Parâmetro "config" depois:
 },
 ```
 
-## 8. Editar o TestCase
+## 12. Editar o TestCase
 
 Antes:
 
