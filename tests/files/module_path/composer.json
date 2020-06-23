@@ -1,0 +1,14 @@
+{
+    "name": "exemplo/para-teste",
+    "description": "Exemplo para teste de unidade",
+    "extra": {
+        "laravel": {
+            "providers": [
+                "App\\Module\\Core\\Providers\\ServiceProvider"
+            ],
+            "aliases": {
+                "Core": "App\\Module\\Core\\Providers\\ModuleFacade"
+            }
+        }
+    }
+}

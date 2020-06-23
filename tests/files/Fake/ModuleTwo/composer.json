@@ -1,0 +1,9 @@
+{
+    "name": "exemplo/para-teste",
+    "description": "Exemplo para teste de unidade",
+    "autoload": {
+        "psr-4": {
+            "App\\Module\\Two\\": "app_module/Two"
+        }
+    }
+}
