@@ -8,7 +8,7 @@ class ThemeCore extends Theme
 {
     public static function factory(): ThemeCore
     {
-        $corePath = realpath(__DIR__ . '/../../../../');
+        $corePath = realpath(__DIR__ . '/../../../');
         return new ThemeCore('Core', $corePath);
     }
 }

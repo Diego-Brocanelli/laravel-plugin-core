@@ -77,7 +77,7 @@ class Plugin
     protected function setPath(string $rootPath): Plugin
     {
         if (is_file("{$rootPath}/composer.json") === false) {
-            throw new InvalidArgumentException("O caminho {$rootPath} não parece conter um módulo válido");
+            throw new InvalidArgumentException("O caminho {$rootPath} do plugin {$this->pluginName} não parece conter um módulo válido");
         }
 
         $this->pluginPath = $rootPath;
@@ -92,7 +92,7 @@ class Plugin
     {
         $this->pluginParams = $config;
 
-        $namespace = $this->pluginParams->param('module_namespace');
+        $namespace = $this->pluginParams->param('plugin_namespace');
         if ($namespace !== null) {
             $this->pluginTag = Str::snake($namespace);
             return $this;

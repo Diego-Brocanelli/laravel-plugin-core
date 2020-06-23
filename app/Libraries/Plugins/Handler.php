@@ -39,7 +39,7 @@ class Handler
 
     private $globalPluggablesRoutines = [];
 
-    private $pluginPluggablesRoutines = [];
+    private $pluggablesRoutines = [];
 
     private function __construct()
     {
