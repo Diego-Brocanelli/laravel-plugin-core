@@ -10,6 +10,7 @@ use App\Plugin\Core\Libraries\Plugins\Handler as PluginsHandler;
 use App\Plugin\Core\Libraries\Plugins\Theme;
 use App\Plugin\Core\Libraries\Templates\Handler as TemplatesHandler;
 use App\Plugin\Core\Providers\ServiceProvider;
+
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
@@ -23,7 +24,7 @@ class ModuleController extends BaseController
     {
         // Quando um controler é executado, o mecanismo de plugins é notificado
         // para poder desenhar os assets adequados na página HTML.
-        PluginsHandler::instance()->setCurrentModule(ServiceProvider::class);
+        PluginsHandler::instance()->setCurrentPlugin(ServiceProvider::class);
     }
 
     /**
@@ -93,7 +94,7 @@ class ModuleController extends BaseController
     {
         TemplatesHandler::instance()->flush();
 
-        $module = PluginsHandler::instance()->currentModule();
+        $module = PluginsHandler::instance()->currentPlugin();
         $theme = PluginsHandler::instance()->activeTheme();
 
         // Executa as rotinas

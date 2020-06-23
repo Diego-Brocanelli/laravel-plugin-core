@@ -6,36 +6,28 @@ namespace App\Plugin\Core\Libraries\Tests;
 
 use App\Plugin\Core\Libraries\Plugins\Handler;
 use Illuminate\Contracts\Console\Kernel;
+use Illuminate\Support\Str;
 use App\Plugin\Core\Libraries\Composer\Parser;
-use App\Plugin\Core\Providers\ModuleServiceProvider;
+use App\Plugin\Core\Providers\PluginServiceProvider;
 use ReflectionClass;
 
 trait CreatesApplication
 {
     public function createApplication()
     {
-        $className = $this->serviceProvider();
-        $class = new ReflectionClass($className);
-        $sufix = $className::sufix();
-
         $pluginsHandler = Handler::instance();
 
-        if ($class->isSubclassOf(ModuleServiceProvider::class) === true) {
+        $className = $this->serviceProvider();
+        $pluginsHandler->registerPlugin($className);
 
-            $laravelPath = $pluginsHandler->registerModule($this->serviceProvider())
-                ->lastModule()
-                ->config()->param("module_{$sufix}.laravel_path");
-
-        } else {
-
-            $laravelPath = $pluginsHandler->registerTheme($this->serviceProvider())
-                ->lastTheme()
-                ->config()->param("theme_{$sufix}.laravel_path");
-        }
-
-        $rootPath = dirname(dirname(dirname(dirname($class->getFileName()))));
-
-        $config = (new Parser("{$rootPath}/composer.json"))->all(true);
+        // $class = new ReflectionClass($className);
+        $plugin          = $pluginsHandler->plugin($className);
+        $pluginNamespace = $plugin->config()->param('plugin_namespace');
+        // $pluginTag       = Str::snake($pluginNamespace);
+        $pluginPath      = $plugin->path();
+        $laravelPath     = $plugin->config()->param('laravel_path');
+        
+        $config = (new Parser("{$pluginPath}/composer.json"))->all(true);
 
         $this->clearDiscovery($laravelPath, $config);
 
@@ -78,7 +70,7 @@ trait CreatesApplication
         $cleanedPackages = [];
         foreach($packages as $packageName => $item) {
             
-            if (strpos($item['providers'][0], 'App\\Module') === false
+            if (strpos($item['providers'][0], 'App\\Plugin') === false
              && strpos($item['providers'][0], 'App\\Theme') === false
             ) {
                 $cleanedPackages[$packageName] = $item;

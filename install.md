@@ -82,6 +82,7 @@ rm -Rf bootstrap
 rm -f config/*.php
 rm -f database/migrations/*.php
 rm -f database/factories/*.php
+rm -f tests/CreatesApplication.php
 ```
 
 ## 5. Criar o arquivo de configuração
@@ -278,5 +279,37 @@ Parâmetro "config" depois:
 },
 ```
 
+## 8. Editar o testCase
 
+Antes:
 
+```
+namespace Tests;
+
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+
+abstract class TestCase extends BaseTestCase
+{
+    use CreatesApplication;
+}
+```
+
+Depois:
+
+```
+declare(strict_types=1);
+
+namespace Tests\Module\Core;
+
+use App\Plugin\Core\Libraries\Tests\CreatesApplication;
+use App\Plugin\Core\Libraries\Tests\ModuleTestCase;
+use App\Plugin\Xxx\Providers\ServiceProvider;
+
+abstract class TestCase extends ModuleTestCase
+{
+    protected function serviceProvider(): string
+    {
+        return ServiceProvider::class;
+    }
+}
+```

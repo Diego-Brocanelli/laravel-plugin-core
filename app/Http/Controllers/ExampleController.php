@@ -19,15 +19,12 @@ class ExampleController extends Controller
     //     parent::__construct();
     // }
 
-    public function index()
+    public function app()
     {
         //$this->changeTheme('core');
-        $this->breadCrumb()->append(new Entry('Grade de Dados Legal'));
+        // $this->breadCrumb()->append(new Entry('Grade de Dados Legal'));
 
-        return view('core::examples.admin-grid')->with([
-            'title' => 'Grade de Teste',
-            'description' => 'Uma lista de registros usando DataTables'
-        ]);
+        return view('core::app');
     }
 
     public function indexDataProvider()
