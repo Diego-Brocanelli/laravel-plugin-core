@@ -65,9 +65,16 @@ Parâmetro "autoload.psr4" depois:
 ```
 cd laravel-plugin-xxx
 composer require --dev laravel/laravel
+composer require laravel/ui
 ```
 
-## 4. Remover resíduos
+## 4. Adicionar o pacote Laravel UI:
+
+```
+composer require laravel/ui
+```
+
+## 5. Remover resíduos
 
 Remover os seguintes arquivos:
 
@@ -162,7 +169,9 @@ class Kernel extends App\Console\Kernel
     protected function commands()
     {
         // Para adicionar comandos adicionais no artisan local
-        // $this->commands = [];
+        $this->commands = [
+            UiCommand::class
+        ];
         return parent::commands();
     }
 }
@@ -172,6 +181,11 @@ class Application extends Illuminate\Foundation\Application
     public function useModuleNamespace(string $namespace)
     {
         $this->namespace = $namespace;
+    }
+
+    public function resourcePath($path = '')
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR.'resources'.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }
 
@@ -197,7 +211,7 @@ $app->singleton(
 
 ## 6. Criar um ServiceProvider
 
-É preciso criar o service provider para atender á cnfiguração do composer.json do parâmetro "etra.laravel.providers".
+É preciso criar o service provider para atender á cnfiguração do composer.json do parâmetro "extra.laravel.providers".
 
 No diretório app/Providers, crie o arquivo 'ServiceProvider' com o seguinte conteúdo:
 
@@ -279,7 +293,7 @@ Parâmetro "config" depois:
 },
 ```
 
-## 8. Editar o testCase
+## 8. Editar o TestCase
 
 Antes:
 
