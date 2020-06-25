@@ -383,7 +383,15 @@ laravel laravel-plugin-xxx laravel-plugin-yyy laravel-plugin-zzz
 
 Para que o Laravel encontre os plugins, é preciso adicioná-los no composer da instalação limpa do Laravel:
 
-### a) Adicione um repositório local
+### a) Instale o laravel-plugin-core
+
+O mecanismo de plugins deve estar presente na instalação do Laravel:
+
+```
+composer require bnw/laravel-plugin-core
+```
+
+### b) Adicione um repositório local
 
 Cada plugin deverá possuir uma entrada como a mostrada abaixo:
 
@@ -400,7 +408,7 @@ Cada plugin deverá possuir uma entrada como a mostrada abaixo:
 ],
 ```
 
-### b) Instale o plugin
+### c) Instale o plugin
 
 Importante:
 Por se tratar de um plugin local, não é possível usar o comando `composer install`. Portanto, após o Laravel ser instalado, use:
