@@ -155,12 +155,22 @@ Antes:
 
 ```
 use Illuminate\Routing\Controller as BaseController;
+
+class Controller extends BaseController
+{
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+}
 ```
 
 Depois:
 
 ```
-use App\Plugin\Core\Http\Controllers\ModuleController as BaseController;
+use App\Plugin\Core\Http\Controllers\PluggableController as BaseController;
+
+class Controller extends BaseController
+{
+    // ... <-- removidos os traits
+}
 ```
 
 ## 8. Modificar o arquivo 'artisan'
