@@ -8,6 +8,11 @@ composer create-project laravel/laravel laravel-plugin-xxx
 
 ## 2. Corrigir os namespaces
 
+Por padrão, um projeto laravel é desenvolvido sob o namespace '\App'.
+Como o plugin final será usado como um pacote, ele deve ter seu próprio
+namespace para que o composer adicione-o corretamente como uma 
+dependência.
+
 ### database/seeds/DatabaseSeeder.php
 
 ```
@@ -60,35 +65,40 @@ Parâmetro "autoload.psr4" depois:
  "App\\Plugin\\Xxx\\": "app/"
 ```
 
-## 3. Adicionar o projeto do laravel como dependência de desenvolvimento:
+## 3. Adicionar dependências de desenvolvimento:
+
+O plugin precisa dos recursos do Laravel contidos no projeto 
+original, por eese motivo, o projeto deverá ser usado na forma 
+de dependencia apenas durante o densenvolvimento.
+
+O pacote UI do Laravel provê facilidades para a criação de 
+componentes do vuejs, por isso também é um excelente aliado
+na criação de plugins.
 
 ```
 cd laravel-plugin-xxx
-composer require --dev laravel/laravel
-composer require laravel/ui
+composer require --dev laravel/laravel laravel/ui
 ```
 
-## 4. Adicionar o pacote Laravel UI:
+## 4. Adicionar dependências de projeto:
 
-```
-composer require laravel/ui
-```
-
-## 5. Adicionar o pacote Laravel Plugin Core:
+Todo o mecanismo de gerenciamento de plugins está no pacote 
+bnw/laravel-plugin-core, que deve ser usado em todos os plugins 
+que venham a ser desenvolvidos para o Laravel.
 
 ```
 composer require bnw/laravel-plugin-core
 ```
 
-## 6. Remover resíduos
+## 5. Remover resíduos
 
 Remover os seguintes arquivos:
 
 ```
 rm -Rf app/Console
 rm -Rf app/Exceptions
-rm -f app/Http/Kernel.php
 rm -Rf app/Http/Middleware
+rm -f app/Http/Kernel.php
 rm -f app/Providers/*.php
 rm -f app/User.php
 rm -Rf bootstrap
@@ -98,7 +108,7 @@ rm -f database/factories/*.php
 rm -f tests/CreatesApplication.php
 ```
 
-## 7. Criar o arquivo de configuração
+## 6. Criar o arquivo de configuração
 
 ```
 touch config/plugin_xxx.php
@@ -117,12 +127,13 @@ return [
 
     // Apenas para desenvolvimento do pacote! 
     // Este parâmetro notifica o Artisan sobre a localização 
-    // da instalação principal do Laravel.
+    // da instalação principal do Laravel a fim de facilitar
+    // a atualização do pacote na instalação ofocial.
     'laravel_path' => realpath(__DIR__ . '/../../laravel'),
 ];
 ```
 
-## 8. Modificar o arquivo 'app/Http/Controllers/Controller.php'
+## 7. Modificar o arquivo 'app/Http/Controllers/Controller.php'
 
 Mudar o namespace:
 
@@ -144,17 +155,15 @@ Antes:
 
 ```
 use Illuminate\Routing\Controller as BaseController;
-class Controller extends BaseController
 ```
 
 Depois:
 
 ```
-use App\Plugin\Core\Http\Controllers\ModuleController;
-class Controller extends ModuleController
+use App\Plugin\Core\Http\Controllers\ModuleController as BaseController;
 ```
 
-## 9. Modificar o arquivo 'artisan'
+## 8. Modificar o arquivo 'artisan'
 
 Antes:
 
@@ -164,11 +173,12 @@ $app = require_once __DIR__.'/bootstrap/app.php';
 ```
 
 Depois:
+> Obs: não esqueça de mudar os namespaces "xxx" para o correto do seu plugin.
 
 ```
 require __DIR__.'/vendor/autoload.php';
 
-$config = require_once __DIR__ . '/config/plugin_core.php';
+$config = require_once __DIR__ . '/config/plugin_xxx.php';
 
 class Kernel extends App\Console\Kernel
 {
@@ -176,7 +186,7 @@ class Kernel extends App\Console\Kernel
     {
         // Para adicionar comandos adicionais no artisan local
         $this->commands = [
-            UiCommand::class
+            \Laravel\Ui\UiCommand::class
         ];
         return parent::commands();
     }
@@ -215,11 +225,17 @@ $app->singleton(
 );
 ```
 
-## 10. Criar um ServiceProvider
+## 9. Criar um ServiceProvider
 
 É preciso criar o service provider para atender á cnfiguração do composer.json do parâmetro "extra.laravel.providers".
 
-No diretório app/Providers, crie o arquivo 'ServiceProvider' com o seguinte conteúdo:
+No diretório app/Providers, crie o arquivo 'ServiceProvider':
+
+```
+touch app/Providers/ServiceProvider.php
+```
+
+E adicione o seguinte conteúdo:
 
 ```
 <?php
@@ -227,6 +243,8 @@ No diretório app/Providers, crie o arquivo 'ServiceProvider' com o seguinte con
 declare(strict_types=1);
 
 namespace App\Plugin\Xxx\Providers;
+
+use App\Plugin\Core\Providers\PluggableServiceProvider;
 
 class ServiceProvider extends PluggableServiceProvider
 {
@@ -242,7 +260,59 @@ class ServiceProvider extends PluggableServiceProvider
 }
 ```
 
+## 10. Atualizar o TestCase
+
+Antes:
+
+```
+<?php 
+
+namespace Tests;
+
+use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
+
+abstract class TestCase extends BaseTestCase
+{
+    use CreatesApplication;
+}
+```
+
+Depois:
+
+```
+<?php
+
+declare(strict_types=1);
+
+namespace Tests;
+
+use App\Plugin\Core\Libraries\Tests\PluginTestCase;
+use App\Plugin\Xxx\Providers\ServiceProvider;
+
+abstract class TestCase extends PluginTestCase
+{
+    protected function serviceProvider(): string
+    {
+        return ServiceProvider::class;
+    }
+}
+```
+
+## 11. Atualizar o autoloader do composer
+
+```
+composer dumpautoload
+```
+
 ## 11. Editar os scripts do composer
+
+Para facilitar o desenvolvimeto de plugins, deve-se 
+adicionar scripts especiais ao composer.
+
+Em especial, o "composer watch" é usado para sincronizar o pacote sempre que uma alteração for efetuada em desenvolvimento. É muito útil para não 
+precisar ficar dando "composer update" e aguardar o pacote ser atualizado todas as vezes.
+
+> Obs: para o composer watch funcionar, é preciso instalar o software `inotifywait`. Se estiver em sistemas debian, use `sudo apt install inotify-tools`.
 
 Antes:
 
@@ -262,6 +332,7 @@ Antes:
 ```
 
 Depois:
+> Obs: não esqueça de trocar o namespace 'xxx' pelo do seu plugin.
 
 ```
 "scripts": {
@@ -299,37 +370,4 @@ Parâmetro "config" depois:
 },
 ```
 
-## 12. Editar o TestCase
 
-Antes:
-
-```
-namespace Tests;
-
-use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
-
-abstract class TestCase extends BaseTestCase
-{
-    use CreatesApplication;
-}
-```
-
-Depois:
-
-```
-declare(strict_types=1);
-
-namespace Tests\Module\Core;
-
-use App\Plugin\Core\Libraries\Tests\CreatesApplication;
-use App\Plugin\Core\Libraries\Tests\ModuleTestCase;
-use App\Plugin\Xxx\Providers\ServiceProvider;
-
-abstract class TestCase extends ModuleTestCase
-{
-    protected function serviceProvider(): string
-    {
-        return ServiceProvider::class;
-    }
-}
-```
