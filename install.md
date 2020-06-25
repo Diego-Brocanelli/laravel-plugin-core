@@ -304,7 +304,7 @@ abstract class TestCase extends PluginTestCase
 composer dumpautoload
 ```
 
-## 11. Editar os scripts do composer
+## 12. Editar os scripts do composer
 
 Para facilitar o desenvolvimeto de plugins, deve-se 
 adicionar scripts especiais ao composer.
@@ -370,4 +370,62 @@ Parâmetro "config" depois:
 },
 ```
 
+## 13. Preparando o ambiente de desenvolvimento
 
+O objetivo é simular a execução do pacote em uma instalação real do Laravel. Por isso, é preciso que, ao lado do diretório da instalação deste pacote, exista uma instalação limpa do Laravel.
+
+O diretório com o ambiente de desenvolvimento deverá estar assim:
+
+```
+ls meu-diretorio-dev
+laravel laravel-plugin-xxx laravel-plugin-yyy laravel-plugin-zzz
+```
+
+Para que o Laravel encontre os plugins, é preciso adicioná-los no composer da instalação limpa do Laravel:
+
+### a) Adicione um repositório local
+
+Cada plugin deverá possuir uma entrada como a mostrada abaixo:
+
+```
+"repositories": [
+    {
+        "type": "path",
+        "url": "../laravel-plugin-xxx",
+        "options": {
+            "symlink": false
+        }
+    }
+    
+],
+```
+
+### b) Instale o plugin
+
+Importante:
+Por se tratar de um plugin local, não é possível usar o comando `composer install`. Portanto, após o Laravel ser instalado, use:
+
+```
+composer require bnw/laravel-plugin-xxx
+```
+
+Pronto, agora é possivel trabalhar num ambiente simulado.
+
+## Dicas
+
+Uma vez dentro do diretório do plugin, os comandos do composer ajudarão no processo, dispensando a necessidade de atualizar a instalação limpa do Laravel.
+
+Comandos:
+
+### $ composer watch
+
+Semelhante ao `npm run watch`, este comando fica vigiando por alterações no código fonte do plugin. Qualquer alteração é sincronizada com a instalação do Laravel.
+
+### $ composer dumpautoload
+
+No plugin, quando o `composer dumpautoload` é executado, todas as 
+alterações efetuadas também serão sincronizadas com a instalação do Laravel.
+
+### $ composer test
+
+Executa os testes de unidade dentro do pacote.
