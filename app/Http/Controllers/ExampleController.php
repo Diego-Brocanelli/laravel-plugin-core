@@ -32,7 +32,7 @@ class ExampleController extends Controller
         //$this->changeTheme('core');
         $this->breadCrumb()->append(new Entry('Página'));
 
-        sleep(3);
+        // sleep(3);
         return vue('core::example');
     }
 

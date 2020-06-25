@@ -2,10 +2,10 @@
 
     <div class="admin-wrapper">
 
-        <b-overlay valiant="transparent" :show="admin_overlay" rounded="sm">
+          <slot name="admin-header"></slot>
+          
+          <b-overlay valiant="transparent" :show="loading" rounded="sm">
 
-            <slot name="admin-header"></slot>
-            
             <div class="container-fluid bg-light">
 
                 <div class="row">
@@ -22,11 +22,12 @@
 
             </div>
 
-            <slot name="admin-footer"></slot>
+          </b-overlay>
 
-            <slot name="sidebar-right"></slot>
+          <slot name="admin-footer"></slot>
 
-        </b-overlay>
+          <slot name="sidebar-right"></slot>
+          <slot name="sidebar-mobile"></slot>
 
     </div>
   
@@ -36,7 +37,7 @@
   export default {
     data: function () {
       return {
-        admin_overlay    : this.$root.admin_overlay
+		    loading: false
       }
     }
   }

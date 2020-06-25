@@ -12,7 +12,7 @@ class Sidebar
     
     private $entries = [];
 
-    private function __construct()
+    protected function __construct()
     {
         // Embora esta biblioteca possa ser acessada através do service container do Laravel
         // através do helper app('sidebar'), é preciso que ela seja sempre singleton, mesmo 

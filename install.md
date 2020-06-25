@@ -105,6 +105,7 @@ rm -Rf bootstrap
 rm -f config/*.php
 rm -f database/migrations/*.php
 rm -f database/factories/*.php
+rm -f storage
 rm -f tests/CreatesApplication.php
 ```
 
@@ -337,13 +338,7 @@ abstract class TestCase extends PluginTestCase
 }
 ```
 
-## 11. Atualizar o autoloader do composer
-
-```
-composer dumpautoload
-```
-
-## 12. Editar os scripts do composer
+## 11. Editar os scripts do composer
 
 Para facilitar o desenvolvimeto de plugins, deve-se 
 adicionar scripts especiais ao composer.
@@ -407,6 +402,12 @@ Parâmetro "config" depois:
     "sort-packages": true,
     "process-timeout":0 <- adicionado
 },
+```
+
+## 12. Atualizar o autoloader do composer
+
+```
+composer dumpautoload
 ```
 
 ## 13. Preparando o ambiente de desenvolvimento

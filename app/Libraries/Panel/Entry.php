@@ -19,6 +19,10 @@ class Entry
 
     const STATUS_DISABLED = 'disabled';
 
+    const TYPE_ITEM = 'item';
+
+    const TYPE_SEPARATOR = 'separator';
+
     private $label;
 
     private $slug;
@@ -29,6 +33,8 @@ class Entry
 
     private $status;
 
+    private $type;
+
     private $children = [];
 
     public function __construct(string $label, ?string $url = null, string $icon = null)
@@ -38,6 +44,7 @@ class Entry
         $this->url    = $url ?? 'javascript:void(0);';
         $this->icon   = $icon ?? '';
         $this->status = self::STATUS_COMMON;
+        $this->type   = self::TYPE_ITEM;
     }
 
     public function setUrl(string $url): Entry
@@ -60,6 +67,17 @@ class Entry
         }
 
         $this->status = $status;
+        return $this;
+    }
+
+    public function setType(string $type = Entry::TYPE_ITEM): Entry
+    {
+        $allow = [Entry::TYPE_ITEM, Entry::TYPE_SEPARATOR];
+        if (in_array($type, $allow) === false) {
+            throw new InvalidArgumentException('Tipo inválido para a entrada de menu');
+        }
+
+        $this->type = $type;
         return $this;
     }
 
@@ -116,6 +134,11 @@ class Entry
         return $this->status;
     }
 
+    public function type(): string
+    {
+        return $this->type;
+    }
+
     public function hasChildren(): bool
     {
         return $this->children !== [];
@@ -129,11 +152,12 @@ class Entry
     public function toArray()
     {
         $entry = [
-            'label' => $this->label(),
-            'slug' => $this->slug(),
-            'icon' =>  $this->icon(),
-            'url' => $this->url(),
-            'status' => $this->status()
+            'label'  => $this->label(),
+            'slug'   => $this->slug(),
+            'icon'   => $this->icon(),
+            'url'    => $this->url(),
+            'status' => $this->status(),
+            'type'   => $this->type(),
         ];
 
         if ($this->hasChildren() === true) {

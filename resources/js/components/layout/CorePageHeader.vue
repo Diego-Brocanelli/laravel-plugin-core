@@ -4,10 +4,23 @@
 
         <h2 class="h3 p-3 m-0 text-secondary">
         {{ title }}
-        <b-button v-b-toggle.sidebar-right class="float-right">Toggle Sidebar</b-button>
+        <b-icon :icon="sidebar_icon" v-b-toggle.sidebar-right class="float-right"></b-icon>
         </h2>
 
-        <b-breadcrumb :items="breadcrumb_items_fixed"></b-breadcrumb>
+        <div class="d-none d-sm-block">
+          <b-breadcrumb>
+
+            <template v-for="(item, index) in items">
+
+              <b-breadcrumb-item @click="breadcrumbUrl(item.url)" :key="index">
+                <b-icon v-if="item.icon" :icon="item.icon" scale="1.25" shift-v="1.25" aria-hidden="true"></b-icon>
+                {{ item.label  }}
+              </b-breadcrumb-item>
+
+            </template>
+
+          </b-breadcrumb>
+        </div>
         
     </header>
   
@@ -17,26 +30,18 @@
   export default {
     data: function () {
       return {
-        title      : this.$root.page_title,
-        breadcrumb_items: this.$root.breadcrumb_items
-      }
-    },
-    computed: {
-      breadcrumb_items_fixed: function () {
-        let fixed = [];
-        this.$root.breadcrumb_items.forEach(function(item, index, array){
-          fixed.push({
-            text: item.label,
-            active: item.state === 'active' ? true : false,
-            href: item.href
-          });
-
-        });
-        return fixed;
+        title     : 'Página',
+        sidebar_icon: 'three-dots-vertical',
+        items: []
       }
     },
     methods: {
+      breadcrumbUrl: function (url) {
 
-    }
+        if (undefined !== url) {
+          this.$root.loadPage(url)    
+        }
+      }
+    },
   }
 </script>

@@ -75,6 +75,17 @@ class PluggableController extends BaseController
     }
 
     /**
+     * Devolve o gerenciador da sidebar.
+     * 
+     * @return Sidebar
+     */
+    protected function pageTitle(string $title): BaseController
+    {
+        PluginsHandler::instance()->setPageTitle($title);
+        return $this;
+    }
+
+    /**
      * Devolve o tema atualmente em execução.
      * 
      * @return Theme

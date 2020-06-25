@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Plugin\Core\Providers;
 
 use App\Plugin\Core\Libraries\Panel\Entry;
+use App\Plugin\Core\Libraries\Panel\UserData;
 
 /**
  * O serviceProvider é a forma que um pacote se comunicar com o projeto principal do Laravel.
@@ -28,19 +29,32 @@ class ServiceProvider extends PluginServiceProvider
     {
         parent::boot();
         
-        $this->breadcrumb()
-            ->append(new Entry('Home', '/admin'))
-            ->append(new Entry('Paginas', '/pages'));
+        UserData::instance()
+            ->setName('Claire Redfield')
+            ->setLogin('claire@residentevil.com.br')
+            ->setPicture('http://lorempixel.com/25/25/people/9/');
 
-        $entry = (new Entry('Terceiro', '/page'))
+        $this->breadcrumb()
+            ->append(new Entry('Home', '/core/home'))
+            ->append(new Entry('Paginas', '/core/page', 'exclamation-circle-fill'));
+
+        $entry = (new Entry('Terceiro', '/core/page'))
             ->appendChild(new Entry('Quarto', '/aaa'))
             ->appendChild((new Entry('Quinto', '/bbb'))->setStatus(Entry::STATUS_ACTIVE))
             ->appendChild((new Entry('Sexto', '/ccc'))->setStatus(Entry::STATUS_DISABLED));
 
         $this->sidebar()
-            ->append(new Entry('Primeiro', '/admin'))
-            ->append(new Entry('Segundo', '/page'))
+            ->append(new Entry('Primeiro', '/core/page', 'exclamation-circle-fill'))
+            ->append(new Entry('Segundo', '/core/page'))
             ->append($entry);
+
+        $this->headerMenu()
+            ->append(new Entry('Primeiro', '/core/page', 'exclamation-circle-fill'))
+            ->append(new Entry('Segundo', '/core/page'))
+            ->append(new Entry('Terceiro', '/core/page'))
+            ->append((new Entry('Sep'))->setType(Entry::TYPE_SEPARATOR))
+            ->append((new Entry('Quinto', '/bbb'))->setStatus(Entry::STATUS_ACTIVE))
+            ->append((new Entry('Sexto', '/ccc'))->setStatus(Entry::STATUS_DISABLED));
     }
 
     /**

@@ -6,7 +6,7 @@
 
         <title>{{ config('app.name') }}</title>
 
-        <link rel="stylesheet" href="/plugins/core/css/app.css?v={{ date('dmHis')}}">
+        <link rel="stylesheet" href="/plugins/core/css/app.css?v={{ date('dmHis') }}">
 
     </head>
 
@@ -14,41 +14,36 @@
 
         <div id="vue-app">
 
-            <b-overlay valiant="transparent" :show="admin_overlay" rounded="sm">
+            <component ref="admin" is="core-admin-full">
 
-                <component is="core-admin-full">
+                <component ref="aheader" slot="admin-header" :is="aheader"></component>
 
-                    <!-- Slots de layout -->
-                    <component slot="admin-header" :is="aheader"></component>
+                <component ref="lsidebar" slot="sidebar-left" :is="lsidebar"></component>
 
-                    <component slot="sidebar-left" :is="lsidebar"></component>
+                <component ref="msidebar" slot="sidebar-mobile" :is="msidebar"></component>
 
-                    <component slot="sidebar-right" :is="rsidebar"></component>
+                <component ref="rsidebar" slot="sidebar-right" :is="rsidebar"></component>
 
-                    <main slot="admin-page">
+                <main slot="admin-page">
 
-                        <component ref="page_header" :is="pheader"></component>
+                    <component ref="pheader" :is="pheader"></component>
 
-                        <section class="p-3">
-                            <div class="page-wrapper">
-                                <b-overlay valiant="transparent" :show="page_overlay" rounded="sm">
-                                
+                    <section class="p-3">
+                        <div class="page-wrapper">
+                            <b-overlay valiant="transparent" :show="loading_page" rounded="sm">
                                 <component ref="page_content" :is="page"></component>
+                            </b-overlay>
+                        </div>
+                    </section>
 
-                                </b-overlay>
-                            </div>
-                        </section>
+                </main>
 
-                    </main>
+                <component slot="admin-footer" :is="afooter"></component>
 
-                    <component slot="admin-footer" :is="afooter"></component>
-
-                </component>
-            </b-overlay>
+            </component>
         </div>
 
-        <script type="text/javascript" src="/plugins/core/js/components.js"></script>
-        <script type="text/javascript" src="/plugins/core/js/app.js?v={{ date('dmHis')}}"></script>
+        <script type="text/javascript" src="/plugins/core/js/app.js?v={{ date('dmHis') }}"></script>
     </body>
     
 </html>

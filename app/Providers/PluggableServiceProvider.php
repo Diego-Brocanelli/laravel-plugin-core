@@ -6,6 +6,7 @@ namespace App\Plugin\Core\Providers;
 
 use App\Exceptions\Handler;
 use App\Plugin\Core\Libraries\Panel\Breadcrumb;
+use App\Plugin\Core\Libraries\Panel\HeaderMenu;
 use App\Plugin\Core\Libraries\Panel\Sidebar;
 use App\Plugin\Core\Libraries\Plugins\Handler as PluginsHandler;
 use Closure;
@@ -183,6 +184,16 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
     protected function sidebar(): Sidebar
     {
         return Sidebar::instance();
+    }
+
+    /**
+     * Devolve o gerenciador do menu do cabeçalho.
+     * 
+     * @return HeaderMenu
+     */
+    protected function headerMenu(): HeaderMenu
+    {
+        return HeaderMenu::instance();
     }
 
     /**

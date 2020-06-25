@@ -21,6 +21,13 @@ Route::get('/admin', function () {
     
 Route::namespace('App\Plugin\Core\Http\Controllers')->group(function(){
     
+    Route::get('/core/meta', 'CoreController@meta')->name('core.meta');
+    Route::get('/core/home', 'CoreController@home')->name('core.home');
+    Route::get('/core/page', 'CoreController@page')->name('core.page');
+
+
+    // Abaixo são rotas de exemplo, que podem ser removidas
+
     Route::get('/admin', 'ExampleController@app')->name('example.app');
     Route::get('/page', 'ExampleController@page')->name('example.page');
 

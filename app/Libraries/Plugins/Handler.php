@@ -6,7 +6,9 @@ namespace App\Plugin\Core\Libraries\Plugins;
 
 use App\Plugin\Core\Libraries\Composer\Parser;
 use App\Plugin\Core\Libraries\Panel\Breadcrumb;
+use App\Plugin\Core\Libraries\Panel\HeaderMenu;
 use App\Plugin\Core\Libraries\Panel\Sidebar;
+use App\Plugin\Core\Libraries\Panel\UserData;
 use Closure;
 use Exception;
 use InvalidArgumentException;
@@ -21,6 +23,10 @@ class Handler
 {
     static $instance;
     
+    private $homePage;
+
+    private $pageTitle;
+
     private $plugins = [];
     
     private $themes = [];
@@ -64,6 +70,8 @@ class Handler
       */
     public function flush(): Handler
     {
+        $this->homePage      = null;
+        $this->pageTitle     = null;
         $this->plugins       = [];
         $this->themes        = [];
         $this->pluginsMap    = [];
@@ -119,6 +127,48 @@ class Handler
         throw new Exception(
             'O parâmetro autoload.psr-4.App\\Plugin\\XX ' .
             'do composer.json deve conter o namespace como último nó da cadeia');
+    }
+
+    /**
+     * Seta a página inicial a ser utilizada pelo painel.
+     * 
+     * @param string $url 
+     */
+    public function setHomePage(string $url): Handler
+    {
+        $this->homePage = $url;
+        return $this;
+    }
+
+    /**
+     * Obtém a url para a página inicial do painel.
+     * 
+     * @return string
+     */
+    public function home(): string
+    {
+        return $this->homePage ?? '/core/home';
+    }
+
+    /**
+     * Seta o título da página atual.
+     * 
+     * @param string $title 
+     */
+    public function setPageTitle(string $title): Handler
+    {
+        $this->pageTitle = $title;
+        return $this;
+    }
+
+    /**
+     * Obtém o título da página atual.
+     * 
+     * @return string
+     */
+    public function title(): string
+    {
+        return $this->pageTitle ?? 'Página';
     }
 
     /**
@@ -413,10 +463,14 @@ class Handler
     {
         $assets = $this->resolveAssets();
         return [
-            'scripts' => $assets['scripts'] ?? [],
-            'styles' => $assets['styles'] ?? [],
+            'home_url'     => $this->home(),
+            'page_title'   => $this->title(),
+            'user_data'    => UserData::instance()->toArray(),
+            'scripts'      => $assets['scripts'] ?? [],
+            'styles'       => $assets['styles'] ?? [],
+            'header_menu'  => HeaderMenu::instance()->toArray(),
             'sidebar_left' => Sidebar::instance()->toArray(),
-            'breadcumb' => Breadcrumb::instance()->toArray()
+            'breadcrumb'   => Breadcrumb::instance()->toArray()
         ];
     }
 }

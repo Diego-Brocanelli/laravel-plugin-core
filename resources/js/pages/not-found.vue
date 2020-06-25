@@ -3,12 +3,7 @@
     <div class="flex-center position-ref full-height">
         <div class="content">
             <div class="title m-b-md">
-                Bem-vindo ao Vue.js
-            </div>
-            <div class="links">
-                <a href="https://laravel.com/docs">View Laravel Docs</a>
-                <a href="https://vuejs.org/v2/guide/">View Vue Docs</a>
-                <a href="https://laracasts.com">Watch Videos</a>
+                Página não existe
             </div>
         </div>
     </div>
@@ -17,8 +12,7 @@
 
 <script>
     console.log('kkkkkkkkkkkkk');
-
-    window.app.$refs.page_header.title = 'Ricardo';
+    window.app.$refs.page_header.title = 'A página solicitada não existe';
 </script>
 
 <style scoped>

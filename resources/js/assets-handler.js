@@ -27,4 +27,42 @@ export default class AssetsHandler {
       style.setAttribute('type', 'text/css');
       document.body.appendChild(style);
     }
+
+    static applyAppStyles(styles)
+    {
+      if (styles === undefined) {
+        return;
+      }
+
+      var elements = document.querySelectorAll('.state-class');
+      elements.forEach(item => { item.remove(); });
+
+      styles.forEach(href => {
+
+        let style = document.createElement("link"); 
+        style.setAttribute('rel', 'stylesheet');
+        style.setAttribute('class', 'state-class');
+        style.setAttribute('href', href);
+        document.head.appendChild(style);
+      });
+      
+    }
+
+    static applyAppScripts(scripts)
+    {
+      if (scripts === undefined) {
+        return;
+      }
+
+      var elements = document.querySelectorAll('.state-script');
+      elements.forEach(item => { item.remove(); });
+
+      scripts.forEach(src => {
+
+        let scripts = document.createElement("script"); 
+        scripts.setAttribute('class', 'state-script');
+        scripts.setAttribute('src', src);
+        document.body.appendChild(scripts);
+      });
+    }
 }

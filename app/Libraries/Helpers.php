@@ -9,27 +9,19 @@ if (function_exists('dummy_core_helpers') === false) {
     // da invocação do arquivo com helpers
     function dummy_core_helpers(){}
 
-    function front_scripts_top()
-    {
-        return Handler::instance()->scriptsTop();
-    }
-
-    function front_scripts_bottom()
-    {
-        return Handler::instance()->scriptsBottom();
-    }
-
-    function front_styles()
-    {
-        return Handler::instance()->styles();
-    }
-
-    function vue($name)
+    /**
+     * Invoca um arquivo do vue para a respostas a ser compilada pelo vuejs.
+     * Os arquivos do vue devem estar em resources/js/pages. 
+     * Por exemplo: a tag 'core::example' irá invocar o arquivo 'resources/js/pages/example.vue'
+     * 
+     * @param string $name
+     */
+    function vue(string $name): array
     {
         $target = explode('::', $name);
         $plugin = Handler::instance()->plugin($target[0]);
 
-        if ($target[1] === null) {
+        if (isset($target[1]) === false) {
             throw new InvalidArgumentException("{$name} não é uma identificação válida para um componente vue. Use namespace::vuefile");
         }
 
@@ -39,7 +31,9 @@ if (function_exists('dummy_core_helpers') === false) {
         
         $vueFile = implode(DIRECTORY_SEPARATOR, [$plugin->path(), 'resources', 'js', 'pages', $target[1]]);
 
-        // deve devolver as outras informações de estado setadas pelo controller
+        if (is_file($vueFile . '.vue') === false) {
+            throw new InvalidArgumentException("A arquivo {$vueFile}.vue não foi encontrado");
+        }
 
         return [
             'meta' => Handler::instance()->metadata(),
