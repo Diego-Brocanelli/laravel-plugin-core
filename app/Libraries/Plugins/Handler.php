@@ -128,7 +128,7 @@ class Handler
       */
     public function registerPlugin(string $serviceProviderClass): Handler
     {
-        // não é possível registrar o mesmo módulo duas vezes
+        // não é possível registrar o mesmo plugin duas vezes
         if (isset($this->pluginsMap[$serviceProviderClass]) === true) {
             return $this;
         }
@@ -145,8 +145,6 @@ class Handler
         $this->pluginsMap[$serviceProviderClass] = $plugin->tag();
         $this->lastPlugin = $plugin->tag();
 
-        // dd(realpath($path . '/config/'));
-        
         return $this;
     }
 
@@ -157,7 +155,7 @@ class Handler
       */
     public function registerTheme(string $serviceProviderClass): Handler
     {
-        // não é possível registrar o mesmo módulo duas vezes
+        // não é possível registrar o mesmo tema duas vezes
         if (isset($this->themesMap[$serviceProviderClass]) === true) {
             return $this;
         }
@@ -417,8 +415,8 @@ class Handler
         return [
             'scripts' => $assets['scripts'] ?? [],
             'styles' => $assets['styles'] ?? [],
-            'sidebar_left' => Sidebar::instance()->allEntries(),
-            'breadcumb' => Breadcrumb::instance()->allEntries()
+            'sidebar_left' => Sidebar::instance()->toArray(),
+            'breadcumb' => Breadcrumb::instance()->toArray()
         ];
     }
 }

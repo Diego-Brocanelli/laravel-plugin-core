@@ -93,6 +93,10 @@ class Plugin
         $this->pluginParams = $config;
 
         $namespace = $this->pluginParams->param('plugin_namespace');
+        if ($namespace === null) {
+            $namespace = $this->pluginParams->param('theme_namespace');
+        }
+        
         if ($namespace !== null) {
             $this->pluginTag = Str::snake($namespace);
             return $this;
@@ -136,7 +140,7 @@ class Plugin
 
     protected function formatPrefixUrl(): string
     {
-        return "/modules/" . $this->tag();
+        return "/plugins/" . $this->tag();
     }
 
     public function addScriptTop(string $scriptName): Plugin
@@ -163,12 +167,12 @@ class Plugin
         return $this;
     }
 
-    public function addTemplateView(string $target, string $view): Plugin
-    {
-        // evita views duplicadas
-        $this->assetTemplates[$target] = $view;
-        return $this;
-    }
+    // public function addTemplateView(string $target, string $view): Plugin
+    // {
+    //     // evita views duplicadas
+    //     $this->assetTemplates[$target] = $view;
+    //     return $this;
+    // }
 
     public function scriptsTop(): array
     {
@@ -190,8 +194,8 @@ class Plugin
         return $this->assetStyles;
     }
 
-    public function templates(): array
-    {
-        return $this->assetTemplates;
-    }
+    // public function templates(): array
+    // {
+    //     return $this->assetTemplates;
+    // }
 }

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Plugin\Core\Providers;
 
+use App\Plugin\Core\Libraries\Panel\Entry;
+
 /**
  * O serviceProvider é a forma que um pacote se comunicar com o projeto principal do Laravel.
  * Através dele é possivel personalizar o caminho das configurações, rotas, views e assets da 
@@ -12,7 +14,7 @@ namespace App\Plugin\Core\Providers;
  * Para mais informações sobre pacotes do Laravel,
  * leia https://laravel.com/docs/7.x/packages
  */
-class ServiceProvider extends PluggableServiceProvider
+class ServiceProvider extends PluginServiceProvider
 {
     /**
      * Este método é invocado pelo Laravel apenas após todos os pacotes serem registrados.
@@ -26,30 +28,19 @@ class ServiceProvider extends PluggableServiceProvider
     {
         parent::boot();
         
-        // $this->registerGlobalPluggable(function(){
+        $this->breadcrumb()
+            ->append(new Entry('Home', '/admin'))
+            ->append(new Entry('Paginas', '/pages'));
 
-        //     $entry = new Entry('Grade de Dados', 'example.grid', 'fas fa-book');
-        //     Sidebar::instance()->append($entry);
+        $entry = (new Entry('Terceiro', '/page'))
+            ->appendChild(new Entry('Quarto', '/aaa'))
+            ->appendChild((new Entry('Quinto', '/bbb'))->setStatus(Entry::STATUS_ACTIVE))
+            ->appendChild((new Entry('Sexto', '/ccc'))->setStatus(Entry::STATUS_DISABLED));
 
-        //     $entry = new Entry('Formulario', 'example.form', 'fas fa-book-open');
-        //     Sidebar::instance()->append($entry);
-
-        //     $entry = new Entry('Outras Entradas', '/', 'fas fa-cat');
-        //     $entry->appendChild(new Entry('Opção 1'));
-        //     $entry->appendChild(new Entry('Opção 2'));
-        //     $entry->appendChild(new Entry('Opção 3'));
-        //     Sidebar::instance()->append($entry);
-
-        //     $entry = new Entry('Home', '/');
-        //     Breadcrumb::instance()->append($entry);
-        // });
-
-        // $this->registerPluggable(function(){
-
-        //     $entry = new Entry('Core', '/core/');
-        //     Breadcrumb::instance()->append($entry);
-
-        // });
+        $this->sidebar()
+            ->append(new Entry('Primeiro', '/admin'))
+            ->append(new Entry('Segundo', '/page'))
+            ->append($entry);
     }
 
     /**

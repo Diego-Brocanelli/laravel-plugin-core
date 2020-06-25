@@ -16,7 +16,7 @@ use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 
-class ModuleController extends BaseController
+class PluggableController extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
     
@@ -27,18 +27,18 @@ class ModuleController extends BaseController
         PluginsHandler::instance()->setCurrentPlugin(ServiceProvider::class);
     }
 
-    /**
-     * Muda uma view em tempo de execução.
-     * 
-     * @param string $targetView
-     * @param string $replacementView
-     * @return BaseController
-     */
-    protected function changeView(string $targetView, string $replacementView): BaseController
-    {
-        TemplatesHandler::instance()->registerView($targetView, $replacementView);
-        return $this;
-    }
+    // /**
+    //  * Muda uma view em tempo de execução.
+    //  * 
+    //  * @param string $targetView
+    //  * @param string $replacementView
+    //  * @return BaseController
+    //  */
+    // protected function changeView(string $targetView, string $replacementView): BaseController
+    // {
+    //     TemplatesHandler::instance()->registerView($targetView, $replacementView);
+    //     return $this;
+    // }
 
     /**
      * Muda o tema utilizado em tempo de execução.
@@ -50,7 +50,7 @@ class ModuleController extends BaseController
     protected function changeTheme(string $theme): BaseController
     {
         PluginsHandler::instance()->setActiveTheme($theme);
-        $this->applyCurrentTemplates();
+        // $this->applyCurrentTemplates();
         return $this;
     }
 
@@ -107,18 +107,17 @@ class ModuleController extends BaseController
         array_walk($themeRoutines, fn($func) => $func());
 
         // Registra todas as views personalizadas do tema
-        $themeTemplates = $theme->templates();
-        array_walk($themeTemplates, 
-            fn($replacementView, $targetView) => $this->changeView($targetView, $replacementView)
-        );
+        // $themeTemplates = $theme->templates();
+        // array_walk($themeTemplates, 
+        //     fn($replacementView, $targetView) => $this->changeView($targetView, $replacementView)
+        // );
 
-        // Registra todas as views personalizadas do módulo
-        $moduleTemplates = $module->templates();
-        array_walk($moduleTemplates, 
-            fn($replacementView, $targetView) => $this->changeView($targetView, $replacementView)
-        );
+        // // Registra todas as views personalizadas do módulo
+        // $moduleTemplates = $module->templates();
+        // array_walk($moduleTemplates, 
+        //     fn($replacementView, $targetView) => $this->changeView($targetView, $replacementView)
+        // );
 
         return $this;
     }
-    
 }

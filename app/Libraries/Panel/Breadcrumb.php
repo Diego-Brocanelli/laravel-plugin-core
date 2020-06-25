@@ -55,6 +55,11 @@ class Breadcrumb
         return $this->entries;
     }
 
+    public function toArray(): array
+    {
+        return array_map(fn($item) => $item->toArray(), $this->allEntries());
+    }
+
     public function flush(): Breadcrumb
     {
         $this->entries = [];

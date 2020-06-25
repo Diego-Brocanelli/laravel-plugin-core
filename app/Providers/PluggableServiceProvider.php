@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Plugin\Core\Providers;
 
+use App\Exceptions\Handler;
+use App\Plugin\Core\Libraries\Panel\Breadcrumb;
+use App\Plugin\Core\Libraries\Panel\Sidebar;
 use App\Plugin\Core\Libraries\Plugins\Handler as PluginsHandler;
 use Closure;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Support\Str;
+use InvalidArgumentException;
 
 /**
  * O serviceProvider é a forma que um pacote se comunicar com o projeto principal do Laravel.
@@ -31,14 +35,41 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
 
     public function setupPlugin(): PluggableServiceProvider
     {
+        if ($this instanceof ThemeServiceProvider) {
+            $this->setupTheme();
+            return $this;
+        }
+
+        $this->setupModule();
+        return $this;
+    }
+
+    public function setupModule(): PluggableServiceProvider
+    {
         PluginsHandler::instance()->registerPlugin($this->selfServiceProvider());
 
         $plugin              = PluginsHandler::instance()->plugin($this->selfServiceProvider());
         $pluginNamespace     = $plugin->config()->param('plugin_namespace');
+
+        $this->pluginPath    = $plugin->path();
         $this->namespaceTag  = Str::snake($pluginNamespace);
         $this->namespaceType = 'plugin';
         $this->assetsPath    = 'plugins';
-        $this->pluginPath    = $plugin->path();
+        
+        return $this;
+    }
+
+    public function setupTheme(): PluggableServiceProvider
+    {
+        PluginsHandler::instance()->registerTheme($this->selfServiceProvider());
+
+        $theme              = PluginsHandler::instance()->theme($this->selfServiceProvider());
+        $themeNamespace     = $theme->config()->param('theme_namespace');
+
+        $this->pluginPath    = $theme->path();
+        $this->namespaceTag  = Str::snake($themeNamespace);
+        $this->namespaceType = 'theme';
+        $this->assetsPath    = 'themes';
 
         return $this;
     }
@@ -99,6 +130,59 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
     {
         $this->pluginTheme = $theme;
         return $this;
+    }
+
+    protected function addScriptBottom(string $script): PluggableServiceProvider
+    {
+        $theme = PluginsHandler::instance()->theme($this->selfServiceProvider());
+        if ($theme === null) {
+            throw new InvalidArgumentException("Não é possível adicionar um asset em um plugin que não seja um tema");
+        }
+        $theme->addScriptBottom($script);
+
+        return $this;
+    }
+
+    protected function addScriptTop(string $script): PluggableServiceProvider
+    {
+        $theme = PluginsHandler::instance()->theme($this->selfServiceProvider());
+        if ($theme === null) {
+            throw new InvalidArgumentException("Não é possível adicionar um asset em um plugin que não seja um tema");
+        }
+        $theme->addScriptTop($script);
+
+        return $this;
+    }
+
+    protected function addStyle(string $style): PluggableServiceProvider
+    {
+        $theme = PluginsHandler::instance()->theme($this->selfServiceProvider());
+        if ($theme === null) {
+            throw new InvalidArgumentException("Não é possível adicionar um asset em um plugin que não seja um tema");
+        }
+        $theme->addStyle($style);
+
+        return $this;
+    }
+
+    /**
+     * Devolve o gerenciador de bradcrumbs.
+     * 
+     * @return Breadcrumb
+     */
+    protected function breadcrumb(): Breadcrumb
+    {
+        return Breadcrumb::instance();
+    }
+
+    /**
+     * Devolve o gerenciador da sidebar.
+     * 
+     * @return Sidebar
+     */
+    protected function sidebar(): Sidebar
+    {
+        return Sidebar::instance();
     }
 
     /**

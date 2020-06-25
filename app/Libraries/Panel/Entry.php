@@ -125,4 +125,21 @@ class Entry
     {
         return $this->children;
     }
+
+    public function toArray()
+    {
+        $entry = [
+            'label' => $this->label(),
+            'slug' => $this->slug(),
+            'icon' =>  $this->icon(),
+            'url' => $this->url(),
+            'status' => $this->status()
+        ];
+
+        if ($this->hasChildren() === true) {
+            $entry['children'] = array_map(fn($item) => $item->toarray(), $this->children());
+        }
+
+        return $entry;
+    }
 }

@@ -16,14 +16,5 @@ use App\Plugin\Core\Libraries\Plugins\Handler;
  */
 abstract class PluginServiceProvider extends PluggableServiceProvider
 {
-    protected $assetsPath = 'plugins';
-
-    protected $namespacePrefix = 'plugin';
-
-    /**
-      * Deve retornar o caminho completo para o diretório raiz do plugin
-      * 
-      * @return string
-      */
-    abstract protected function modulePath(): string;
+    // ...
 }

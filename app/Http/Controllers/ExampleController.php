@@ -6,6 +6,7 @@ namespace App\Plugin\Core\Http\Controllers;
 
 use App\Plugin\Core\Libraries\Datagrid\Table;
 use App\Plugin\Core\Libraries\Panel\Entry;
+use App\Plugin\Core\Libraries\Plugins\Handler;
 use Faker\Factory;
 use Illuminate\Support\Facades\Cache;
 
@@ -21,10 +22,6 @@ class ExampleController extends Controller
 
     public function app()
     {
-        //$this->changeTheme('core');
-        // $this->breadCrumb()->append(new Entry('Grade de Dados Legal'));
-
-
         // return vue('core::example');
 
         return view('core::app');
@@ -32,6 +29,9 @@ class ExampleController extends Controller
 
     public function page()
     {
+        //$this->changeTheme('core');
+        $this->breadCrumb()->append(new Entry('Página'));
+
         sleep(3);
         return vue('core::example');
     }

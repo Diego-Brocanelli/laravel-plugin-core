@@ -235,7 +235,9 @@ No diretório app/Providers, crie o arquivo 'ServiceProvider':
 touch app/Providers/ServiceProvider.php
 ```
 
-E adicione o seguinte conteúdo:
+### a) Se for um plugin
+
+Adicione o seguinte conteúdo:
 
 ```
 <?php
@@ -244,9 +246,36 @@ declare(strict_types=1);
 
 namespace App\Plugin\Xxx\Providers;
 
-use App\Plugin\Core\Providers\PluggableServiceProvider;
+use App\Plugin\Core\Providers\PluginServiceProvider;
 
-class ServiceProvider extends PluggableServiceProvider
+class ServiceProvider extends PluginServiceProvider
+{
+    public function boot()
+    {
+        parent::boot();
+    }
+
+    public function register()
+    {
+        parent::register();
+    }
+}
+```
+
+### a) Se for um tema
+
+Adicione o seguinte conteúdo:
+
+```
+<?php
+
+declare(strict_types=1);
+
+namespace App\Plugin\Xxx\Providers;
+
+use App\Plugin\Core\Providers\ThemeServiceProvider;
+
+class ServiceProvider extends ThemeServiceProvider
 {
     public function boot()
     {

@@ -16,14 +16,5 @@ use App\Plugin\Core\Libraries\Plugins\Handler;
  */
 abstract class ThemeServiceProvider extends PluggableServiceProvider
 {
-    protected $assetsPath = 'themes';
-
-    protected $namespacePrefix = 'theme';
-
-    /**
-      * Deve retornar o caminho completo para o diretório raiz do plugin
-      *
-      * @return string
-      */
-    abstract protected function themePath(): string;
+    // ...
 }

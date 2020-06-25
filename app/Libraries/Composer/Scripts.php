@@ -170,14 +170,14 @@ class Scripts
 
         $develPath = getcwd();
         $installedPath = $laravel->basePath("vendor/{$config->name}");
-        shell_exec("rm -Rf {$installedPath}");
+        echo shell_exec("rm -Rf {$installedPath}");
         $this->copyDirectory($develPath, $installedPath);
 
         // Publica os assets
         $pluginConfig = getenv("TARGET_CONFIG");
         $tag = 'assets-' . str_replace(['plugin_', 'theme_'], '', $pluginConfig);
         $event->getIO()->write("> Publicando assets na tag {$tag}");
-        shell_exec("cd {$this->laravelPath}; php artisan vendor:publish --tag={$tag} --force");
+        echo shell_exec("cd {$this->laravelPath}; php artisan vendor:publish --tag={$tag} --force");
     }
     
     /**
