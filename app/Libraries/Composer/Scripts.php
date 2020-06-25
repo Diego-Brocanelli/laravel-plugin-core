@@ -32,9 +32,15 @@ class Scripts
 
     private function bootstrap($event): bool
     {
-        $autoload = __DIR__ . '/../../../vendor/autoload.php';
-        if (is_file($autoload) === false) {
-            return true;
+        // Autoload quando o pacote está em desenvolvimento
+        $autoloadPackage = realpath(__DIR__ . '/../../../vendor/autoload.php');
+
+        // Autoload quando o pacote está no vendor do projeto Laravel
+        $autoloadVendor = realpath(__DIR__ . '/../../../../../../vendor/autoload.php');
+
+        $autoload = $autoloadVendor !== false ? $autoloadVendor : $autoloadPackage;
+        if ($autoload === false || is_file($autoload) === false) {
+            return false;
         }
 
         require $autoload;
