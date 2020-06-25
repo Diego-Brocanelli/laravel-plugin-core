@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Plugin\Core\Libraries\Plugins;
 
 use App\Plugin\Core\Libraries\Composer\Parser;
+use App\Plugin\Core\Libraries\Panel\Breadcrumb;
+use App\Plugin\Core\Libraries\Panel\Sidebar;
 use Closure;
 use Exception;
 use InvalidArgumentException;
@@ -352,8 +354,8 @@ class Handler
 
             // Os assets principais sempre estão presentes.
             // Entre eles se concontra: Bootstrap4, SweetAlert, Axios, etc
-            $assets['scripts_top'][] = '/plugins/core/js/core.js';
-            $assets['styles'][]  = '/plugins/core/css/core.css';
+            // $assets['scripts_top'][] = '/plugins/core/js/core.js';
+            // $assets['styles'][]  = '/plugins/core/css/core.css';
 
             // Os assets do tema servem para adaptar a aparência do
             // sistema como um todo, modificando o Bootstrap4 e
@@ -403,5 +405,20 @@ class Handler
     {
         $assets = $this->resolveAssets();
         return $assets['styles'] ?? [];
+    }
+
+    /**
+     * Devolve as informações de comunicação com a camada de apresentação
+     * @return array
+     */
+    public function metadata(): array
+    {
+        $assets = $this->resolveAssets();
+        return [
+            'scripts' => $assets['scripts'] ?? [],
+            'styles' => $assets['styles'] ?? [],
+            'sidebar_left' => Sidebar::instance()->allEntries(),
+            'breadcumb' => Breadcrumb::instance()->allEntries()
+        ];
     }
 }

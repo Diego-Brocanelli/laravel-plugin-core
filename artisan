@@ -1,6 +1,8 @@
 #!/usr/bin/env php
 <?php
 
+use Laravel\Ui\UiCommand;
+
 define('LARAVEL_START', microtime(true));
 
 /*
@@ -26,7 +28,9 @@ class Kernel extends App\Console\Kernel
     protected function commands()
     {
         // Para adicionar comandos adicionais no artisan local
-        // $this->commands = [];
+        $this->commands = [
+            UiCommand::class, // descomente para usar o UI
+        ];
         return parent::commands();
     }
 }
@@ -36,6 +40,11 @@ class Application extends Illuminate\Foundation\Application
     public function useModuleNamespace(string $namespace)
     {
         $this->namespace = $namespace;
+    }
+
+    public function resourcePath($path = '')
+    {
+        return __DIR__ . DIRECTORY_SEPARATOR.'resources'.($path ? DIRECTORY_SEPARATOR.$path : $path);
     }
 }
 

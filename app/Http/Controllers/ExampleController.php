@@ -24,7 +24,16 @@ class ExampleController extends Controller
         //$this->changeTheme('core');
         // $this->breadCrumb()->append(new Entry('Grade de Dados Legal'));
 
+
+        // return vue('core::example');
+
         return view('core::app');
+    }
+
+    public function page()
+    {
+        sleep(3);
+        return vue('core::example');
     }
 
     public function indexDataProvider()

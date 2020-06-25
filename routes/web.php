@@ -20,7 +20,10 @@ Route::get('/admin', function () {
 //if (in_array(env('APP_ENV'), ['local', 'testing']) && env('APP_DEBUG') === true) {
     
 Route::namespace('App\Plugin\Core\Http\Controllers')->group(function(){
+    
     Route::get('/admin', 'ExampleController@app')->name('example.app');
+    Route::get('/page', 'ExampleController@page')->name('example.page');
+
     Route::get('/core/grid', 'ExampleController@index')->name('example.grid');
     Route::get('/core/grid/data', 'ExampleController@indexDataProvider')->name('example.grid.data');
     Route::get('/core/form', 'ExampleController@create')->name('example.form');
