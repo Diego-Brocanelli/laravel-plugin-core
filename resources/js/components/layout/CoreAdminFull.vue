@@ -1,35 +1,45 @@
 <template>
 
-    <div class="admin-wrapper">
+  <div id="apanel-wrapper">
 
-          <slot name="admin-header"></slot>
-          
-          <b-overlay valiant="transparent" :show="loading" rounded="sm">
+    <header id="apanel-header">
+      <slot name="admin-header"></slot>
+    </header>
+        
+    <b-overlay valiant="transparent" :show="loading" rounded="sm">
 
-            <div class="container-fluid bg-light">
-
-                <div class="row">
-
-                    <div class="align-self-stretch col-sm p-0 bg-secondary" style="flex: 0 0 260px;">
-                        <slot name="sidebar-left"></slot>
-                    </div>
-
-                    <div class="col-sm p-0">
-                        <slot name="admin-page"></slot>
-                    </div>
-
-                </div>
-
+      <div class="container-fluid bg-light">
+        <div class="row">
+          <div id="apanel-sidebar-left" class="align-self-stretch col-sm p-0 bg-secondary" 
+               style="flex: 0 0 260px;" v-show="lsidebar_enable">
+            <div class="list-group list-group-flush d-none d-sm-block">
+              <slot name="sidebar-left"></slot>
             </div>
+          </div>
 
-          </b-overlay>
+          <div id="apanel-page" class="col-sm p-0">
+            <slot name="admin-page"></slot>
+          </div>
+        </div>
+      </div>
 
-          <slot name="admin-footer"></slot>
+    </b-overlay>
 
-          <slot name="sidebar-right"></slot>
-          <slot name="sidebar-mobile"></slot>
+    <footer id="apanel-footer">
+      <slot name="admin-footer"></slot>
+    </footer>
 
-    </div>
+    <b-sidebar id="apanel-sidebar-right" class="apanel-sidebar-right" right shadow v-show="rsidebar_enable">
+      <slot name="sidebar-right"></slot>
+    </b-sidebar>
+
+    <b-sidebar id="apanel-sidebar-mobile" left shadow>
+      <div class="list-group list-group-flush">
+        <slot name="sidebar-mobile"></slot>
+      </div>
+    </b-sidebar>
+
+  </div>
   
 </template>
 
@@ -37,7 +47,9 @@
   export default {
     data: function () {
       return {
-		    loading: false
+		    loading: false,
+        lsidebar_enable: true,
+        rsidebar_enable: false
       }
     }
   }

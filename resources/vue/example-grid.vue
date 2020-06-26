@@ -3,7 +3,7 @@
     <div class="flex-center position-ref full-height">
         <div class="content">
             <div class="title m-b-md">
-                Página não existe
+                Data grid
             </div>
         </div>
     </div>
@@ -11,8 +11,12 @@
 </template>
 
 <script>
-    console.log('kkkkkkkkkkkkk');
-    window.app.$refs.page_header.title = 'A página solicitada não existe';
+    export default {
+        data() {
+            return {
+            }
+        }
+    }
 </script>
 
 <style scoped>

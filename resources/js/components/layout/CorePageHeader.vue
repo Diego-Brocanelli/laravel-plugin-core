@@ -4,7 +4,7 @@
 
         <h2 class="h3 p-3 m-0 text-secondary">
         {{ title }}
-        <b-icon :icon="sidebar_icon" v-b-toggle.sidebar-right class="float-right"></b-icon>
+        <b-icon :icon="sidebar_icon" v-b-toggle.apanel-sidebar-right class="float-right" v-if="rsidebar_enable"></b-icon>
         </h2>
 
         <div class="d-none d-sm-block">
@@ -32,7 +32,8 @@
       return {
         title     : 'Página',
         sidebar_icon: 'three-dots-vertical',
-        items: []
+        items: [],
+        rsidebar_enable: false
       }
     },
     methods: {

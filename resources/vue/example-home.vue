@@ -3,7 +3,12 @@
     <div class="flex-center position-ref full-height">
         <div class="content">
             <div class="title m-b-md">
-                Página qualquer
+                Bem-vindo ao Vue.js
+            </div>
+            <div class="links">
+                <a href="https://laravel.com/docs">View Laravel Docs</a>
+                <a href="https://vuejs.org/v2/guide/">View Vue Docs</a>
+                <a href="https://laracasts.com">Watch Videos</a>
             </div>
         </div>
     </div>
@@ -11,8 +16,13 @@
 </template>
 
 <script>
-    console.log('eu fui logado na pagina comum');
-    window.app.$refs.pheader.title = 'Página legal';
+    export default {
+        data() {
+            return {
+            }
+        }
+    }
+    
 </script>
 
 <style scoped>

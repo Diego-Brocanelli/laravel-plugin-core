@@ -33,10 +33,23 @@ class CoreController extends Controller
      */
     public function page()
     {
-        sleep(4);
+        $this->changeTheme('core');
+        // sleep(1);
         $this->pageTitle('Este é meu título nice');
         $this->breadCrumb()->append(new Entry('Página'));
         $this->sidebar()->append(new Entry('Carambolis'));
         return vue('core::example-page');
+    }
+
+    public function form()
+    {
+        $this->pageTitle('Formulário');
+        return vue('core::example-form');
+    }
+
+    public function grid()
+    {
+        $this->pageTitle('Grade de Dados');
+        return vue('core::example-grid');
     }
 }

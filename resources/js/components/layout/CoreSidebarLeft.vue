@@ -1,6 +1,6 @@
 <template>
 
-    <div class="list-group list-group-flush d-none d-sm-block">
+    <div>
 
         <template v-for="(item, index) in items">
 
@@ -49,7 +49,7 @@
         sidebarLeftMenu: function (id, url, hasChildren) {
 
             if (undefined !== url && hasChildren === false) {
-                this.$root.loadPage(url)    
+                this.$root.pages().fetchPage(url)
                 return;
             }
             this.$root.$emit('bv::toggle::collapse', id)
@@ -58,7 +58,7 @@
         sidebarLeftSubmenu: function (id, url) {
 
             if (undefined !== url) {
-                this.$root.loadPage(url)    
+                this.$root.pages().fetchPage(url) 
             }
         }
     }

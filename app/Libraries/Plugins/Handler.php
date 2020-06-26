@@ -22,21 +22,25 @@ use Illuminate\Support\ServiceProvider;
 class Handler
 {
     static $instance;
-    
+
     private $homePage;
 
     private $pageTitle;
 
+    private $sidebarLeftStatus = 'enabled';
+
+    private $sidebarRightStatus = 'disabled';
+
     private $plugins = [];
-    
+
     private $themes = [];
-    
+
     private $pluginsMap = [];
 
     private $themesMap = [];
-    
+
     private $lastPlugin;
-    
+
     private $lastTheme;
 
     private $currentPlugin;
@@ -64,50 +68,53 @@ class Handler
     }
 
     /**
-      * Zera as informações do manupulador de plugins.
-      * Isso é utilizado, principalemnet, para efetuar testes de unidade 
-      * sem interferência de rotinas anteriormente executadas
-      */
+     * Zera as informações do manupulador de plugins.
+     * Isso é utilizado, principalemnet, para efetuar testes de unidade 
+     * sem interferência de rotinas anteriormente executadas
+     */
     public function flush(): Handler
     {
-        $this->homePage      = null;
-        $this->pageTitle     = null;
-        $this->plugins       = [];
-        $this->themes        = [];
-        $this->pluginsMap    = [];
-        $this->themesMap     = [];
-        $this->lastPlugin    = null;
-        $this->lastTheme     = null;
-        $this->currentPlugin = null;
-        $this->activeTheme   = null;
-        $this->assets        = null;
+        $this->homePage                 = null;
+        $this->pageTitle                = null;
+        $this->sidebarLeftStatus        = 'enabled';
+        $this->sidebarRightStatus       = 'disabled';
+        $this->plugins                  = [];
+        $this->themes                   = [];
+        $this->pluginsMap               = [];
+        $this->themesMap                = [];
+        $this->lastPlugin               = null;
+        $this->lastTheme                = null;
+        $this->currentPlugin            = null;
+        $this->activeTheme              = null;
+        $this->assets                   = null;
         $this->globalPluggablesRoutines = [];
-        $this->modulePluggables = [];
+        $this->modulePluggables         = [];
         return $this;
     }
 
     /**
-      * Os assets são resolvidos sempre que o estado de algum plugin ou tema mudar.
-      * Este método é responsável por forçar a nova resolução!
-      */
+     * Os assets são resolvidos sempre que o estado de algum plugin ou tema mudar.
+     * Este método é responsável por forçar a nova resolução!
+     */
     private function flushAssets(): Handler
     {
         $this->assets = null;
         return $this;
     }
-    
+
     private function getProviderPath(string $serviceProviderClass)
     {
         try {
             $reflect = new \ReflectionClass($serviceProviderClass);
-        } catch(ReflectionException $e) {
+        } catch (ReflectionException $e) {
             throw new InvalidArgumentException("O ServiceProvider {$serviceProviderClass} não existe");
         }
 
-        if($reflect->isSubclassOf(ServiceProvider::class) === false) {
+        if ($reflect->isSubclassOf(ServiceProvider::class) === false) {
             throw new InvalidArgumentException(
                 "O ServiceProvider {$serviceProviderClass} é inválido, " .
-                "pois não implementa Illuminate\Support\ServiceProvider");
+                    "pois não implementa Illuminate\Support\ServiceProvider"
+            );
         }
 
         return realpath(dirname($reflect->getFilename()) . "/../../");
@@ -115,9 +122,10 @@ class Handler
 
     private function getPluginName(array $composerParams)
     {
-        foreach($composerParams as $param => $value) {
-            if (strpos($param, 'autoload.psr_4.app_plugin') !== false
-             || strpos($param, 'autoload.psr_4.app_theme') !== false
+        foreach ($composerParams as $param => $value) {
+            if (
+                strpos($param, 'autoload.psr_4.app_plugin') !== false
+                || strpos($param, 'autoload.psr_4.app_theme') !== false
             ) {
                 $nodes = explode('/', $value);
                 return end($nodes);
@@ -126,7 +134,8 @@ class Handler
 
         throw new Exception(
             'O parâmetro autoload.psr-4.App\\Plugin\\XX ' .
-            'do composer.json deve conter o namespace como último nó da cadeia');
+                'do composer.json deve conter o namespace como último nó da cadeia'
+        );
     }
 
     /**
@@ -171,11 +180,41 @@ class Handler
         return $this->pageTitle ?? 'Página';
     }
 
+    public function enableSidebarLeft(): string
+    {
+        return $this->sidebarLeftStatus = 'enabled';
+    }
+
+    public function disableSidebarLeft(): string
+    {
+        return $this->sidebarLeftStatus = 'disabled';
+    }
+
+    public function sidebarLeftStatus(): string
+    {
+        return $this->sidebarLeftStatus;
+    }
+
+    public function enableSidebarRight(): string
+    {
+        return $this->sidebarRightStatus = 'enabled';
+    }
+
+    public function disableSidebarRight(): string
+    {
+        return $this->sidebarRightStatus = 'disabled';
+    }
+
+    public function sidebarRightStatus(): string
+    {
+        return $this->sidebarRightStatus;
+    }
+
     /**
-      * Registra o módulo para ser encontrado pelo mecanismo posteriormente.
-      * 
-      * @param string $serviceProvider
-      */
+     * Registra o módulo para ser encontrado pelo mecanismo posteriormente.
+     * 
+     * @param string $serviceProvider
+     */
     public function registerPlugin(string $serviceProviderClass): Handler
     {
         // não é possível registrar o mesmo plugin duas vezes
@@ -184,11 +223,11 @@ class Handler
         }
 
         $path = $this->getProviderPath($serviceProviderClass);
-        
+
         $composerParams = new Parser("{$path}/composer.json");
 
         $name = $this->getPluginName($composerParams->all());
-        
+
         $plugin = new Plugin($name, $path, [$serviceProviderClass]);
 
         $this->plugins[$plugin->tag()] = $plugin;
@@ -199,10 +238,10 @@ class Handler
     }
 
     /**
-      * Registra o tema para ser encontrado pelo mecanismo posteriormente.
-      * 
-      * @param string $serviceProvider
-      */
+     * Registra o tema para ser encontrado pelo mecanismo posteriormente.
+     * 
+     * @param string $serviceProvider
+     */
     public function registerTheme(string $serviceProviderClass): Handler
     {
         // não é possível registrar o mesmo tema duas vezes
@@ -229,13 +268,13 @@ class Handler
 
         return $this;
     }
-    
-    public function lastPlugin() : ?Plugin
+
+    public function lastPlugin(): ?Plugin
     {
         return $this->plugins[$this->lastPlugin] ?? null;
     }
-    
-    public function lastTheme() : ?Theme
+
+    public function lastTheme(): ?Theme
     {
         return $this->themes[$this->lastTheme] ?? null;
     }
@@ -291,7 +330,7 @@ class Handler
         return $this;
     }
 
-    public function currentPlugin() : ?Plugin
+    public function currentPlugin(): ?Plugin
     {
         return $this->plugins[$this->currentPlugin] ?? null;
     }
@@ -323,7 +362,7 @@ class Handler
         return $this;
     }
 
-    public function activeTheme() : ?Theme
+    public function activeTheme(): ?Theme
     {
         return $this->themes[$this->activeTheme] ?? ThemeCore::factory();
     }
@@ -357,7 +396,7 @@ class Handler
         if (isset($this->pluginsMap[$tag]) === true) {
             $tag = $this->pluginsMap[$tag];
         }
-        
+
         if (isset($this->plugins[$tag]) === false && isset($this->themes[$tag]) === false) {
             throw new Exception("Para plugar uma rotina, é necessário que a tag seja um módulo ou um tema previamente registrado");
         }
@@ -381,7 +420,7 @@ class Handler
         if (isset($this->pluginsMap[$tag]) === true) {
             $tag = $this->pluginsMap[$tag];
         }
-        
+
         if (isset($this->plugins[$tag]) === false && isset($this->themes[$tag]) === false) {
             throw new Exception("A tag especificada não pertence a nenhum módulo ou um tema previamente registrado");
         }
@@ -392,7 +431,7 @@ class Handler
     protected function resolveAssets(): array
     {
         if ($this->assets === null) {
-            
+
             $assets = [
                 'scripts_top'    => [],
                 'scripts_bottom' => [],
@@ -463,14 +502,16 @@ class Handler
     {
         $assets = $this->resolveAssets();
         return [
-            'home_url'     => $this->home(),
-            'page_title'   => $this->title(),
-            'user_data'    => UserData::instance()->toArray(),
-            'scripts'      => $assets['scripts'] ?? [],
-            'styles'       => $assets['styles'] ?? [],
-            'header_menu'  => HeaderMenu::instance()->toArray(),
-            'sidebar_left' => Sidebar::instance()->toArray(),
-            'breadcrumb'   => Breadcrumb::instance()->toArray()
+            'home_url'             => $this->home(),
+            'page_title'           => $this->title(),
+            'user_data'            => UserData::instance()->toArray(),
+            'scripts'              => $assets['scripts'] ?? [],
+            'styles'               => $assets['styles'] ?? [],
+            'header_menu'          => HeaderMenu::instance()->toArray(),
+            'sidebar_left'         => Sidebar::instance()->toArray(),
+            'breadcrumb'           => Breadcrumb::instance()->toArray(),
+            'sidebar_left_status'  => $this->sidebarLeftStatus(),
+            'sidebar_right_status' => $this->sidebarRightStatus(),
         ];
     }
 }

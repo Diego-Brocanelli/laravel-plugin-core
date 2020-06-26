@@ -1,49 +1,48 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <title>{{ config('app.name') }}</title>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <link rel="stylesheet" href="/plugins/core/css/app.css?v={{ date('dmHis') }}">
+    <title>{{ config('app.name') }}</title>
 
-    </head>
+    <link rel="stylesheet" href="/plugins/core/css/app.css?v={{ date('dmHis') }}">
 
-    <body class="bg-dark">
+</head>
 
-        <div id="vue-app">
+<body class="bg-dark">
 
-            <component ref="admin" is="core-admin-full">
+    <div id="vue-app">
 
-                <component ref="aheader" slot="admin-header" :is="aheader"></component>
+        <component ref="admin" is="core-admin-full">
 
-                <component ref="lsidebar" slot="sidebar-left" :is="lsidebar"></component>
+            <component ref="aheader" slot="admin-header" :is="aheader"></component>
 
-                <component ref="msidebar" slot="sidebar-mobile" :is="msidebar"></component>
+            <component ref="lsidebar" slot="sidebar-left" :is="lsidebar"></component>
 
-                <component ref="rsidebar" slot="sidebar-right" :is="rsidebar"></component>
+            <component ref="msidebar" slot="sidebar-mobile" :is="msidebar"></component>
 
-                <main slot="admin-page">
+            <component ref="rsidebar" slot="sidebar-right" :is="rsidebar"></component>
 
-                    <component ref="pheader" :is="pheader"></component>
+            <main slot="admin-page">
 
-                    <section class="p-3">
-                        <div class="page-wrapper">
-                            <b-overlay valiant="transparent" :show="loading_page" rounded="sm">
-                                <component ref="page_content" :is="page"></component>
-                            </b-overlay>
-                        </div>
-                    </section>
+                <component ref="pheader" :is="pheader"></component>
 
-                </main>
+                <section class="p-3">
+                    <div class="page-wrapper">
+                        <component ref="page_content" :is="page"></component>
+                    </div>
+                </section>
 
-                <component slot="admin-footer" :is="afooter"></component>
+            </main>
 
-            </component>
-        </div>
+            <component slot="admin-footer" :is="afooter"></component>
 
-        <script type="text/javascript" src="/plugins/core/js/app.js?v={{ date('dmHis') }}"></script>
-    </body>
-    
+        </component>
+    </div>
+
+    <script type="text/javascript" src="/plugins/core/js/app.js?v={{ date('dmHis') }}"></script>
+</body>
+
 </html>

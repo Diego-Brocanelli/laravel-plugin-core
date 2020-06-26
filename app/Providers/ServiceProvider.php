@@ -46,15 +46,16 @@ class ServiceProvider extends PluginServiceProvider
         $this->sidebar()
             ->append(new Entry('Primeiro', '/core/page', 'exclamation-circle-fill'))
             ->append(new Entry('Segundo', '/core/page'))
+            ->append(new Entry('Grid', '/core/grid'))
+            ->append(new Entry('Form', '/core/form'))
             ->append($entry);
 
         $this->headerMenu()
             ->append(new Entry('Primeiro', '/core/page', 'exclamation-circle-fill'))
             ->append(new Entry('Segundo', '/core/page'))
-            ->append(new Entry('Terceiro', '/core/page'))
             ->append((new Entry('Sep'))->setType(Entry::TYPE_SEPARATOR))
-            ->append((new Entry('Quinto', '/bbb'))->setStatus(Entry::STATUS_ACTIVE))
-            ->append((new Entry('Sexto', '/ccc'))->setStatus(Entry::STATUS_DISABLED));
+            ->append((new Entry('Quinto', '/core/form'))->setStatus(Entry::STATUS_ACTIVE))
+            ->append((new Entry('Sexto', '/core/grid'))->setStatus(Entry::STATUS_DISABLED));
     }
 
     /**

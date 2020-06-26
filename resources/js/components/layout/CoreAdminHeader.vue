@@ -1,10 +1,18 @@
 <template>
 
-    <header class="bg-info text-light sticky-top">
+    <div class="bg-info text-light sticky-top">
         <div class="container-fluid p-0">
             <div class="d-flex align-items-stretch">
 
-                <div class="btn-module-menu px-4 py-3 d-block d-sm-none btn btn-info rounded-0 border-right" v-b-toggle.sidebar-mobile>
+                <div v-if="lsidebar_enable" 
+                  class="btn-module-menu px-3 py-2 d-block d-sm-none btn btn-info rounded-0 border-right" 
+                  v-b-toggle.apanel-sidebar-mobile>
+					        <b-icon :icon="mobile_icon" font-scale="2" class="float-right align-self-center"></b-icon>
+                </div>
+
+                <div v-else 
+                  class="btn-module-menu px-3 py-2 btn btn-info rounded-0 border-right" 
+                  v-b-toggle.apanel-sidebar-mobile>
 					        <b-icon :icon="mobile_icon" font-scale="2" class="float-right align-self-center"></b-icon>
                 </div>
                 
@@ -29,7 +37,7 @@
                           </div>
                       </template>
 
-                      <component v-for="(item, index) in menu_items" 
+                      <core-admin-header-menu v-for="(item, index) in menu_items" 
                           :is="item.type === 'item' ? 'b-dropdown-item' : 'b-dropdown-divider'" 
                           :key="index"
                           :disabled="item.status === 'disabled' ? true : false"
@@ -38,7 +46,7 @@
                           >
                           <b-icon v-if="item.icon" :icon="item.icon" scale="1.25" shift-v="1.25" aria-hidden="true"></b-icon>
                           {{ item.label }}
-                      </component>
+                      </core-admin-header-menu>
                     
                     </b-dropdown>
                 </div>
@@ -47,7 +55,7 @@
             
         </div>
 
-    </header>
+    </div>
   
 </template>
 
@@ -59,13 +67,14 @@
 		    user_name   : 'Cacilda',
 		    user_picture: 'http://lorempixel.com/25/25/people/9/',
 		    menu_items  : [],
+        lsidebar_enable: true
       }
     },
 	methods: {
       menuUrl: function (url) {
 
         if (undefined !== url) {
-          this.$root.loadPage(url)    
+          this.$root.pages().fetchPage(url)
         }
       }
     },

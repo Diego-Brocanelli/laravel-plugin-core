@@ -7,7 +7,9 @@ if (function_exists('dummy_core_helpers') === false) {
     // Funções não possuem escopo.
     // Por esse motivo, usa-se o artifício de verificar a existência da função 
     // da invocação do arquivo com helpers
-    function dummy_core_helpers(){}
+    function dummy_core_helpers()
+    {
+    }
 
     /**
      * Invoca um arquivo do vue para a respostas a ser compilada pelo vuejs.
@@ -28,8 +30,8 @@ if (function_exists('dummy_core_helpers') === false) {
         if ($plugin === null) {
             throw new InvalidArgumentException("O namespace {$target[0]} não foi registrado");
         }
-        
-        $vueFile = implode(DIRECTORY_SEPARATOR, [$plugin->path(), 'resources', 'js', 'pages', $target[1]]);
+
+        $vueFile = implode(DIRECTORY_SEPARATOR, [$plugin->path(), 'resources', 'vue', $target[1]]);
 
         if (is_file($vueFile . '.vue') === false) {
             throw new InvalidArgumentException("A arquivo {$vueFile}.vue não foi encontrado");

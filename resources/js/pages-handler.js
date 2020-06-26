@@ -1,90 +1,128 @@
 
 import axios from 'axios';
 import Vue from 'vue';
-import PanelHandler from './panel-handler.js';
-import AssetsHandler from './assets-handler.js';
 const compiler = require('vue-template-compiler');
 
 axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 
 export default class PagesHandler {
-  
-    static setPageTitle(app, title)
-    {
-      app.$refs.pheader.title = title;
-    }
 
-    static setBreadcrumbItems(app, items)
-    {
-      app.$refs.pheader.items = items;
-    }
+  constructor(app) {
+    this.app = app;
+  }
 
-    static fetchHomePage(app)
-    {
-        axios.get('/core/meta')
-          .then(function (response) {
-            let home = response.data.meta.home_url;
-            PagesHandler.fetchPage(app,home);
-          })
-          .catch(function (error) {
-            PagesHandler.showError(app, error);
-          })
-          .then(function () {
-            
-          }); 
-    }
+  setPageTitle(title) {
+    this.app.$refs.pheader.title = title;
+  }
 
-    static fetchPage(app, url)
-    {
-        // app.page_overlay = true;
-        PanelHandler.loadingStart(app);
+  setBreadcrumbItems(items) {
+    this.app.$refs.pheader.items = items;
+  }
 
-        axios.get(url)
-          .then(function (response) {
-  
-            PanelHandler.loadingEnd(app);
+  fetchHomePage() {
 
-            // Interpreta do arquivo .vue
-            let parsed = compiler.parseComponent(response.data.vuefile);
-            let component = Vue.component('dynamic-component', Object.assign({
-              template: parsed.template.content
-            }));
-  
-            // Adiciona os assets do tema 
-            AssetsHandler.applyAppStyles(response.data.meta.styles);
-            AssetsHandler.applyAppScripts(response.data.meta.scripts);
-    
-            // Adiciona os assets corrrespondentes ao DOM
-            AssetsHandler.replacePageScript('page-script', parsed.script.content);
-            if (parsed.styles[0]) {
-              AssetsHandler.replacePageStyle('page-style', parsed.styles[0].content);
-            }
+    let app = this.app;
 
-            PanelHandler.updateSidebarLeft(app, response.data.meta.sidebar_left);
-            PanelHandler.updateHeaderMenu(app, response.data.meta.header_menu);
-            PanelHandler.updateUserData(app, response.data.meta.user_data);
+    axios.get('/core/meta')
+      .then(function (response) {
+        let home = response.data.meta.home_url;
+        app.pages().fetchPage(home);
+      })
+      .catch(function (error) {
+        app.pages().showError(error);
+      })
+      .then(function () {
 
-            PagesHandler.setPageTitle(app, response.data.meta.page_title);
-            PagesHandler.setBreadcrumbItems(app, response.data.meta.breadcrumb);
-            
-            // Substitui o componente da página
-            Vue.component('core-page', component);
-            app.$forceUpdate();
+      });
+  }
 
-          })
-          .catch(function (error) {
+  /**
+   * Faz a requisição de uma página .vue e efetua a compilação do componente da página.
+   * 
+   * @param {String} url 
+   */
+  fetchPage(url) {
 
-            PanelHandler.loadingEnd(app);
-            PagesHandler.showError(app, error);
+    let app = this.app;
 
-          })
-          .then(function () {
-            //app.page_overlay = false;
-          }); 
-    }
+    app.panel().loadingStart();
 
-    static showError(app, errorData)
-    {
-      console.log(errorData);
-    }
+    // Normalmente o carregamento de módulos seria feito através do webpack.
+    // Mas, para prover uma comunicação mais previsível com o Laravel,
+    // faz-se chamadas ajax e posteriormente compila-se o componente
+    axios.get(url)
+      .then(function (response) {
+
+        app.panel().restartSidebarRight()
+
+        // Usa o 'vue-template-compiler' para 
+        // interpretar do arquivo .vue e compilar os componentes
+        let parsed = compiler.parseComponent(response.data.vuefile)
+
+        // Extrai os dados fornecidos com o compoente da página
+        // Tratam-se dos mesmos parêmetros presentes em componentes SingleFile
+        // Mais info: https://br.vuejs.org/v2/guide/components.html
+        if (parsed.script !== null
+          && undefined !== parsed.script.content
+          && parsed.script.content
+        ) {
+
+          // Remove o 'export default', pois o 'import' não será usado aqui
+          let scoped = parsed.script.content.replace(/.*export.*default/, '')
+
+          // Adiciona o script ao DOM, para dar visibilidade ao pageScoped
+          app.assets().replacePageScript('page-script', 'pageScoped = ' + scoped)
+
+        } else {
+
+          // se o arquivo .vue não contiver scripts
+          pageScoped = {}
+        }
+
+        // Adiciona o template compilado no escopo do componente dinâmico
+        pageScoped.template = parsed.template.content
+
+        // Cria o novo componente e disponibiliza sua referência na tag 'page'
+        // Sempre existirá apenas uma referência para page: a página atual!
+        let component = Vue.component('dynamic-component', Object.assign(pageScoped))
+        app.$refs.page = component
+
+        // Aplica os assets do tema no DOM
+        app.assets().applyAppStyles(response.data.meta.styles)
+        app.assets().applyAppScripts(response.data.meta.scripts)
+
+        // Atualiza os componentes reativos do painel
+        app.panel().changeSidebarLeftStatus(response.data.meta.sidebar_left_status)
+        app.panel().changeSidebarRightStatus(response.data.meta.sidebar_right_status)
+        app.panel().updateSidebarLeftAndMobile(response.data.meta.sidebar_left)
+        app.panel().updateHeaderMenu(response.data.meta.header_menu)
+        app.panel().updateUserData(response.data.meta.user_data)
+
+        // Atualiza as informações da página atual
+        app.pages().setPageTitle(response.data.meta.page_title)
+        app.pages().setBreadcrumbItems(response.data.meta.breadcrumb)
+
+        // Substitui o componente dinâmico atual da página
+        Vue.component('core-page', component)
+
+        // Aplica os estilos do escopo da página
+        if (undefined !== parsed.styles[0]) {
+          app.assets().replacePageStyle('page-style', parsed.styles[0].content)
+        }
+
+        // Pede para o Vue atualizar a árvore de componentes
+        app.$forceUpdate()
+
+      })
+      .catch(function (error) {
+        app.pages().showError(error)
+      })
+      .then(function () {
+        app.panel().loadingEnd()
+      });
+  }
+
+  showError(errorData) {
+    console.log(errorData)
+  }
 }

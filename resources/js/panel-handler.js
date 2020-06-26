@@ -1,40 +1,96 @@
 
-import Vue from 'vue';
-import AssetsHandler from './assets-handler.js';
-
-// lsidebar
-
 export default class PanelHandler {
-  
-    static updateSidebarLeft(app, items)
-    {
-        app.$refs.lsidebar.items = items;
-        app.$refs.msidebar.items = items;
+
+    constructor(app) {
+        this.app = app
     }
 
-    static updateSidebarRight(app, content)
-    {
-        // app.$refs.pheader.breadcrumb = items;
+    /**
+     * Troca um componente em tempo de execução.
+     * Os componentes nomeados para troca são:
+     *   aheader      O cabeçalho
+     *   afooter      O rodapé
+     *   lsidebar     A barra lateral esquerda
+     *   msidebar     A barra lateral esquerda em modo mobile
+     *   rsidebar     A barra lateral direita
+     *   pheader      O cabeçalho da página
+     * 
+     * @param {String} changeable 
+     * @param {String} componentName
+     */
+    changeComponent(changeable, componentName) {
+        this.app[changeable] = componentName
     }
 
-    static updateHeaderMenu(app, items)
-    {
-        app.$refs.aheader.menu_items = items;
+    changeSidebarLeftStatus(status) {
+
+        if (status === 'enabled') {
+            this.enableSidebarLeft()
+            return
+        }
+
+        this.disableSidebarLeft()
     }
 
-    static updateUserData(app, data)
-    {
-        app.$refs.aheader.user_name = data.name;
-        app.$refs.aheader.user_picture = data.picture;
+    enableSidebarLeft() {
+        this.app.$refs.admin.lsidebar_enable = true
+        this.app.$refs.aheader.lsidebar_enable = true
     }
 
-    static loadingStart(app)
-    {
-        app.$refs.admin.loading = true;
+    disableSidebarLeft() {
+        this.app.$refs.admin.lsidebar_enable = false
+        this.app.$refs.aheader.lsidebar_enable = false
     }
 
-    static loadingEnd(app)
-    {
-        app.$refs.admin.loading = false;
+    changeSidebarRightStatus(status) {
+
+        if (status === 'enabled') {
+            this.enableSidebarRight()
+            return;
+        }
+
+        this.disableSidebarRight()
+    }
+
+    enableSidebarRight() {
+
+        this.app.$refs.admin.rsidebar_enable = true
+        this.app.$refs.pheader.rsidebar_enable = true
+    }
+
+    disableSidebarRight() {
+        this.app.$refs.admin.rsidebar_enable = false
+        this.app.$refs.pheader.rsidebar_enable = false
+    }
+
+    restartSidebarRight() {
+
+        let target = document.querySelector('#apanel-sidebar-right .b-sidebar-body div')
+        target.innerHTML = ''
+
+        this.disableSidebarRight()
+    }
+
+    updateSidebarLeftAndMobile(items) {
+
+        this.app.$refs.lsidebar.items = items
+        this.app.$refs.msidebar.items = items
+    }
+
+    updateHeaderMenu(items) {
+        this.app.$refs.aheader.menu_items = items
+    }
+
+    updateUserData(data) {
+        this.app.$refs.aheader.user_name = data.name
+        this.app.$refs.aheader.user_picture = data.picture
+    }
+
+    loadingStart() {
+        this.app.$refs.admin.loading = true
+    }
+
+    loadingEnd() {
+        this.app.$refs.admin.loading = false
     }
 }

@@ -1,68 +1,72 @@
 
 export default class AssetsHandler {
-  
-    static replacePageScript(id, content)
-    {
-      let currentScript = document.getElementById(id);
-      if (currentScript) {
-        currentScript.parentElement.removeChild(currentScript); 
-      }
-  
-      let script = document.createElement("script"); 
-      script.text = content;
-      script.setAttribute('id', id);
-      document.body.appendChild(script);
+
+  constructor(app) {
+    this.app = app
+  }
+
+  replacePageScript(id, content) {
+
+    let currentScript = document.getElementById(id)
+    if (currentScript) {
+      currentScript.parentElement.removeChild(currentScript)
     }
 
-    static replacePageStyle(id, content)
-    {
-      let currentStyle = document.getElementById(id);
-      if (currentStyle) {
-        currentStyle.parentElement.removeChild(currentStyle); 
-      }
-  
-      let style = document.createElement("style"); 
-      style.appendChild(document.createTextNode(content));
-      style.setAttribute('id', id);
-      style.setAttribute('type', 'text/css');
-      document.body.appendChild(style);
+    let script = document.createElement("script")
+    script.text = content
+    script.setAttribute('id', id)
+    document.body.appendChild(script)
+  }
+
+  replacePageStyle(id, content) {
+
+    let currentStyle = document.getElementById(id)
+    if (currentStyle) {
+      currentStyle.parentElement.removeChild(currentStyle)
     }
 
-    static applyAppStyles(styles)
-    {
-      if (styles === undefined) {
-        return;
-      }
+    let style = document.createElement("style")
+    style.appendChild(document.createTextNode(content))
+    style.setAttribute('id', id)
+    style.setAttribute('type', 'text/css')
+    document.body.appendChild(style)
+  }
 
-      var elements = document.querySelectorAll('.state-class');
-      elements.forEach(item => { item.remove(); });
+  applyAppStyles(styles) {
 
-      styles.forEach(href => {
-
-        let style = document.createElement("link"); 
-        style.setAttribute('rel', 'stylesheet');
-        style.setAttribute('class', 'state-class');
-        style.setAttribute('href', href);
-        document.head.appendChild(style);
-      });
-      
+    if (styles === undefined) {
+      return
     }
 
-    static applyAppScripts(scripts)
-    {
-      if (scripts === undefined) {
-        return;
-      }
+    var elements = document.querySelectorAll('.state-class')
+    elements.forEach(item => { item.remove(); })
 
-      var elements = document.querySelectorAll('.state-script');
-      elements.forEach(item => { item.remove(); });
+    styles.forEach(href => {
 
-      scripts.forEach(src => {
+      let style = document.createElement("link")
+      style.setAttribute('rel', 'stylesheet')
+      style.setAttribute('class', 'state-class')
+      style.setAttribute('href', href)
+      document.head.appendChild(style)
+    });
 
-        let scripts = document.createElement("script"); 
-        scripts.setAttribute('class', 'state-script');
-        scripts.setAttribute('src', src);
-        document.body.appendChild(scripts);
-      });
+  }
+
+  applyAppScripts(scripts) {
+
+    if (scripts === undefined) {
+      return
     }
+
+    var elements = document.querySelectorAll('.state-script')
+    elements.forEach(item => { item.remove(); })
+
+    scripts.forEach(src => {
+
+      let scripts = document.createElement("script")
+      scripts.setAttribute('class', 'state-script')
+      scripts.setAttribute('src', src)
+      document.body.appendChild(scripts)
+    });
+  }
 }

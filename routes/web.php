@@ -18,23 +18,16 @@ Route::get('/admin', function () {
 });
 
 //if (in_array(env('APP_ENV'), ['local', 'testing']) && env('APP_DEBUG') === true) {
-    
-Route::namespace('App\Plugin\Core\Http\Controllers')->group(function(){
-    
-    Route::get('/core/meta', 'CoreController@meta')->name('core.meta');
-    Route::get('/core/home', 'CoreController@home')->name('core.home');
-    Route::get('/core/page', 'CoreController@page')->name('core.page');
 
-
-    // Abaixo são rotas de exemplo, que podem ser removidas
+Route::namespace('App\Plugin\Core\Http\Controllers')->group(function () {
 
     Route::get('/admin', 'ExampleController@app')->name('example.app');
-    Route::get('/page', 'ExampleController@page')->name('example.page');
+    Route::get('/core/meta', 'CoreController@meta')->name('core.meta');
 
-    Route::get('/core/grid', 'ExampleController@index')->name('example.grid');
-    Route::get('/core/grid/data', 'ExampleController@indexDataProvider')->name('example.grid.data');
-    Route::get('/core/form', 'ExampleController@create')->name('example.form');
-    Route::get('/core/form/save', 'ExampleController@createService')->name('example.form.save');
+    Route::get('/core/home', 'CoreController@home')->name('core.home');
+    Route::get('/core/page', 'CoreController@page')->name('core.page');
+    Route::get('/core/form', 'CoreController@form')->name('core.form');
+    Route::get('/core/grid', 'CoreController@grid')->name('core.grid');
 });
 
 //}
