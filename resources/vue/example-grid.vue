@@ -1,74 +1,35 @@
 <template>
+  <div>
+    <b-button @click="toggleBusy">Toggle Busy State</b-button>
 
-    <div class="flex-center position-ref full-height">
-        <div class="content">
-            <div class="title m-b-md">
-                Data grid
-            </div>
+    <b-table :items="items" :busy="isBusy" class="mt-3" outlined>
+      <template v-slot:table-busy>
+        <div class="text-center text-danger my-2">
+          <b-spinner class="align-middle"></b-spinner>
+          <strong>Loading...</strong>
         </div>
-    </div>
-    
+      </template>
+    </b-table>
+  </div>
 </template>
 
 <script>
-    export default {
-        data() {
-            return {
-            }
-        }
+  export default {
+    data() {
+      return {
+        isBusy: false,
+        items: [
+          { first_name: 'Dickerson', last_name: 'MacDonald', age: 40 },
+          { first_name: 'Larsen', last_name: 'Shaw', age: 21 },
+          { first_name: 'Geneva', last_name: 'Wilson', age: 89 },
+          { first_name: 'Jami', last_name: 'Carney', age: 38 }
+        ]
+      }
+    },
+    methods: {
+      toggleBusy() {
+        this.isBusy = !this.isBusy
+      }
     }
+  }
 </script>
-
-<style scoped>
-
-    html, body {
-        background-color: #fff;
-        color: #636b6f;
-        font-family: 'Raleway', sans-serif;
-        font-weight: 100;
-        height: 100vh;
-        margin: 0;
-    }
-
-    .full-height {
-        height: 50vh;
-    }
-
-    .flex-center {
-        align-items: center;
-        display: flex;
-        justify-content: center;
-    }
-
-    .position-ref {
-        position: relative;
-    }
-
-    .top-right {
-        position: absolute;
-        right: 10px;
-        top: 18px;
-    }
-
-    .content {
-        text-align: center;
-    }
-
-    .title {
-        font-size: 84px;
-    }
-
-    .links > a {
-        color: #636b6f;
-        padding: 0 25px;
-        font-size: 12px;
-        font-weight: 600;
-        letter-spacing: .1rem;
-        text-decoration: none;
-        text-transform: uppercase;
-    }
-
-    .m-b-md {
-        margin-bottom: 30px;
-    }
-</style>
