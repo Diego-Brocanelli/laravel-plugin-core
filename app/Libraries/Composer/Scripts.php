@@ -15,7 +15,7 @@ class Scripts
     private $laravelPath;
 
     private $isBooted = false;
-    
+
     private function __construct()
     {
         // acesso somente através do singleton
@@ -26,7 +26,7 @@ class Scripts
         if (static::$instance === null) {
             static::$instance = new Scripts();
         }
-        
+
         return static::$instance;
     }
 
@@ -49,7 +49,7 @@ class Scripts
         if ($pluginConfig === false) {
             $event->getIO()->error(
                 'A variável de ambiente TARGET_CONFIG não foi encontrada no composer.json. ' .
-                'Adicione @putenv TARGET_CONFIG=meu_config_xxx na invocação do script "pre-autoload-dump"'
+                    'Adicione @putenv TARGET_CONFIG=meu_config_xxx na invocação do script "pre-autoload-dump"'
             );
             return false;
         }
@@ -59,7 +59,7 @@ class Scripts
         if ($this->laravelPath === null) {
             $event->getIO()->error(
                 "O arquivo de configuração {$pluginConfig} não contem o parâmetro 'laravel_path'. " .
-                "Este parâmetro deve indicar a localização real da instalação do Laravel"
+                    "Este parâmetro deve indicar a localização real da instalação do Laravel"
             );
             return false;
         }
@@ -77,7 +77,7 @@ class Scripts
     {
         return $this->isBooted;
     }
-    
+
     /**
      * Obtem o valor de um parâmetro de configuração existente neste módulo.
      * A busca deve ser feira usando a notação pontuada do Laravel.
@@ -105,7 +105,7 @@ class Scripts
     {
         $script = self::instance();
         if ($script->bootstrap($event) === false) {
-            return; 
+            return;
         }
         $script->clearCompiled();
     }
@@ -120,7 +120,7 @@ class Scripts
     {
         $script = self::instance();
         if ($script->bootstrap($event) === false) {
-            return; 
+            return;
         }
         $script->clearCompiled();
     }
@@ -136,7 +136,7 @@ class Scripts
     {
         $script = self::instance();
         if ($script->bootstrap($event) === false) {
-            return; 
+            return;
         }
         $script->updatePlugin($event);
         $script->clearCompiled();
@@ -157,7 +157,7 @@ class Scripts
         if (is_file($composerJson) === false) {
             $event->getIO()->error("O arquivo {$composerJson} não foi encontrado");
         }
-        
+
         $config = @json_decode(file_get_contents($composerJson));
         if (json_last_error() !== JSON_ERROR_NONE) {
             $event->getIO()->error("O arquivo {$composerJson} é inválido, ou está corrompido");
@@ -178,8 +178,9 @@ class Scripts
         $tag = 'assets-' . str_replace(['plugin_', 'theme_'], '', $pluginConfig);
         $event->getIO()->write("> Publicando assets na tag {$tag}");
         echo shell_exec("cd {$this->laravelPath}; php artisan vendor:publish --tag={$tag} --force");
+        echo shell_exec("cd {$this->laravelPath}; php artisan vendor:publish --tag=assets-core-theme --force");
     }
-    
+
     /**
      * Limpa os arquivos de cachê do Laravel.
      *
@@ -201,27 +202,27 @@ class Scripts
     public function clearCache()
     {
         shell_exec(implode(";", [
-            "cd {$this->laravelPath}", 
+            "cd {$this->laravelPath}",
             "php artisan view:clear",
             "php artisan optimize:clear",
             "php artisan package:discover --ansi"
         ]));
     }
-    
+
     private function copyDirectory(string $source, string $destination): void
-    { 
-        $dir = opendir($source); 
-        @mkdir($destination); 
-        while(false !== ( $file = readdir($dir)) ) { 
-            if (( $file != '.' ) && ( $file != '..' )) { 
-                if ( is_dir($source . '/' . $file) ) { 
-                    $this->copyDirectory($source . '/' . $file,$destination . '/' . $file); 
-                } else { 
-                    copy($source . '/' . $file,$destination . '/' . $file); 
-                } 
-            } 
-        } 
-        
-        closedir($dir); 
+    {
+        $dir = opendir($source);
+        @mkdir($destination);
+        while (false !== ($file = readdir($dir))) {
+            if (($file != '.') && ($file != '..')) {
+                if (is_dir($source . '/' . $file)) {
+                    $this->copyDirectory($source . '/' . $file, $destination . '/' . $file);
+                } else {
+                    copy($source . '/' . $file, $destination . '/' . $file);
+                }
+            }
+        }
+
+        closedir($dir);
     }
 }
