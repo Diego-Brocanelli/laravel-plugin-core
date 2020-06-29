@@ -2035,6 +2035,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2122,8 +2123,6 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-//
-//
 //
 //
 //
@@ -48158,14 +48157,9 @@ var staticRenderFns = [
     return _c("div", { staticClass: "bg-dark text-light mt-0 p-3" }, [
       _c("div", { staticClass: "container text-center" }, [
         _vm._v("\n    Vuejs\n    "),
-        _c(
-          "a",
-          {
-            staticClass: "text-info",
-            attrs: { href: "https://github.com/bueno-networks" }
-          },
-          [_vm._v("Bueno Networks")]
-        )
+        _c("a", { attrs: { href: "https://github.com/bueno-networks" } }, [
+          _vm._v("Bueno Networks")
+        ])
       ])
     ])
   }
@@ -48310,7 +48304,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "bg-info text-light sticky-top" }, [
+  return _c("div", { staticClass: "bg-primary text-light sticky-top" }, [
     _c("div", { staticClass: "container-fluid p-0" }, [
       _c("div", { staticClass: "d-flex align-items-stretch" }, [
         _vm.lsidebar_enable
@@ -48324,8 +48318,8 @@ var render = function() {
                     modifiers: { "apanel-sidebar-mobile": true }
                   }
                 ],
-                staticClass:
-                  "btn-module-menu px-3 py-2 d-block d-sm-none btn btn-info rounded-0 border-right"
+                staticClass: "btn-module-menu px-3 py-2 d-block d-sm-none btn",
+                attrs: { id: "apanel-header-toogle-sidebar" }
               },
               [
                 _c("b-icon", {
@@ -48345,8 +48339,8 @@ var render = function() {
                     modifiers: { "apanel-sidebar-mobile": true }
                   }
                 ],
-                staticClass:
-                  "btn-module-menu px-3 py-2 btn btn-info rounded-0 border-right"
+                staticClass: "btn-module-menu px-3 py-2 btn",
+                attrs: { id: "apanel-header-toogle-sidebar" }
               },
               [
                 _c("b-icon", {
@@ -48366,10 +48360,9 @@ var render = function() {
             _c(
               "b-dropdown",
               {
-                staticClass: "rounded-0 border-left",
                 attrs: {
-                  id: "dropdown-1",
-                  variant: "info",
+                  id: "apanel-header-main-dropdown",
+                  variant: "primary",
                   "no-caret": "",
                   right: ""
                 },
@@ -48601,7 +48594,6 @@ var render = function() {
               key: index,
               attrs: {
                 tag: "a",
-                variant: "secondary",
                 disabled: item.status === "disabled" ? true : false,
                 active: item.status === "active" ? true : false
               },
@@ -48642,7 +48634,6 @@ var render = function() {
                         key: subindex,
                         attrs: {
                           tag: "a",
-                          variant: "secondary",
                           disabled:
                             subitem.status === "disabled" ? true : false,
                           active: subitem.status === "active" ? true : false
@@ -67828,15 +67819,27 @@ var PanelHandler = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./resources/sass/theme.scss":
+/*!***********************************!*\
+  !*** ./resources/sass/theme.scss ***!
+  \***********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ 0:
-/*!*************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
-  \*************************************************************/
+/*!*****************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/theme.scss ***!
+  \*****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! /home/ricardo/Projetos/Bnw/poc-architecture-plugins/laravel-plugin-core/resources/js/app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! /home/ricardo/Projetos/Bnw/poc-architecture-plugins/laravel-plugin-core/resources/sass/app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/ricardo/Projetos/Bnw/poc-architecture-plugins/laravel-plugin-core/resources/sass/app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! /home/ricardo/Projetos/Bnw/poc-architecture-plugins/laravel-plugin-core/resources/sass/theme.scss */"./resources/sass/theme.scss");
 
 
 /***/ })

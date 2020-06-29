@@ -1,17 +1,19 @@
 <template>
 
-    <div class="bg-info text-light sticky-top">
+    <div class="bg-primary text-light sticky-top">
         <div class="container-fluid p-0">
             <div class="d-flex align-items-stretch">
 
                 <div v-if="lsidebar_enable" 
-                  class="btn-module-menu px-3 py-2 d-block d-sm-none btn btn-info rounded-0 border-right" 
+                  id="apanel-header-toogle-sidebar"
+                  class="btn-module-menu px-3 py-2 d-block d-sm-none btn" 
                   v-b-toggle.apanel-sidebar-mobile>
 					        <b-icon :icon="mobile_icon" font-scale="2" class="float-right align-self-center"></b-icon>
                 </div>
 
                 <div v-else 
-                  class="btn-module-menu px-3 py-2 btn btn-info rounded-0 border-right" 
+                  id="apanel-header-toogle-sidebar"
+                  class="btn-module-menu px-3 py-2 btn" 
                   v-b-toggle.apanel-sidebar-mobile>
 					        <b-icon :icon="mobile_icon" font-scale="2" class="float-right align-self-center"></b-icon>
                 </div>
@@ -24,9 +26,8 @@
                 </div>
 
                 <div class="ml-auto">
-                    <b-dropdown id="dropdown-1" 
-                    class="rounded-0 border-left"
-                    variant="info"
+                    <b-dropdown id="apanel-header-main-dropdown" 
+                    variant="primary"
                     no-caret
                     right>
 

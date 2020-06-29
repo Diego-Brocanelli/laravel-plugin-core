@@ -5,7 +5,6 @@
         <template v-for="(item, index) in items">
 
             <b-list-group-item tag="a"
-                variant="secondary"
                 :key="index"
                 :disabled="item.status === 'disabled' ? true : false"
                 :active="item.status === 'active' ? true : false"
@@ -19,7 +18,6 @@
                 <div class="list-group list-group-flush">
 
                     <b-list-group-item tag="a"
-                        variant="secondary"
                         v-for="(subitem, subindex) in item.children"
                         :key="subindex"
                         :disabled="subitem.status === 'disabled' ? true : false"
