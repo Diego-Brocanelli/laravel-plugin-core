@@ -28,11 +28,20 @@ class ServiceProvider extends PluginServiceProvider
     public function boot()
     {
         parent::boot();
-        
+
+        // Além dos assets padrões do plugin, o core
+        // também possui um tema padrão
+        $this->publishes([
+            "{$this->pluginPath}/public" => public_path("themes/core"),
+        ], "assets-core-theme");
+
+        // Dados abaixo são de exemplo
+
         UserData::instance()
             ->setName('Claire Redfield')
             ->setLogin('claire@residentevil.com.br')
             ->setPicture('http://lorempixel.com/25/25/people/9/');
+
 
         $this->breadcrumb()
             ->append(new Entry('Home', '/core/home'))
@@ -79,13 +88,5 @@ class ServiceProvider extends PluginServiceProvider
         // dar visibilidade ao módulo dentro do mecanismo de plugins
 
         parent::register();
-
-    //     // $this->app->singleton('sidebar', function ($app) {
-    //     //     return Sidebar::instance();
-    //     // });
-
-    //     // $this->app->singleton('breadcrumb', function ($app) {
-    //     //     return Breadcrumb::instance();
-    //     // });
     }
 }

@@ -24,11 +24,23 @@
 
 #apanel-sidebar-left {
     & .list-group-item-action {
+        
         background-color: transparent !important;
         color: $light;
 
+        &,
+        &.active, 
+        &.disabled {
+            border-top-color: darken($secondary, 7%) !important;
+            border-bottom-color: darken($secondary, 7%) !important;
+        }
+
         &:hover {
-            background-color: darken($secondary, 5%) !important;
+            background-color: darken($secondary, 4%) !important;
+        }
+
+        &.disabled {
+            color: rgba($light, .4) !important;
         }
     }
 
@@ -36,8 +48,21 @@
 
         & .list-group-item-action {
             background-color: darken($secondary, 5%) !important;
+            color: $light;
+
+            &,
+            &.active, 
+            &.disabled {
+                border-top-color: darken($secondary, 10%) !important;
+                border-bottom-color: darken($secondary, 10%) !important;
+            }
+
             &:hover {
-                background-color: darken($secondary, 10%) !important;
+                background-color: darken($secondary, 13%) !important;
+            }
+
+            &.disabled {
+                color: rgba($light, .4) !important;
             }
         }
 

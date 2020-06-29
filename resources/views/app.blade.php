@@ -40,9 +40,11 @@
             <component slot="admin-footer" :is="afooter"></component>
 
         </component>
+
     </div>
 
     <script type="text/javascript" src="/plugins/core/js/app.js?v={{ date('dmHis') }}"></script>
+
 </body>
 
 </html>

@@ -24,6 +24,7 @@ class CoreController extends Controller
      */
     public function home()
     {
+        $this->changeTheme('core');
         $this->pageTitle('Este é meu home');
         return vue('core::example-home');
     }
@@ -43,12 +44,15 @@ class CoreController extends Controller
 
     public function form()
     {
+        $this->changeTheme('core');
         $this->pageTitle('Formulário');
+        // Handler::instance()->disableSidebarLeft();
         return vue('core::example-form');
     }
 
     public function grid()
     {
+        $this->changeTheme('core');
         $this->pageTitle('Grade de Dados');
         return vue('core::example-grid');
     }
