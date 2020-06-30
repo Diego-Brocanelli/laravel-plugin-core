@@ -29,7 +29,7 @@
 
                 <component ref="pheader" :is="pheader"></component>
 
-                <section class="p-3">
+                <section class="container p-3">
                     <div class="page-wrapper">
                         <component ref="page_content" :is="page"></component>
                     </div>

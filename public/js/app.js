@@ -1952,7 +1952,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -2066,6 +2065,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -48214,7 +48217,6 @@ var render = function() {
                     }
                   ],
                   staticClass: "align-self-stretch col-sm p-0 bg-secondary",
-                  staticStyle: { flex: "0 0 260px" },
                   attrs: { id: "apanel-sidebar-left" }
                 },
                 [
@@ -48260,24 +48262,20 @@ var render = function() {
             }
           ],
           staticClass: "apanel-sidebar-right",
-          attrs: { id: "apanel-sidebar-right", right: "", shadow: "" }
+          attrs: { id: "apanel-sidebar-right", right: "" }
         },
         [_vm._t("sidebar-right")],
         2
       ),
       _vm._v(" "),
-      _c(
-        "b-sidebar",
-        { attrs: { id: "apanel-sidebar-mobile", left: "", shadow: "" } },
-        [
-          _c(
-            "div",
-            { staticClass: "list-group list-group-flush" },
-            [_vm._t("sidebar-mobile")],
-            2
-          )
-        ]
-      )
+      _c("b-sidebar", { attrs: { id: "apanel-sidebar-mobile", left: "" } }, [
+        _c(
+          "div",
+          { staticClass: "list-group list-group-flush" },
+          [_vm._t("sidebar-mobile")],
+          2
+        )
+      ])
     ],
     1
   )
@@ -48324,7 +48322,7 @@ var render = function() {
               [
                 _c("b-icon", {
                   staticClass: "float-right align-self-center",
-                  attrs: { icon: _vm.mobile_icon, "font-scale": "2" }
+                  attrs: { icon: _vm.mobile_icon }
                 })
               ],
               1
@@ -48345,7 +48343,7 @@ var render = function() {
               [
                 _c("b-icon", {
                   staticClass: "float-right align-self-center",
-                  attrs: { icon: _vm.mobile_icon, "font-scale": "2" }
+                  attrs: { icon: _vm.mobile_icon }
                 })
               ],
               1
@@ -48493,72 +48491,74 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("header", [
-    _c(
-      "h2",
-      { staticClass: "h3 p-3 m-0 text-secondary" },
-      [
-        _vm._v("\n     " + _vm._s(_vm.title) + "\n     "),
-        _vm.rsidebar_enable
-          ? _c("b-icon", {
-              directives: [
-                {
-                  name: "b-toggle",
-                  rawName: "v-b-toggle.apanel-sidebar-right",
-                  modifiers: { "apanel-sidebar-right": true }
-                }
-              ],
-              staticClass: "float-right",
-              attrs: { icon: _vm.sidebar_icon }
-            })
-          : _vm._e()
-      ],
-      1
-    ),
-    _vm._v(" "),
-    _c(
-      "div",
-      { staticClass: "d-none d-sm-block" },
-      [
-        _c(
-          "b-breadcrumb",
-          [
-            _vm._l(_vm.items, function(item, index) {
-              return [
-                _c(
-                  "b-breadcrumb-item",
+    _c("div", { staticClass: "container" }, [
+      _c(
+        "h2",
+        { staticClass: "h3 p-3 m-0 text-secondary" },
+        [
+          _vm._v("\n     " + _vm._s(_vm.title) + "\n     "),
+          _vm.rsidebar_enable
+            ? _c("b-icon", {
+                directives: [
                   {
-                    key: index,
-                    on: {
-                      click: function($event) {
-                        return _vm.breadcrumbUrl(item.url)
+                    name: "b-toggle",
+                    rawName: "v-b-toggle.apanel-sidebar-right",
+                    modifiers: { "apanel-sidebar-right": true }
+                  }
+                ],
+                staticClass: "float-right",
+                attrs: { icon: _vm.sidebar_icon }
+              })
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "d-none d-sm-block" },
+        [
+          _c(
+            "b-breadcrumb",
+            [
+              _vm._l(_vm.items, function(item, index) {
+                return [
+                  _c(
+                    "b-breadcrumb-item",
+                    {
+                      key: index,
+                      on: {
+                        click: function($event) {
+                          return _vm.breadcrumbUrl(item.url)
+                        }
                       }
-                    }
-                  },
-                  [
-                    item.icon
-                      ? _c("b-icon", {
-                          attrs: {
-                            icon: item.icon,
-                            scale: "1.25",
-                            "shift-v": "1.25",
-                            "aria-hidden": "true"
-                          }
-                        })
-                      : _vm._e(),
-                    _vm._v(
-                      "\n             " + _vm._s(item.label) + "\n           "
-                    )
-                  ],
-                  1
-                )
-              ]
-            })
-          ],
-          2
-        )
-      ],
-      1
-    )
+                    },
+                    [
+                      item.icon
+                        ? _c("b-icon", {
+                            attrs: {
+                              icon: item.icon,
+                              scale: "1.25",
+                              "shift-v": "1.25",
+                              "aria-hidden": "true"
+                            }
+                          })
+                        : _vm._e(),
+                      _vm._v(
+                        "\n             " + _vm._s(item.label) + "\n           "
+                      )
+                    ],
+                    1
+                  )
+                ]
+              })
+            ],
+            2
+          )
+        ],
+        1
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -66941,7 +66941,7 @@ var AssetsHandler = /*#__PURE__*/function () {
         var style = document.createElement("link");
         style.setAttribute('rel', 'stylesheet');
         style.setAttribute('class', 'state-class');
-        style.setAttribute('href', href);
+        style.setAttribute('href', href + '?v=' + new Date().getTime());
         document.head.appendChild(style);
       });
     }
@@ -66959,7 +66959,7 @@ var AssetsHandler = /*#__PURE__*/function () {
       scripts.forEach(function (src) {
         var scripts = document.createElement("script");
         scripts.setAttribute('class', 'state-script');
-        scripts.setAttribute('src', src);
+        scripts.setAttribute('src', src + '?v=' + new Date().getTime());
         document.body.appendChild(scripts);
       });
     }

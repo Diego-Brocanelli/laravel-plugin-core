@@ -10,8 +10,7 @@
 
       <div class="container-fluid bg-light">
         <div class="row">
-          <div id="apanel-sidebar-left" class="align-self-stretch col-sm p-0 bg-secondary" 
-               style="flex: 0 0 260px;" v-show="lsidebar_enable">
+          <div id="apanel-sidebar-left" class="align-self-stretch col-sm p-0 bg-secondary" v-show="lsidebar_enable">
             <div class="list-group list-group-flush d-none d-sm-block">
               <slot name="sidebar-left"></slot>
             </div>
@@ -29,11 +28,11 @@
       <slot name="admin-footer"></slot>
     </footer>
 
-    <b-sidebar id="apanel-sidebar-right" class="apanel-sidebar-right" right shadow v-show="rsidebar_enable">
+    <b-sidebar id="apanel-sidebar-right" class="apanel-sidebar-right" right v-show="rsidebar_enable">
       <slot name="sidebar-right"></slot>
     </b-sidebar>
 
-    <b-sidebar id="apanel-sidebar-mobile" left shadow>
+    <b-sidebar id="apanel-sidebar-mobile" left>
       <div class="list-group list-group-flush">
         <slot name="sidebar-mobile"></slot>
       </div>

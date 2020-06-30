@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Tests\Module\Core\files\Fake\ModuleTwo\app_module\Two\Providers;
+namespace Tests\files\Fake\ModuleTwo\app\Two\Providers;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 

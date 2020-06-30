@@ -2,6 +2,8 @@
 
    <header>
 
+    <div class="container">
+
         <h2 class="h3 p-3 m-0 text-secondary">
         {{ title }}
         <b-icon :icon="sidebar_icon" v-b-toggle.apanel-sidebar-right class="float-right" v-if="rsidebar_enable"></b-icon>
@@ -21,6 +23,8 @@
 
           </b-breadcrumb>
         </div>
+        
+      </div>
         
     </header>
   

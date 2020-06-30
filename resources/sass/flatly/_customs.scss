@@ -1,3 +1,5 @@
+$sidebar-left-witdh: 260px;
+
 #apanel-header {
 
     & .dropdown,
@@ -11,6 +13,7 @@
         border-width: 0;
 
         & svg {
+            font-size: 200% !important;
             margin-top: 5px;
             color: lighten($primary, 15%);
         }
@@ -23,6 +26,17 @@
 }
 
 #apanel-sidebar-left {
+    flex: 0 0 $sidebar-left-witdh;
+}
+
+#apanel-sidebar-mobile {
+    width: $sidebar-left-witdh !important;
+}
+
+#apanel-sidebar-left {
+
+    background-color: $secondary;
+
     & .list-group-item-action {
         
         background-color: transparent !important;
@@ -66,6 +80,17 @@
             }
         }
 
+    }
+}
+
+#apanel-page {
+    & main {
+        & > header > .container,
+        & > section.container {
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            max-width: 100% !important;
+        }
     }
 }
 

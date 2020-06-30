@@ -31,27 +31,27 @@ class CoreLibrariesPluginsPluginTest extends TestCase
     }
 
     /** @test */
-    public function accessing()
-    {
-        $path = __DIR__ . '/../files/module_path';
+    // public function accessing()
+    // {
+    //     $path = __DIR__ . '/../files/module_path';
 
-        $instance = new Plugin('Teste', $path, [ServiceProvider::class]);
-        $this->assertEquals('Teste', $instance->name());
-        $this->assertEquals('test_one', $instance->tag());
-        $this->assertEquals($path, $instance->path());
-        $this->assertEquals('shore_one', $instance->config()->param('config_one.theme'));
-        $this->assertEquals('shore_two', $instance->config()->param('config_two.theme'));
-        $this->assertCount(1, $instance->providers());
-        $this->assertEquals(ServiceProvider::class, $instance->providers()[0]);
+    //     $instance = new Plugin('Teste', $path, [ServiceProvider::class]);
+    //     $this->assertEquals('Teste', $instance->name());
+    //     $this->assertEquals('test_one', $instance->tag());
+    //     $this->assertEquals($path, $instance->path());
+    //     $this->assertEquals('shore_one', $instance->config()->param('config_one.theme'));
+    //     $this->assertEquals('shore_two', $instance->config()->param('config_two.theme'));
+    //     $this->assertCount(1, $instance->providers());
+    //     $this->assertEquals(ServiceProvider::class, $instance->providers()[0]);
 
-        // Não pode haver duplicidade de providers
-        $instance->addProvider(ServiceProvider::class);
-        $this->assertCount(1, $instance->providers());
+    //     // Não pode haver duplicidade de providers
+    //     $instance->addProvider(ServiceProvider::class);
+    //     $this->assertCount(1, $instance->providers());
 
-        $instance->addProvider(LaravelServiceProvider::class);
-        $this->assertCount(2, $instance->providers());
+    //     $instance->addProvider(LaravelServiceProvider::class);
+    //     $this->assertCount(2, $instance->providers());
 
-    }
+    // }
 
-    
+
 }

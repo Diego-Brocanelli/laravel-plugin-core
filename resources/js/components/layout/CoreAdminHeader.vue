@@ -8,14 +8,14 @@
                   id="apanel-header-toogle-sidebar"
                   class="btn-module-menu px-3 py-2 d-block d-sm-none btn" 
                   v-b-toggle.apanel-sidebar-mobile>
-					        <b-icon :icon="mobile_icon" font-scale="2" class="float-right align-self-center"></b-icon>
+					        <b-icon :icon="mobile_icon" class="float-right align-self-center"></b-icon>
                 </div>
 
                 <div v-else 
                   id="apanel-header-toogle-sidebar"
                   class="btn-module-menu px-3 py-2 btn" 
                   v-b-toggle.apanel-sidebar-mobile>
-					        <b-icon :icon="mobile_icon" font-scale="2" class="float-right align-self-center"></b-icon>
+					        <b-icon :icon="mobile_icon" class="float-right align-self-center"></b-icon>
                 </div>
                 
                 <div class="d-flex align-items-center">

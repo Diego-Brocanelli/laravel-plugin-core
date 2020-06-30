@@ -37,34 +37,35 @@ class ServiceProvider extends PluginServiceProvider
 
         // Dados abaixo são de exemplo
 
+        // Para disponibilizar os dados do usuário
         UserData::instance()
             ->setName('Claire Redfield')
             ->setLogin('claire@residentevil.com.br')
-            ->setPicture('http://lorempixel.com/25/25/people/9/');
+            ->setPicture('http://lorempixel.com/25/25/people/9/')
+            ->setPermissions([]);
 
+        // $this->breadcrumb()
+        //     ->append(new Entry('Home', '/core/home'))
+        //     ->append(new Entry('Paginas', '/core/page', 'exclamation-circle-fill'));
 
-        $this->breadcrumb()
-            ->append(new Entry('Home', '/core/home'))
-            ->append(new Entry('Paginas', '/core/page', 'exclamation-circle-fill'));
+        // $entry = (new Entry('Terceiro', '/core/page'))
+        //     ->appendChild(new Entry('Quarto', '/aaa'))
+        //     ->appendChild((new Entry('Quinto', '/bbb'))->setStatus(Entry::STATUS_ACTIVE))
+        //     ->appendChild((new Entry('Sexto', '/ccc'))->setStatus(Entry::STATUS_DISABLED));
 
-        $entry = (new Entry('Terceiro', '/core/page'))
-            ->appendChild(new Entry('Quarto', '/aaa'))
-            ->appendChild((new Entry('Quinto', '/bbb'))->setStatus(Entry::STATUS_ACTIVE))
-            ->appendChild((new Entry('Sexto', '/ccc'))->setStatus(Entry::STATUS_DISABLED));
+        // $this->sidebar()
+        //     ->append(new Entry('Primeiro', '/core/page', 'exclamation-circle-fill'))
+        //     ->append(new Entry('Segundo', '/core/page'))
+        //     ->append(new Entry('Grid', '/core/grid'))
+        //     ->append(new Entry('Form', '/core/form'))
+        //     ->append($entry);
 
-        $this->sidebar()
-            ->append(new Entry('Primeiro', '/core/page', 'exclamation-circle-fill'))
-            ->append(new Entry('Segundo', '/core/page'))
-            ->append(new Entry('Grid', '/core/grid'))
-            ->append(new Entry('Form', '/core/form'))
-            ->append($entry);
-
-        $this->headerMenu()
-            ->append(new Entry('Primeiro', '/core/page', 'exclamation-circle-fill'))
-            ->append(new Entry('Segundo', '/core/page'))
-            ->append((new Entry('Sep'))->setType(Entry::TYPE_SEPARATOR))
-            ->append((new Entry('Quinto', '/core/form'))->setStatus(Entry::STATUS_ACTIVE))
-            ->append((new Entry('Sexto', '/core/grid'))->setStatus(Entry::STATUS_DISABLED));
+        // $this->headerMenu()
+        //     ->append(new Entry('Primeiro', '/core/page', 'exclamation-circle-fill'))
+        //     ->append(new Entry('Segundo', '/core/page'))
+        //     ->append((new Entry('Sep'))->setType(Entry::TYPE_SEPARATOR))
+        //     ->append((new Entry('Quinto', '/core/form'))->setStatus(Entry::STATUS_ACTIVE))
+        //     ->append((new Entry('Sexto', '/core/grid'))->setStatus(Entry::STATUS_DISABLED));
     }
 
     /**

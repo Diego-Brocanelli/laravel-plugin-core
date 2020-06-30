@@ -1,0 +1,2 @@
+
+// app.panel().disableSidebarLeft()

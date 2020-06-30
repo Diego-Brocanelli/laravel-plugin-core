@@ -14348,12 +14348,25 @@ input[type=color].form-control:disabled {
 }
 
 #apanel-header #apanel-header-toogle-sidebar svg {
+  font-size: 200% !important;
   margin-top: 5px;
   color: #476481;
 }
 
 #apanel-header #apanel-header-main-dropdown button {
   border-width: 0;
+}
+
+#apanel-sidebar-left {
+  flex: 0 0 260px;
+}
+
+#apanel-sidebar-mobile {
+  width: 260px !important;
+}
+
+#apanel-sidebar-left {
+  background-color: #95a5a6;
 }
 
 #apanel-sidebar-left .list-group-item-action {
@@ -14396,8 +14409,19 @@ input[type=color].form-control:disabled {
   color: rgba(236, 240, 241, 0.4) !important;
 }
 
+#apanel-page main > header > .container,
+#apanel-page main > section.container {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  max-width: 100% !important;
+}
+
 #apanel-footer > .bg-dark {
   background-color: #1a252f !important;
+}
+
+body {
+  display: block !important;
 }
 
 html,
@@ -14406,5 +14430,9 @@ body,
 .admin-wrapper {
   height: 100% !important;
   min-height: 100% !important;
+}
+
+body {
+  display: none;
 }
 

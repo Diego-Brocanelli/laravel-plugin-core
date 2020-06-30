@@ -46,7 +46,7 @@ export default class AssetsHandler {
       let style = document.createElement("link")
       style.setAttribute('rel', 'stylesheet')
       style.setAttribute('class', 'state-class')
-      style.setAttribute('href', href)
+      style.setAttribute('href', href + '?v=' + (new Date().getTime()))
       document.head.appendChild(style)
     });
 
@@ -65,7 +65,7 @@ export default class AssetsHandler {
 
       let scripts = document.createElement("script")
       scripts.setAttribute('class', 'state-script')
-      scripts.setAttribute('src', src)
+      scripts.setAttribute('src', src + '?v=' + (new Date().getTime()))
       document.body.appendChild(scripts)
     });
   }

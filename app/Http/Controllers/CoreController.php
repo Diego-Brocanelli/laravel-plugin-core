@@ -24,7 +24,12 @@ class CoreController extends Controller
      */
     public function home()
     {
-        $this->changeTheme('core');
+        // $this->changeTheme('core');
+
+        $this->breadcrumb()
+            ->append(new Entry('Home', '/core/home'))
+            ->append(new Entry('Paginas', '/core/page', 'exclamation-circle-fill'));
+
         $this->pageTitle('Este é meu home');
         return vue('core::example-home');
     }
@@ -35,9 +40,12 @@ class CoreController extends Controller
     public function page()
     {
         $this->changeTheme('core');
-        // sleep(1);
         $this->pageTitle('Este é meu título nice');
-        $this->breadCrumb()->append(new Entry('Página'));
+
+        $this->breadcrumb()
+            ->append(new Entry('Home', '/core/home'))
+            ->append(new Entry('Paginas', '/core/page', 'exclamation-circle-fill'));
+
         $this->sidebar()->append(new Entry('Carambolis'));
         return vue('core::example-page');
     }
@@ -46,6 +54,10 @@ class CoreController extends Controller
     {
         $this->changeTheme('core');
         $this->pageTitle('Formulário');
+        $this->breadcrumb()
+            ->append(new Entry('Home', '/core/home'))
+            ->append(new Entry('Formumário', '/core/page', 'exclamation-circle-fill'));
+
         // Handler::instance()->disableSidebarLeft();
         return vue('core::example-form');
     }

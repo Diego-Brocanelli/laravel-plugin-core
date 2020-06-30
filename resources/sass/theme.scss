@@ -1,10 +1,2 @@
 
-// Tema Flatly
-// Obtido de https://bootswatch.com
-// MIT license
-
-@import "theme/variables";
-@import "~bootstrap/scss/bootstrap";
-@import '~bootstrap-vue/src/index.scss';
-@import "theme/flatly";
-@import "theme/customs";
+@import "flatly/index";

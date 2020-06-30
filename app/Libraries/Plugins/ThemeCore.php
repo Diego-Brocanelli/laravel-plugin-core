@@ -11,7 +11,7 @@ class ThemeCore extends Theme
         $corePath = realpath(__DIR__ . '/../../../');
         $instance =  new ThemeCore('Core', $corePath);
         $instance->addStyle('theme.css');
-        // $instance->addScriptBottom('theme.js');
+        $instance->addScriptBottom('theme.js');
         return $instance;
     }
 }
