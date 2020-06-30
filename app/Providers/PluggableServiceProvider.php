@@ -56,7 +56,7 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
         $this->namespaceTag  = Str::snake($pluginNamespace);
         $this->namespaceType = 'plugin';
         $this->assetsPath    = 'plugins';
-        
+
         return $this;
     }
 
@@ -206,6 +206,16 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
         return get_called_class();
     }
 
+    private function fileExists(string $filename)
+    {
+        return is_file($filename);
+    }
+
+    private function directoryExists(string $name)
+    {
+        return is_dir($name);
+    }
+
     /**
      * Este método é invocado pelo Laravel apenas após todos os pacotes serem registrados.
      * Veja o método register().
@@ -216,19 +226,24 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
      */
     public function boot()
     {
-        if ($this->app->runningInConsole()) {
-            require "{$this->pluginPath}/routes/console.php";
+        $commands = "{$this->pluginPath}/routes/console.php";
+        if ($this->app->runningInConsole() && $this->fileExists($commands)) {
+            require $commands;
         }
 
-        // Arquivos publicados pelo artisan:
-        // Ex: php artisan vendor:publish --tag=modules --force
-        $this->publishes([
-            "{$this->pluginPath}/public" => public_path("{$this->assetsPath}/{$this->namespaceTag}"),
-        ], "assets-{$this->namespaceTag}");
-        
-        $this->publishes([
-            "{$this->pluginPath}/config/{$this->namespaceType}_{$this->namespaceTag}.php" => config_path("{$this->namespaceType}_{$this->namespaceTag}.php"),
-        ], "{$this->namespaceType}-{$this->namespaceTag}");
+        $publicPath = "{$this->pluginPath}/public";
+        if ($this->directoryExists($publicPath)) {
+            $this->publishes([
+                $publicPath => public_path("{$this->assetsPath}/{$this->namespaceTag}"),
+            ], "assets-{$this->namespaceTag}");
+        }
+
+        $configFile = "{$this->pluginPath}/config/{$this->namespaceType}_{$this->namespaceTag}.php";
+        if ($this->fileExists($configFile)) {
+            $this->publishes([
+                $configFile => config_path("{$this->namespaceType}_{$this->namespaceTag}.php"),
+            ], "{$this->namespaceType}-{$this->namespaceTag}");
+        }
     }
 
     /**
@@ -249,15 +264,32 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
         // para que não existam inconsistencias ou ausência de parâmetros usados pelo módulo
         $this->mergeConfigFrom("{$this->pluginPath}/config/{$this->namespaceType}_{$this->namespaceTag}.php", "{$this->namespaceType}_{$this->namespaceTag}");
 
-        $this->loadRoutesFrom("{$this->pluginPath}/routes/web.php");
-        $this->loadRoutesFrom("{$this->pluginPath}/routes/api.php");
+        $routesWeb = "{$this->pluginPath}/routes/web.php";
+        if ($this->fileExists($routesWeb)) {
+            $this->loadRoutesFrom("{$this->pluginPath}/routes/web.php");
+        }
+
+        $routesApi = "{$this->pluginPath}/routes/api.php";
+        if ($this->fileExists($routesApi)) {
+            $this->loadRoutesFrom("{$this->pluginPath}/routes/api.php");
+        }
 
         // Nos templates do Blade as views do módulo devem ser utilizadas com prefixo.
         // Ao invés de @include('minha.linda.view'), 
         // deve-se usar @include('core::minha.linda.view')
-        $this->loadViewsFrom("{$this->pluginPath}/resources/views/", $this->namespaceTag);
-        
-        $this->loadMigrationsFrom("{$this->pluginPath}/database/migrations/", $this->namespaceTag);
-        $this->loadTranslationsFrom("{$this->pluginPath}/resources/lang/", $this->namespaceTag);
+        $viewsPath = "{$this->pluginPath}/resources/views/";
+        if ($this->directoryExists($viewsPath)) {
+            $this->loadViewsFrom($viewsPath, $this->namespaceTag);
+        }
+
+        $migrationsPath = "{$this->pluginPath}/database/migrations/";
+        if ($this->directoryExists($migrationsPath)) {
+            $this->loadMigrationsFrom($migrationsPath, $this->namespaceTag);
+        }
+
+        $langsPath = "{$this->pluginPath}/resources/lang/";
+        if ($this->directoryExists($langsPath)) {
+            $this->loadTranslationsFrom($langsPath, $this->namespaceTag);
+        }
     }
 }
