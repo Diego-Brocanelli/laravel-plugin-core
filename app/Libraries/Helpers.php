@@ -31,7 +31,8 @@ if (function_exists('dummy_core_helpers') === false) {
             throw new InvalidArgumentException("O namespace {$target[0]} não foi registrado");
         }
 
-        $vueFile = implode(DIRECTORY_SEPARATOR, [$plugin->path(), 'resources', 'vue', $target[1]]);
+        $filePath = str_replace('.', '/', $target[1]);
+        $vueFile = implode(DIRECTORY_SEPARATOR, [$plugin->path(), 'resources', 'vue', $filePath]);
 
         if (is_file($vueFile . '.vue') === false) {
             throw new InvalidArgumentException("A arquivo {$vueFile}.vue não foi encontrado");
