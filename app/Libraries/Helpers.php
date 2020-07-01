@@ -23,6 +23,10 @@ if (function_exists('dummy_core_helpers') === false) {
         $target = explode('::', $name);
         $plugin = Handler::instance()->plugin($target[0]);
 
+        if ($plugin === null) {
+            $plugin = Handler::instance()->theme($target[0]);
+        }
+
         if (isset($target[1]) === false) {
             throw new InvalidArgumentException("{$name} não é uma identificação válida para um componente vue. Use namespace::vuefile");
         }
