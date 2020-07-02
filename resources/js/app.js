@@ -4,6 +4,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import PanelHandler from './panel-handler.js'
 import PagesHandler from './pages-handler.js'
 import AssetsHandler from './assets-handler.js'
+import axios from 'axios';
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
@@ -22,6 +23,9 @@ Vue.component('sidebar-right-content', require('./components/widgets/CoreSidebar
 window.app = new Vue({
   el: '#vue-app',
   methods: {
+    request() {
+      return axios;
+    },
     panel() {
       return new PanelHandler(this);
     },

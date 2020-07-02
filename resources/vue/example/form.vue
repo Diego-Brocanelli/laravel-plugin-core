@@ -53,6 +53,9 @@
 <script>
   export default {
     data() {
+
+      app.request().get('/core/meta');
+
       return {
         form: {
           email: '',

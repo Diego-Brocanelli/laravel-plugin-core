@@ -66829,6 +66829,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _panel_handler_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./panel-handler.js */ "./resources/js/panel-handler.js");
 /* harmony import */ var _pages_handler_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./pages-handler.js */ "./resources/js/pages-handler.js");
 /* harmony import */ var _assets_handler_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./assets-handler.js */ "./resources/js/assets-handler.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -66849,6 +66852,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.component('sidebar-right-content', __
 window.app = new vue__WEBPACK_IMPORTED_MODULE_0___default.a({
   el: '#vue-app',
   methods: {
+    request: function request() {
+      return axios__WEBPACK_IMPORTED_MODULE_5___default.a;
+    },
     panel: function panel() {
       return new _panel_handler_js__WEBPACK_IMPORTED_MODULE_2__["default"](this);
     },
@@ -67595,7 +67601,11 @@ var PagesHandler = /*#__PURE__*/function () {
       var app = this.app;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get('/core/meta').then(function (response) {
         var home = response.data.meta.home_url;
+        var version = response.data.meta.version;
         app.pages().fetchPage(home);
+        console.log("-------------------------------");
+        console.log("Plugin Core " + version);
+        console.log("-------------------------------");
       })["catch"](function (error) {
         app.pages().showError(error);
       }).then(function () {});

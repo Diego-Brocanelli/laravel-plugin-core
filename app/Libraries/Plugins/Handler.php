@@ -494,6 +494,11 @@ class Handler
         return $assets['styles'] ?? [];
     }
 
+    private function version()
+    {
+        return file_get_contents(__DIR__ . '/../../../version');
+    }
+
     /**
      * Devolve as informações de comunicação com a camada de apresentação
      * @return array
@@ -502,6 +507,7 @@ class Handler
     {
         $assets = $this->resolveAssets();
         return [
+            'version'              => $this->version(),
             'home_url'             => $this->home(),
             'page_title'           => $this->title(),
             'user_data'            => UserData::instance()->toArray(),

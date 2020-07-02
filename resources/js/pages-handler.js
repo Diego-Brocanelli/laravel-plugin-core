@@ -26,7 +26,13 @@ export default class PagesHandler {
     axios.get('/core/meta')
       .then(function (response) {
         let home = response.data.meta.home_url;
+        let version = response.data.meta.version;
+
         app.pages().fetchPage(home);
+        console.log("-------------------------------")
+        console.log("Plugin Core " + version)
+        console.log("-------------------------------")
+
       })
       .catch(function (error) {
         app.pages().showError(error);
