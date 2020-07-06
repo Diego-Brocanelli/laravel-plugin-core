@@ -21,15 +21,18 @@ use Illuminate\Support\ServiceProvider;
  */
 class Handler
 {
+    const SIDEBAR_STATUS_ENABLED = 'enabled';
+    const SIDEBAR_STATUS_DISABLED = 'disabled';
+
     static $instance;
 
     private $homePage;
 
     private $pageTitle;
 
-    private $sidebarLeftStatus = 'enabled';
+    private $sidebarLeftStatus = self::SIDEBAR_STATUS_ENABLED;
 
-    private $sidebarRightStatus = 'disabled';
+    private $sidebarRightStatus = self::SIDEBAR_STATUS_DISABLED;
 
     private $plugins = [];
 
@@ -76,8 +79,8 @@ class Handler
     {
         $this->homePage                 = null;
         $this->pageTitle                = null;
-        $this->sidebarLeftStatus        = 'enabled';
-        $this->sidebarRightStatus       = 'disabled';
+        $this->sidebarLeftStatus        = self::SIDEBAR_STATUS_ENABLED;
+        $this->sidebarRightStatus       = self::SIDEBAR_STATUS_DISABLED;
         $this->plugins                  = [];
         $this->themes                   = [];
         $this->pluginsMap               = [];
@@ -89,6 +92,7 @@ class Handler
         $this->assets                   = null;
         $this->globalPluggablesRoutines = [];
         $this->modulePluggables         = [];
+
         return $this;
     }
 
@@ -438,11 +442,6 @@ class Handler
                 'scripts'        => [],
                 'styles'         => [],
             ];
-
-            // Os assets principais sempre estão presentes.
-            // Entre eles se concontra: Bootstrap4, SweetAlert, Axios, etc
-            // $assets['scripts_top'][] = '/plugins/core/js/core.js';
-            // $assets['styles'][]  = '/plugins/core/css/core.css';
 
             // Os assets do tema servem para adaptar a aparência do
             // sistema como um todo, modificando o Bootstrap4 e

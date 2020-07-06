@@ -53,6 +53,10 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
         $plugin              = PluginsHandler::instance()->plugin($this->selfServiceProvider());
         $pluginNamespace     = $plugin->config()->param('plugin_namespace');
 
+        if ($pluginNamespace === null) {
+            throw new \RuntimeException("O arquivo de configuração não contém o parâmetro 'plugin_namespace'");
+        }
+
         $this->pluginPath    = $plugin->path();
         $this->namespaceTag  = Str::snake($pluginNamespace);
         $this->namespaceType = 'plugin';
@@ -68,6 +72,10 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
         $theme              = PluginsHandler::instance()->theme($this->selfServiceProvider());
         $themeNamespace     = $theme->config()->param('theme_namespace');
 
+        if ($themeNamespace === null) {
+            throw new \RuntimeException("O arquivo de configuração não contém o parâmetro 'theme_namespace'");
+        }
+
         $this->pluginPath    = $theme->path();
         $this->namespaceTag  = Str::snake($themeNamespace);
         $this->namespaceType = 'theme';
@@ -75,51 +83,6 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
 
         return $this;
     }
-
-    // /**
-    //  * Registra uma rotina que será invocada para qualquer plugin em execução.
-    //  * 
-    //  * @param Closure $func 
-    //  * @return Handler
-    //  */
-    // public function registerGlobalPluggable(Closure $func): PluggableServiceProvider
-    // {
-    //     PluginsHandler::instance()->registerGlobalPluggable($func);
-    //     return $this;
-    // }
-
-    // /**
-    //  * Registra uma rotina que será invocada apenas quando um plugin específigo
-    //  * for executado.
-    //  * 
-    //  * @param Closure $func 
-    //  * @return Handler
-    //  */
-    // public function registerPluggable(Closure $func): PluggableServiceProvider
-    // {
-    //     PluginsHandler::instance()->registerPluggable($this->selfServiceProvider(), $func);
-    //     return $this;
-    // }
-
-    // /**
-    //  * Muda uma view previamente registrada do Laravel.
-    //  * 
-    //  * @param string $targetView
-    //  * @param string $replacementView
-    //  * @return PluggableServiceProvider
-    //  */
-    // protected function changeView(string $targetView, string $replacementView): PluggableServiceProvider
-    // {
-    //     if ($this->namespacePrefix === 'module') {
-    //         PluginsHandler::instance()->module($this->selfServiceProvider())
-    //             ->addTemplateView($targetView, $replacementView);
-    //         return $this;
-    //     }
-
-    //     PluginsHandler::instance()->theme($this->selfServiceProvider())
-    //         ->addTemplateView($targetView, $replacementView);
-    //     return $this;
-    // }
 
     /**
      * Muda o tema utilizado para todas as rotas deste plugin somente.
