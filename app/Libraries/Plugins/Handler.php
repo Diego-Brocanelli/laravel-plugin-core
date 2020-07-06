@@ -156,7 +156,7 @@ class Handler
      */
     public function home(): string
     {
-        return $this->homePage ?? '/core/home';
+        return $this->homePage ?? '/core/welcome';
     }
 
     /**
@@ -322,7 +322,7 @@ class Handler
         }
 
         if (isset($this->plugins[$id]) === false) {
-            throw new Exception("O módulo especificado não foi encontrado no registro");
+            throw new Exception("O módulo {$id} especificado não foi encontrado no registro");
         }
 
         $this->currentPlugin = $id;

@@ -10,6 +10,7 @@ use App\Plugin\Core\Libraries\Panel\HeaderMenu;
 use App\Plugin\Core\Libraries\Panel\Sidebar;
 use App\Plugin\Core\Libraries\Plugins\Handler as PluginsHandler;
 use Closure;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
@@ -244,6 +245,9 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
                 $configFile => config_path("{$this->namespaceType}_{$this->namespaceTag}.php"),
             ], "{$this->namespaceType}-{$this->namespaceTag}");
         }
+
+        $factoriesPath = "{$this->pluginPath}/database/factories";
+        $this->loadFactoriesFrom($factoriesPath);
     }
 
     /**
@@ -271,7 +275,9 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
 
         $routesApi = "{$this->pluginPath}/routes/api.php";
         if ($this->fileExists($routesApi)) {
-            $this->loadRoutesFrom("{$this->pluginPath}/routes/api.php");
+            Route::group(['prefix' => 'api', 'middleware' => 'api'], function () {
+                $this->loadRoutesFrom("{$this->pluginPath}/routes/api.php");
+            });
         }
 
         // Nos templates do Blade as views do módulo devem ser utilizadas com prefixo.

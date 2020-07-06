@@ -29,43 +29,11 @@ class ServiceProvider extends PluginServiceProvider
     {
         parent::boot();
 
-        // Além dos assets padrões do plugin, o core
-        // também possui um tema padrão
+        // Além dos assets padrões do plugin, 
+        // o core também possui um tema padrão
         $this->publishes([
             "{$this->pluginPath}/public" => public_path("themes/core"),
         ], "assets-core-theme");
-
-        // Dados abaixo são de exemplo
-
-        // Para disponibilizar os dados do usuário
-        UserData::instance()
-            ->setName('Claire Redfield')
-            ->setLogin('claire@residentevil.com.br')
-            ->setPicture('http://lorempixel.com/25/25/people/9/')
-            ->setPermissions([]);
-
-        // $this->breadcrumb()
-        //     ->append(new Entry('Home', '/core/home'))
-        //     ->append(new Entry('Paginas', '/core/page', 'exclamation-circle-fill'));
-
-        // $entry = (new Entry('Terceiro', '/core/page'))
-        //     ->appendChild(new Entry('Quarto', '/aaa'))
-        //     ->appendChild((new Entry('Quinto', '/bbb'))->setStatus(Entry::STATUS_ACTIVE))
-        //     ->appendChild((new Entry('Sexto', '/ccc'))->setStatus(Entry::STATUS_DISABLED));
-
-        // $this->sidebar()
-        //     ->append(new Entry('Primeiro', '/core/page', 'exclamation-circle-fill'))
-        //     ->append(new Entry('Segundo', '/core/page'))
-        //     ->append(new Entry('Grid', '/core/grid'))
-        //     ->append(new Entry('Form', '/core/form'))
-        //     ->append($entry);
-
-        // $this->headerMenu()
-        //     ->append(new Entry('Primeiro', '/core/page', 'exclamation-circle-fill'))
-        //     ->append(new Entry('Segundo', '/core/page'))
-        //     ->append((new Entry('Sep'))->setType(Entry::TYPE_SEPARATOR))
-        //     ->append((new Entry('Quinto', '/core/form'))->setStatus(Entry::STATUS_ACTIVE))
-        //     ->append((new Entry('Sexto', '/core/grid'))->setStatus(Entry::STATUS_DISABLED));
     }
 
     /**

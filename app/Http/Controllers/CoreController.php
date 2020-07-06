@@ -10,6 +10,14 @@ use App\Plugin\Core\Libraries\Plugins\Handler;
 class CoreController extends Controller
 {
     /**
+     * Documento html da aplicação SPA
+     */
+    public function admin()
+    {
+        return view('core::app');
+    }
+
+    /**
      * Essa rota devolve as informações iniciais para a camada de apresentação
      */
     public function meta()
@@ -20,52 +28,19 @@ class CoreController extends Controller
     }
 
     /**
-     * Essa rota devolve as informações iniciais para a camada de apresentação
+     * Devolve os dados para comunicação do backend com a aplicação SPA
      */
-    public function home()
+    public function welcome()
     {
-        // $this->changeTheme('core');
+        // Força a página de boas vindas a ter o tema
+        $this->changeTheme('core');
+
+        $this->pageTitle('Bem vindo ao core da aplicação');
 
         $this->breadcrumb()
-            ->append(new Entry('Home', '/core/home'))
-            ->append(new Entry('Paginas', '/core/page', 'exclamation-circle-fill'));
+            ->append(new Entry('Home', '/admin'))
+            ->append(new Entry('Boas Vindas', '/core/welcome'));
 
-        $this->pageTitle('Este é meu home');
-        return vue('core::example.home');
-    }
-
-    /**
-     * Essa rota devolve as informações iniciais para a camada de apresentação
-     */
-    public function page()
-    {
-        $this->changeTheme('core');
-        $this->pageTitle('Este é meu título nice');
-
-        $this->breadcrumb()
-            ->append(new Entry('Home', '/core/home'))
-            ->append(new Entry('Paginas', '/core/page', 'exclamation-circle-fill'));
-
-        $this->sidebar()->append(new Entry('Carambolis'));
-        return vue('core::example.page');
-    }
-
-    public function form()
-    {
-        $this->changeTheme('core');
-        $this->pageTitle('Formulário');
-        $this->breadcrumb()
-            ->append(new Entry('Home', '/core/home'))
-            ->append(new Entry('Formumário', '/core/page', 'exclamation-circle-fill'));
-
-        // Handler::instance()->disableSidebarLeft();
-        return vue('core::example.form');
-    }
-
-    public function grid()
-    {
-        $this->changeTheme('core');
-        $this->pageTitle('Grade de Dados');
-        return vue('core::example.grid');
+        return vue('core::welcome');
     }
 }

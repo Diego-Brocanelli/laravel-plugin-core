@@ -2,32 +2,14 @@
 
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
-
-Route::get('/admin', function () {
-    return view('welcome');
-});
-
-//if (in_array(env('APP_ENV'), ['local', 'testing']) && env('APP_DEBUG') === true) {
-
 Route::namespace('App\Plugin\Core\Http\Controllers')->group(function () {
 
-    Route::get('/admin', 'ExampleController@app')->name('example.app');
+    // Contém a única view da aplicação, que desenha a página html do SPA
+    Route::get('/admin', 'CoreController@admin')->name('example.admin');
+
+    // Devolve os dados para comunicação do backend com a aplicação SPA
     Route::get('/core/meta', 'CoreController@meta')->name('core.meta');
 
-    Route::get('/core/home', 'CoreController@home')->name('core.home');
-    Route::get('/core/page', 'CoreController@page')->name('core.page');
-    Route::get('/core/form', 'CoreController@form')->name('core.form');
-    Route::get('/core/grid', 'CoreController@grid')->name('core.grid');
+    // Quando nenhuma página home for setada, a página de boasvindas será exibida
+    Route::get('/core/welcome', 'CoreController@welcome')->name('core.welcome');
 });
-
-//}

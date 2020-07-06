@@ -9,6 +9,7 @@ use Illuminate\Contracts\Console\Kernel;
 use Illuminate\Support\Str;
 use App\Plugin\Core\Libraries\Composer\Parser;
 use App\Plugin\Core\Providers\PluginServiceProvider;
+use App\Plugin\Core\Providers\ServiceProvider as CoreServiceProvider;
 use ReflectionClass;
 
 trait CreatesApplication
@@ -18,15 +19,19 @@ trait CreatesApplication
         $pluginsHandler = Handler::instance();
 
         $className = $this->serviceProvider();
+
+        if ($className !== CoreServiceProvider::class) {
+            $pluginsHandler->registerPlugin(CoreServiceProvider::class);
+        }
+
         $pluginsHandler->registerPlugin($className);
 
         // $class = new ReflectionClass($className);
         $plugin          = $pluginsHandler->plugin($className);
         $pluginNamespace = $plugin->config()->param('plugin_namespace');
-        // $pluginTag       = Str::snake($pluginNamespace);
         $pluginPath      = $plugin->path();
         $laravelPath     = $plugin->config()->param('laravel_path');
-        
+
         $config = (new Parser("{$pluginPath}/composer.json"))->all(true);
 
         $this->clearDiscovery($laravelPath, $config);
@@ -39,14 +44,15 @@ trait CreatesApplication
         $app->useStoragePath($laravelPath . '/storage');
 
         $app->make(Kernel::class)->bootstrap();
-        
-        if (isset($config['extra']) 
-         && isset($config['extra']['laravel'])
-         && isset($config['extra']['laravel']['providers'])
+
+        if (
+            isset($config['extra'])
+            && isset($config['extra']['laravel'])
+            && isset($config['extra']['laravel']['providers'])
         ) {
-            
+
             // Disponibiliza os providers do módulo para o artisan
-            foreach($config['extra']['laravel']['providers'] as $moduleProvider) {
+            foreach ($config['extra']['laravel']['providers'] as $moduleProvider) {
                 $app->register($moduleProvider);
             }
         }
@@ -68,10 +74,11 @@ trait CreatesApplication
         $packages = require $packagesFile;
 
         $cleanedPackages = [];
-        foreach($packages as $packageName => $item) {
-            
-            if (strpos($item['providers'][0], 'App\\Plugin') === false
-             && strpos($item['providers'][0], 'App\\Theme') === false
+        foreach ($packages as $packageName => $item) {
+
+            if (
+                strpos($item['providers'][0], 'App\\Plugin') === false
+                && strpos($item['providers'][0], 'App\\Theme') === false
             ) {
                 $cleanedPackages[$packageName] = $item;
                 continue;
@@ -84,7 +91,7 @@ trait CreatesApplication
 
         // backup
         shell_exec("mv {$packagesFile} {$packagesFile}.disabled;");
-        
+
         $content = "<?php return ";
         $content .= $this->createPhpString($cleanedPackages);
         $content .= ";";
@@ -108,7 +115,7 @@ trait CreatesApplication
 
         $content = "array (";
 
-        foreach($data as $index => $item) {
+        foreach ($data as $index => $item) {
 
             if (is_numeric($index)) {
                 $content .= PHP_EOL . "{$prefix}{$index} => ";

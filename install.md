@@ -1,3 +1,19 @@
+# Desenvolvendo um novo plugin 
+
+## Preparando o ambiente de desenvolvimento
+
+Com o objetivo de simular o mesmo ambiente existente no servidor, quando a aplicação for publicada, é necessário que um plugin seja desenvolvido de forma separada do Laravel. 
+
+Para criar este ambiente, siga os seguintes passos:
+
+### 1. Criando os diretórios
+
+```
+mkdir meu-direto
+ls meu-diretorio-dev
+laravel laravel-plugin-xxx laravel-plugin-yyy laravel-plugin-zzz
+```
+
 # Procedimentos para criação de um plugin
 
 ## 1. Criar um projeto limpo do Laravel:

@@ -12,7 +12,7 @@ abstract class PluginTestCase extends BaseTestCase
     use CreatesApplication;
 
     abstract protected function serviceProvider(): string;
-    
+
     protected function flushLaravelCache()
     {
         Scripts::instance()->clearCache();
