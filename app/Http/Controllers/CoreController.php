@@ -35,11 +35,10 @@ class CoreController extends Controller
         // Força a página de boas vindas a ter o tema
         $this->changeTheme('core');
 
-        $this->pageTitle('Bem vindo ao core da aplicação');
+        $this->pageTitle('Plugin Core');
 
         $this->breadcrumb()
-            ->append(new Entry('Home', '/admin'))
-            ->append(new Entry('Boas Vindas', '/core/welcome'));
+            ->append(new Entry('Boas Vindas', $this->homeUrl()));
 
         return vue('core::welcome');
     }

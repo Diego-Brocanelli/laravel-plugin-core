@@ -66904,6 +66904,23 @@ var AssetsHandler = /*#__PURE__*/function () {
   }
 
   _createClass(AssetsHandler, [{
+    key: "appendScriptUrl",
+    value: function appendScriptUrl(url) {
+      var scripts = document.createElement("script");
+      scripts.setAttribute('class', 'state-script');
+      scripts.setAttribute('src', url + '?v=' + new Date().getTime());
+      document.body.appendChild(scripts);
+    }
+  }, {
+    key: "appendStyleUrl",
+    value: function appendStyleUrl(url) {
+      var style = document.createElement("link");
+      style.setAttribute('rel', 'stylesheet');
+      style.setAttribute('class', 'state-class');
+      style.setAttribute('href', url + '?v=' + new Date().getTime());
+      document.head.appendChild(style);
+    }
+  }, {
     key: "replacePageScript",
     value: function replacePageScript(id, content) {
       var currentScript = document.getElementById(id);

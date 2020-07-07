@@ -40,6 +40,12 @@ class PluggableController extends BaseController
         return $this;
     }
 
+    protected function homeUrl(): string
+    {
+        return PluginsHandler::instance()->home();
+    }
+
+
     /**
      * Devolve o gerenciador de bradcrumbs.
      * 

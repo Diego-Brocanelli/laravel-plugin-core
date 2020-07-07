@@ -5,6 +5,25 @@ export default class AssetsHandler {
     this.app = app
   }
 
+  appendScriptUrl(url) {
+
+    let scripts = document.createElement("script")
+    scripts.setAttribute('class', 'state-script')
+    scripts.setAttribute('src', url + '?v=' + (new Date().getTime()))
+    document.body.appendChild(scripts)
+    
+  }
+
+  appendStyleUrl(url) {
+
+    let style = document.createElement("link")
+    style.setAttribute('rel', 'stylesheet')
+    style.setAttribute('class', 'state-class')
+    style.setAttribute('href', url + '?v=' + (new Date().getTime()))
+    document.head.appendChild(style)
+
+  }
+
   replacePageScript(id, content) {
 
     let currentScript = document.getElementById(id)

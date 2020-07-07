@@ -22,6 +22,7 @@ export default class PanelHandler {
         this.app[changeable] = componentName
     }
 
+    
     changeSidebarLeftStatus(status) {
 
         if (status === 'enabled') {
