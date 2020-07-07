@@ -1,5 +1,19 @@
 # Implementando Páginas
 
+## Funcionalidades 
+
+A criação de páginas conta com várias funcionalidades providas pela aplicação Vue.js. 
+Para conhecê-las, visite a [API Javascript](api-js.md).
+
+Entre as funcionalidades disponíveis, se encontram os componentes do projeto [BootstrapVue](https://bootstrap-vue.org) 
+que oferece a implementação do framework css Bootstrap na forma de componentes do Vue.js.
+
+> Obs: Por padrão, o componente de icone utiliza os pictogramas disponíveis em [BootstrapVue Icons](https://bootstrap-vue.org/docs/icons)
+
+```html
+<b-icon icon="exclamation-triangle"></b-icon>
+```
+
 ## Funcionamento
 
 O painel administrativo se comunica com o Laravel através de invocações AJAX, que devolvem metadados no formato JSON. 
