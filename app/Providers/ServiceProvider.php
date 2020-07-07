@@ -33,7 +33,7 @@ class ServiceProvider extends PluginServiceProvider
         // o core também possui um tema padrão
         $this->publishes([
             "{$this->pluginPath}/public" => public_path("themes/core"),
-        ], "assets-core-theme");
+        ], "core-theme");
     }
 
     /**

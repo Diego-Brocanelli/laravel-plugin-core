@@ -199,14 +199,14 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
         if ($this->directoryExists($publicPath)) {
             $this->publishes([
                 $publicPath => public_path("{$this->assetsPath}/{$this->namespaceTag}"),
-            ], "assets-{$this->namespaceTag}");
+            ], "{$this->namespaceTag}-assets");
         }
 
         $configFile = "{$this->pluginPath}/config/{$this->namespaceType}_{$this->namespaceTag}.php";
         if ($this->fileExists($configFile)) {
             $this->publishes([
                 $configFile => config_path("{$this->namespaceType}_{$this->namespaceTag}.php"),
-            ], "{$this->namespaceType}-{$this->namespaceTag}");
+            ], "{$this->namespaceTag}-config");
         }
 
         $factoriesPath = "{$this->pluginPath}/database/factories";

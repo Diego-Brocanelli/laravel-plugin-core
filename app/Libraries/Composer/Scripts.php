@@ -177,10 +177,10 @@ class Scripts
 
         // Publica os assets
         $pluginConfig = getenv("TARGET_CONFIG");
-        $tag = 'assets-' . str_replace(['plugin_', 'theme_'], '', $pluginConfig);
+        $tag = str_replace(['plugin_', 'theme_'], '', $pluginConfig) . '-assets';
         $event->getIO()->write("> Publicando assets na tag {$tag}");
         echo shell_exec("cd {$this->laravelPath}; php artisan vendor:publish --tag={$tag} --force");
-        echo shell_exec("cd {$this->laravelPath}; php artisan vendor:publish --tag=assets-core-theme --force");
+        echo shell_exec("cd {$this->laravelPath}; php artisan vendor:publish --tag=core-theme --force");
     }
 
     public function updateVersionFile(): void
@@ -191,11 +191,11 @@ class Scripts
         }
 
         $version = explode('.', shell_exec("git describe --abbrev=0"));
-        $version[2] = (int)$version[2] + 1; 
+        $version[2] = (int) $version[2] + 1;
         $version = implode('.', $version);
         file_put_contents($versionFile, $version);
     }
-    
+
 
     /**
      * Limpa os arquivos de cachê do Laravel.

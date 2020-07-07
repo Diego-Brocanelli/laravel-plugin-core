@@ -20,11 +20,12 @@ Este painel é totalmente manipulável, podendo ser gerenciado tanto do lado do 
 
 ## Mais informações
 
-- [Criando páginas](docs/paginas.md)
+- [Instalando](docs/instalacao.md)
+- [Criando um plugin isolado](docs/plugin.md)
+- [Criando páginas no painel](docs/paginas.md)
 - [Manipulando o painel](docs/painel.md)
 - [API Javascript](docs/api-js.md)
 - [API PHP](docs/api-php.md)
-- [Criando um plugin isolado](docs/plugin.md)
 
 ## Créditos
 
