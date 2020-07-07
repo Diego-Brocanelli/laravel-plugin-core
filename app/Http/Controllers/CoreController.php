@@ -32,7 +32,7 @@ class CoreController extends Controller
      */
     public function welcome()
     {
-        // Força a página de boas vindas a ter o tema
+        // Força a página de boas vindas a ter o tema do core
         $this->changeTheme('core');
 
         $this->pageTitle('Plugin Core');

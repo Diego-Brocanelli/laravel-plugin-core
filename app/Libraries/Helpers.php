@@ -21,22 +21,33 @@ if (function_exists('dummy_core_helpers') === false) {
     function vue(string $name): array
     {
         $target = explode('::', $name);
-        $plugin = Handler::instance()->plugin($target[0]);
+        $plugin = null;
 
-        if ($plugin === null) {
-            $plugin = Handler::instance()->theme($target[0]);
-        }
-
+        // sem namespace
         if (isset($target[1]) === false) {
-            throw new InvalidArgumentException("{$name} não é uma identificação válida para um componente vue. Use namespace::vuefile");
-        }
-
-        if ($plugin === null) {
-            throw new InvalidArgumentException("O namespace {$target[0]} não foi registrado");
+            $target = ['main', $target[0]];
         }
 
         $filePath = str_replace('.', '/', $target[1]);
-        $vueFile = implode(DIRECTORY_SEPARATOR, [$plugin->path(), 'resources', 'vue', $filePath]);
+
+        if ($target[0] === 'main') {
+
+            // procura no resources/vue do laravel
+            $vueFile = resource_path("vue/{$filePath}");
+        } else {
+
+            // procura no resources/vue do plugin
+            $plugin = Handler::instance()->plugin($target[0]);
+            if ($plugin === null) {
+                $plugin = Handler::instance()->theme($target[0]);
+            }
+
+            if ($plugin === null) {
+                throw new InvalidArgumentException("O namespace {$target[0]} não foi registrado");
+            }
+
+            $vueFile = implode(DIRECTORY_SEPARATOR, [$plugin->path(), 'resources', 'vue', $filePath]);
+        }
 
         if (is_file($vueFile . '.vue') === false) {
             throw new InvalidArgumentException("A arquivo {$vueFile}.vue não foi encontrado");
