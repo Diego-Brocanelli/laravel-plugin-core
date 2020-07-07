@@ -114,7 +114,7 @@ app.setBreadcrumbItems({
 
 ### fetchHomePage() 
 
-Carrega a página inicial definida para o sistema. Para mias informações sobre como definir a página inicial, acesse a [API PHP](docs/api-php.md).
+Carrega a página inicial definida para o sistema. Para mias informações sobre como definir a página inicial, acesse a [API PHP](api-php.md).
 
 ### fetchPage(route)
 

@@ -1,6 +1,6 @@
 # Manipulando o painel
 
-O painel pode ser manipulado em tempo de execução. A cada carregamento de uma [página .vue](](paginas.md)) o painel pode sofrer alterações em seu layout. 
+O painel pode ser manipulado em tempo de execução. A cada carregamento de uma [página .vue](paginas.md) o painel pode sofrer alterações em seu layout. 
 
 Isso pode ser feito de duas maneiras:
 
