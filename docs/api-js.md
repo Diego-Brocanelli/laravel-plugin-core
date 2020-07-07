@@ -136,6 +136,6 @@ Adiciona no DOM uma tag link apontando para um arquivo de estilos css externo. E
 
 ## Mais informações
 
-[API PHP](docs/api-php.md)
+[API PHP](api-php.md)
 
 [Voltar para o início](../readme.md)

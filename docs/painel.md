@@ -66,6 +66,6 @@ Para conhecer todas as funcionalidades do mecanismo de plugins, siga para a [API
 
 ## Mais informações
 
-[API Javascript](docs/api-js.md)
+[API Javascript](api-js.md)
 
 [Voltar para o início](../readme.md)

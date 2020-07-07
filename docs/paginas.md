@@ -89,6 +89,6 @@ Para o objetivo do mecanismo de plugins, essa limitação é irrelevante, pois a
 
 ## Mais informações
 
-[Manipulando o painel](docs/painel.md)
+[Manipulando o painel](painel.md)
 
 [Voltar para o início](../readme.md)

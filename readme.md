@@ -16,7 +16,7 @@ Uma vez instalado o `bnw/laravel-plugin-core`, a rota '/admin' estará disponív
 
 ![Painel Administrativo](docs/imgs/admin.png)
 
-Este painel é totamentel manipulável, podendo ser gerenciado tanto do lado do Frontend (dentro dos componentes dinâmicos do Vue.js) como do lado do Backend (dentro dos controladores do Laravel).
+Este painel é totalmente manipulável, podendo ser gerenciado tanto do lado do Frontend (dentro dos componentes dinâmicos do Vue.js) como do lado do Backend (dentro dos controladores do Laravel).
 
 ## Mais informações
 
