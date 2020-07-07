@@ -104,7 +104,7 @@
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/ricardo/Projetos/Bnw/poc-architecture-plugins/laravel-plugin-core/resources/js/theme.js */"./resources/js/theme.js");
+module.exports = __webpack_require__(/*! /home/ricardo/Projetos/Bnw/plugins/isolados/laravel-plugin-core/resources/js/theme.js */"./resources/js/theme.js");
 
 
 /***/ })

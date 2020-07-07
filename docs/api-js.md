@@ -42,17 +42,17 @@ Permite efetuar chamadas personalizadas (POST, PUT, DELETE etc).
 
 Esta chamada devolve o gerenciador do painel administrativo. Os métodos disponíveis são:
 
-### loadingStart() e loadingEnd()
+### app.panel().loadingStart() e app.panel().loadingEnd()
 
 Exibe e oculta o carregador na página
 
 ```javascript
-app.loadingStart()
+app.panel().loadingStart()
 app.request().get(...)
-app.loadingEnd()
+app.panel().loadingEnd()
 ```
 
-### changeComponent(changeable, componentName)
+### app.panel().changeComponent(changeable, componentName)
 
 Permite trocar dinamicamente os componentes no layout do painel. Os parâmetros aceitos são:  
 
@@ -69,11 +69,11 @@ As referências de componentes dinâmicos disponiveis para substituição são:
 - **pheader**: o cabeçalho da página
 - **page**: a área onde a página será aplicada
 
-### enableSidebarLeft() e disableSidebarLeft()
+### app.panel().enableSidebarLeft() e app.panel().disableSidebarLeft()
 
 Permite controlar a exibição da barra lateral esquerda do painel.
 
-### enableSidebarRight() e disableSidebarRight()
+### app.panel().enableSidebarRight() e app.panel().disableSidebarRight()
 
 Permite controlar a exibição da barra lateral direita do painel.
 
@@ -81,17 +81,17 @@ Permite controlar a exibição da barra lateral direita do painel.
 
 Esta chamada devolve o gerenciador do páginas .vue. Os métodos disponíveis são:
 
-### setPageTitle(title)
+### app.pages().setPageTitle(title)
 
 Muda o nome da página que paarece no topo da área de páginas do painel.
 
-### setBreadcrumbItems(items)
+### app.pages().setBreadcrumbItems(items)
 
 Define a lista de links de navegação para a página atual.
 
 ```javascript 
 
-app.setBreadcrumbItems({
+app.pages().setBreadcrumbItems({
     "home": {
         "label":"Home",
         "slug":"home",
@@ -112,11 +112,11 @@ app.setBreadcrumbItems({
 
 ```
 
-### fetchHomePage() 
+### app.pages().fetchHomePage() 
 
 Carrega a página inicial definida para o sistema. Para mias informações sobre como definir a página inicial, acesse a [API PHP](api-php.md).
 
-### fetchPage(route)
+### app.pages().fetchPage(route)
 
 Carrega uma página .vue existente na rota especificada. 
 Ex: '/example/pagina'
@@ -126,11 +126,11 @@ Ex: '/example/pagina'
 
 Esta chamada devolve o gerenciador de scripts e styles. Os métodos disponíveis são:
 
-### appendScriptUrl(url)
+### app.assets().appendScriptUrl(url)
 
 Adiciona no DOM uma tag script apontando para um arquivo javascript externo. Esse script estará em execução apenas no contexto da página atual. Ao carregar uma nova página, um novo escopo será executado.
 
-### appendStyleUrl(url)
+### app.assets().appendStyleUrl(url)
 
 Adiciona no DOM uma tag link apontando para um arquivo de estilos css externo. Esse link estará em vigor apenas no contexto da página atual. Ao carregar uma nova página, um novo escopo será executado.
 

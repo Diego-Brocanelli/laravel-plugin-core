@@ -35,6 +35,26 @@ export default class AssetsHandler {
     script.text = content
     script.setAttribute('id', id)
     document.body.appendChild(script)
+
+    // persiste o controle de métodos no escopo da página
+    window['scopeds'] = window['scopeds'] ?? [];
+
+    // remove os métodos registrados no ultimo carregamento 
+    window['scopeds'].forEach(function(item){
+      window[item] = null
+      delete window[item]
+    })
+
+    // registra os métodos da página
+    if (pageScoped.methods !== undefined) { 
+      
+      Object.keys(pageScoped.methods).forEach(function (item) {
+        window['scopeds'].push(item)
+        window[item] = pageScoped.methods[item];
+      });
+
+    }
+
   }
 
   replacePageStyle(id, content) {

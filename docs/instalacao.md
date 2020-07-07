@@ -81,6 +81,10 @@ O mecanismo utiliza o Laravel como dependência e possibilita o desenvolvimento 
 
 Para mais informações sobre como criar um plugin, acesse [Criando um plugin isolado](plugin.md).
 
+## Criando uma página de exemplo
+
+> Essa parte está sendo documentada
+
 ## Mais informações
 
 [Criando um plugin isolado](plugin.md)

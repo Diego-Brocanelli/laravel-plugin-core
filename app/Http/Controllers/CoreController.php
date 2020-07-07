@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Plugin\Core\Http\Controllers;
 
-use App\Plugin\Core\Libraries\Panel\Entry;
 use App\Plugin\Core\Libraries\Plugins\Handler;
 
 class CoreController extends Controller
@@ -34,11 +33,6 @@ class CoreController extends Controller
     {
         // Força a página de boas vindas a ter o tema do core
         $this->changeTheme('core');
-
-        $this->pageTitle('Plugin Core');
-
-        $this->breadcrumb()
-            ->append(new Entry('Boas Vindas', $this->homeUrl()));
 
         return vue('core::welcome');
     }

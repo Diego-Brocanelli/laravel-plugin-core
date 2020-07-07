@@ -2109,7 +2109,7 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     breadcrumbUrl: function breadcrumbUrl(url) {
       if (undefined !== url) {
-        this.$root.loadPage(url);
+        this.$root.pages().fetchPage(url);
       }
     }
   }
@@ -66923,6 +66923,8 @@ var AssetsHandler = /*#__PURE__*/function () {
   }, {
     key: "replacePageScript",
     value: function replacePageScript(id, content) {
+      var _window$scopeds;
+
       var currentScript = document.getElementById(id);
 
       if (currentScript) {
@@ -66932,7 +66934,21 @@ var AssetsHandler = /*#__PURE__*/function () {
       var script = document.createElement("script");
       script.text = content;
       script.setAttribute('id', id);
-      document.body.appendChild(script);
+      document.body.appendChild(script); // persiste o controle de métodos no escopo da página
+
+      window['scopeds'] = (_window$scopeds = window['scopeds']) !== null && _window$scopeds !== void 0 ? _window$scopeds : []; // remove os métodos registrados no ultimo carregamento 
+
+      window['scopeds'].forEach(function (item) {
+        window[item] = null;
+        delete window[item];
+      }); // registra os métodos da página
+
+      if (pageScoped.methods !== undefined) {
+        Object.keys(pageScoped.methods).forEach(function (item) {
+          window['scopeds'].push(item);
+          window[item] = pageScoped.methods[item];
+        });
+      }
     }
   }, {
     key: "replacePageStyle",
@@ -67644,10 +67660,28 @@ var PagesHandler = /*#__PURE__*/function () {
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.get(url).then(function (response) {
         app.panel().restartSidebarRight(); // Usa o 'vue-template-compiler' para 
         // interpretar do arquivo .vue e compilar os componentes
-
-        var parsed = compiler.parseComponent(response.data.vuefile); // Extrai os dados fornecidos com o compoente da página
-        // Tratam-se dos mesmos parêmetros presentes em componentes SingleFile
+        // Isso extrai os mesmos parâmetros presentes em componentes SingleFile
         // Mais info: https://br.vuejs.org/v2/guide/components.html
+
+        var parsed = compiler.parseComponent(response.data.vuefile); // ----------------------------------
+        // Metadados provenientes do Laravel
+        // ----------------------------------
+        // Aplica os assets do tema no DOM
+
+        app.assets().applyAppStyles(response.data.meta.styles);
+        app.assets().applyAppScripts(response.data.meta.scripts); // Atualiza os componentes reativos do painel
+
+        app.panel().changeSidebarLeftStatus(response.data.meta.sidebar_left_status);
+        app.panel().changeSidebarRightStatus(response.data.meta.sidebar_right_status);
+        app.panel().updateSidebarLeftAndMobile(response.data.meta.sidebar_left);
+        app.panel().updateHeaderMenu(response.data.meta.header_menu);
+        app.panel().updateUserData(response.data.meta.user_data); // Atualiza as informações da página atual
+
+        app.pages().setPageTitle(response.data.meta.page_title);
+        app.pages().setBreadcrumbItems(response.data.meta.breadcrumb); // ----------------------------------
+        // Executa o script para sobrescrever os metadados
+        // O templeate tem precedência em relação aos metadados
+        // ----------------------------------
 
         if (parsed.script !== null && undefined !== parsed.script.content && parsed.script.content) {
           // Remove o 'export default', pois o 'import' não será usado aqui
@@ -67664,19 +67698,7 @@ var PagesHandler = /*#__PURE__*/function () {
         // Sempre existirá apenas uma referência para page: a página atual!
 
         var component = vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('dynamic-component', Object.assign(pageScoped));
-        app.$refs.page = component; // Aplica os assets do tema no DOM
-
-        app.assets().applyAppStyles(response.data.meta.styles);
-        app.assets().applyAppScripts(response.data.meta.scripts); // Atualiza os componentes reativos do painel
-
-        app.panel().changeSidebarLeftStatus(response.data.meta.sidebar_left_status);
-        app.panel().changeSidebarRightStatus(response.data.meta.sidebar_right_status);
-        app.panel().updateSidebarLeftAndMobile(response.data.meta.sidebar_left);
-        app.panel().updateHeaderMenu(response.data.meta.header_menu);
-        app.panel().updateUserData(response.data.meta.user_data); // Atualiza as informações da página atual
-
-        app.pages().setPageTitle(response.data.meta.page_title);
-        app.pages().setBreadcrumbItems(response.data.meta.breadcrumb); // Substitui o componente dinâmico atual da página
+        app.$refs.page = component; // Substitui o componente dinâmico atual da página
 
         vue__WEBPACK_IMPORTED_MODULE_1___default.a.component('core-page', component); // Aplica os estilos do escopo da página
 
@@ -67685,7 +67707,11 @@ var PagesHandler = /*#__PURE__*/function () {
         } // Pede para o Vue atualizar a árvore de componentes
 
 
-        app.$forceUpdate();
+        app.$forceUpdate(); // Dispara o evento de montagem
+
+        if (typeof pageScoped.mount === "function") {
+          pageScoped.mount();
+        }
       })["catch"](function (error) {
         app.pages().showError(error);
       }).then(function () {
@@ -67864,9 +67890,9 @@ var PanelHandler = /*#__PURE__*/function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /home/ricardo/Projetos/Bnw/poc-architecture-plugins/laravel-plugin-core/resources/js/app.js */"./resources/js/app.js");
-__webpack_require__(/*! /home/ricardo/Projetos/Bnw/poc-architecture-plugins/laravel-plugin-core/resources/sass/app.scss */"./resources/sass/app.scss");
-module.exports = __webpack_require__(/*! /home/ricardo/Projetos/Bnw/poc-architecture-plugins/laravel-plugin-core/resources/sass/theme.scss */"./resources/sass/theme.scss");
+__webpack_require__(/*! /home/ricardo/Projetos/Bnw/plugins/isolados/laravel-plugin-core/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /home/ricardo/Projetos/Bnw/plugins/isolados/laravel-plugin-core/resources/sass/app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! /home/ricardo/Projetos/Bnw/plugins/isolados/laravel-plugin-core/resources/sass/theme.scss */"./resources/sass/theme.scss");
 
 
 /***/ })

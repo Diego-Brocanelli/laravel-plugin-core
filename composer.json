@@ -63,6 +63,7 @@
     "prefer-stable": true,
     "scripts": {
         "pre-autoload-dump": [
+            "npm run dev",
             "@putenv TARGET_CONFIG=plugin_core",
             "App\\Plugin\\Core\\Libraries\\Composer\\Scripts::preAutoloadDump"
         ],

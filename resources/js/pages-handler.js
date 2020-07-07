@@ -63,11 +63,34 @@ export default class PagesHandler {
 
         // Usa o 'vue-template-compiler' para 
         // interpretar do arquivo .vue e compilar os componentes
+        // Isso extrai os mesmos parâmetros presentes em componentes SingleFile
+        // Mais info: https://br.vuejs.org/v2/guide/components.html
         let parsed = compiler.parseComponent(response.data.vuefile)
 
-        // Extrai os dados fornecidos com o compoente da página
-        // Tratam-se dos mesmos parêmetros presentes em componentes SingleFile
-        // Mais info: https://br.vuejs.org/v2/guide/components.html
+        // ----------------------------------
+        // Metadados provenientes do Laravel
+        // ----------------------------------
+
+        // Aplica os assets do tema no DOM
+        app.assets().applyAppStyles(response.data.meta.styles)
+        app.assets().applyAppScripts(response.data.meta.scripts)
+
+        // Atualiza os componentes reativos do painel
+        app.panel().changeSidebarLeftStatus(response.data.meta.sidebar_left_status)
+        app.panel().changeSidebarRightStatus(response.data.meta.sidebar_right_status)
+        app.panel().updateSidebarLeftAndMobile(response.data.meta.sidebar_left)
+        app.panel().updateHeaderMenu(response.data.meta.header_menu)
+        app.panel().updateUserData(response.data.meta.user_data)
+
+        // Atualiza as informações da página atual
+        app.pages().setPageTitle(response.data.meta.page_title)
+        app.pages().setBreadcrumbItems(response.data.meta.breadcrumb)
+
+        // ----------------------------------
+        // Executa o script para sobrescrever os metadados
+        // O templeate tem precedência em relação aos metadados
+        // ----------------------------------
+
         if (parsed.script !== null
           && undefined !== parsed.script.content
           && parsed.script.content
@@ -93,21 +116,6 @@ export default class PagesHandler {
         let component = Vue.component('dynamic-component', Object.assign(pageScoped))
         app.$refs.page = component
 
-        // Aplica os assets do tema no DOM
-        app.assets().applyAppStyles(response.data.meta.styles)
-        app.assets().applyAppScripts(response.data.meta.scripts)
-
-        // Atualiza os componentes reativos do painel
-        app.panel().changeSidebarLeftStatus(response.data.meta.sidebar_left_status)
-        app.panel().changeSidebarRightStatus(response.data.meta.sidebar_right_status)
-        app.panel().updateSidebarLeftAndMobile(response.data.meta.sidebar_left)
-        app.panel().updateHeaderMenu(response.data.meta.header_menu)
-        app.panel().updateUserData(response.data.meta.user_data)
-
-        // Atualiza as informações da página atual
-        app.pages().setPageTitle(response.data.meta.page_title)
-        app.pages().setBreadcrumbItems(response.data.meta.breadcrumb)
-
         // Substitui o componente dinâmico atual da página
         Vue.component('core-page', component)
 
@@ -118,6 +126,11 @@ export default class PagesHandler {
 
         // Pede para o Vue atualizar a árvore de componentes
         app.$forceUpdate()
+
+        // Dispara o evento de montagem
+        if (typeof pageScoped.mount === "function") { 
+          pageScoped.mount()
+        }
 
       })
       .catch(function (error) {

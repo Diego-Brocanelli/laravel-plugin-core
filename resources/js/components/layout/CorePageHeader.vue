@@ -44,7 +44,7 @@
       breadcrumbUrl: function (url) {
 
         if (undefined !== url) {
-          this.$root.loadPage(url)    
+          this.$root.pages().fetchPage(url) 
         }
       }
     },
