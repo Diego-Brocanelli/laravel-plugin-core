@@ -4,7 +4,10 @@ O painel pode ser manipulado em tempo de execução. A cada carregamento de uma 
 
 Isso pode ser feito de duas maneiras:
 
-## Através da aplicação Vuejs
+- Através da aplicação Vue.js
+- Através da aplicação Laravel
+
+## Através da aplicação Vue.js
 
 Dentro da página .vue, usando o objeto `app` é possível invocar a aplicação a fim de utilizar os recursos disponíveis.
 
@@ -61,13 +64,13 @@ public function index(Request $request)
 }
 ```
 
-Isso também é possível dentro do ServiceProvider da aplicação, bastando que ele estenda `App\Plugin\Core\Providers\PluggableServiceProvider`:
+Isso também é possível dentro do ServiceProvider da aplicação, bastando que ele estenda `App\Plugin\Core\Providers\PluginServiceProvider`:
 
 ```php 
 
-use App\Plugin\Core\Providers\PluggableServiceProvider;
+use App\Plugin\Core\Providers\PluginServiceProvider;
 
-class ServiceProvider extends PluggableServiceProvider
+class ServiceProvider extends PluginServiceProvider
 {
     public function boot()
     {

@@ -16,9 +16,9 @@ A API Javascript pode ser acessada dentro das páginas .vue dinâmicas:
 
         mount() {
 
-            app.loadingStart()
+            app.panel().loadingStart()
             app.request().get(...)
-            app.loadingEnd()
+            app.panel().loadingEnd()
 
         },
 
@@ -34,13 +34,13 @@ A API Javascript pode ser acessada dentro das páginas .vue dinâmicas:
 
 ## app.request() 
 
-Esta chamada devolve a instancia da biblioteca [Axios](https://github.com/axios/axios), utilizada para chamadas AJAX dentro do sistema.
+Este método devolve a instancia da biblioteca [Axios](https://github.com/axios/axios), utilizada para chamadas AJAX dentro do sistema.
 
 Permite efetuar chamadas personalizadas (POST, PUT, DELETE etc).
 
 ## app.panel() 
 
-Esta chamada devolve o gerenciador do painel administrativo. Os métodos disponíveis são:
+Este método devolve o gerenciador do painel administrativo. As funcionalidades disponíveis são:
 
 ### app.panel().loadingStart() e app.panel().loadingEnd()
 
@@ -79,7 +79,7 @@ Permite controlar a exibição da barra lateral direita do painel.
 
 ## app.pages() 
 
-Esta chamada devolve o gerenciador do páginas .vue. Os métodos disponíveis são:
+Este método devolve o gerenciador do páginas .vue. As funcionalidades disponíveis são:
 
 ### app.pages().setPageTitle(title)
 
@@ -124,7 +124,7 @@ Ex: '/example/pagina'
 
 ## app.assets() 
 
-Esta chamada devolve o gerenciador de scripts e styles. Os métodos disponíveis são:
+Este método devolve o gerenciador de scripts e styles. As funcionalidades disponíveis são:
 
 ### app.assets().appendScriptUrl(url)
 

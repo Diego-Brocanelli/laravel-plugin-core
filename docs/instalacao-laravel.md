@@ -46,7 +46,7 @@ class MeuProjetoProvider extends ServiceProvider
 {
 ```
 
-Troque a superclasse do seu ServiceProvider para que ela estenda  `App\Plugin\Core\Providers\PluggableServiceProvider`;
+Troque a superclasse do seu ServiceProvider para que ele estenda  `App\Plugin\Core\Providers\PluggableServiceProvider`;
 
 ```php
 <?php
@@ -69,9 +69,11 @@ Para concluir, no arquivo de configuração `config/app.php`, adicione o seu nov
     App\Providers\EventServiceProvider::class,
     App\Providers\RouteServiceProvider::class,
 
-    App\Providers\MeuProjetoProvider::class, // seu provider
+    App\Providers\MeuProjetoProvider::class, // seu provider aqui
 ],
 ```
+
+Após isso, é possivel acessar o painel através da rota '/admin'.
 
 > OBS: para a rota `/admin` estar acessível pelo navegador é preciso que o projeto Laravel seja executado por algum servidor como NGINX, ou conteinerizado com Docker.
 
