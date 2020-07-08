@@ -177,7 +177,8 @@ class Scripts
 
         // Publica os assets
         $pluginConfig = getenv("TARGET_CONFIG");
-        $tag = str_replace(['plugin_', 'theme_'], '', $pluginConfig) . '-assets';
+        $tag = str_replace(['plugin_', 'theme_'], '', $pluginConfig); // apenas o nome ex: meu_plugin
+        $tag = str_replace('_', '-', $tag) . '-assets'; // notação de publicação ex: meu-plugin-assets
         $event->getIO()->write("> Publicando assets na tag {$tag}");
         echo shell_exec("cd {$this->laravelPath}; php artisan vendor:publish --tag={$tag} --force");
         echo shell_exec("cd {$this->laravelPath}; php artisan vendor:publish --tag=core-theme --force");

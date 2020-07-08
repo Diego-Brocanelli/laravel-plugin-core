@@ -29,6 +29,8 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
 
     protected $namespaceTag;
 
+    protected $publishTag;
+
     protected $namespaceType;
 
     protected $pluginTheme;
@@ -58,6 +60,7 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
         }
 
         $this->pluginPath    = $plugin->path();
+        $this->publishTag    = Str::slug($pluginNamespace);
         $this->namespaceTag  = Str::snake($pluginNamespace);
         $this->namespaceType = 'plugin';
         $this->assetsPath    = 'plugins';
@@ -77,6 +80,7 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
         }
 
         $this->pluginPath    = $theme->path();
+        $this->publishTag    = Str::slug($themeNamespace);
         $this->namespaceTag  = Str::snake($themeNamespace);
         $this->namespaceType = 'theme';
         $this->assetsPath    = 'themes';
@@ -199,14 +203,14 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
         if ($this->directoryExists($publicPath)) {
             $this->publishes([
                 $publicPath => public_path("{$this->assetsPath}/{$this->namespaceTag}"),
-            ], "{$this->namespaceTag}-assets");
+            ], "{$this->publishTag}-assets");
         }
 
         $configFile = "{$this->pluginPath}/config/{$this->namespaceType}_{$this->namespaceTag}.php";
         if ($this->fileExists($configFile)) {
             $this->publishes([
                 $configFile => config_path("{$this->namespaceType}_{$this->namespaceTag}.php"),
-            ], "{$this->namespaceTag}-config");
+            ], "{$this->publishTag}-config");
         }
 
         $factoriesPath = "{$this->pluginPath}/database/factories";
