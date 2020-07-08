@@ -20,12 +20,16 @@ Este painel é totalmente manipulável, podendo ser gerenciado tanto do lado do 
 
 ## Mais informações
 
-- [Instalando](docs/instalacao.md)
-- [Criando um plugin isolado](docs/plugin.md)
+### Usando em um projeto Laravel
+- [Instalando em um projeto Laravel](docs/instalacao-laravel.md)
 - [Criando páginas no painel](docs/paginas.md)
 - [Manipulando o painel](docs/painel.md)
 - [API Javascript](docs/api-js.md)
 - [API PHP](docs/api-php.md)
+
+### Usando em um plugin isolado
+- [Instalando em um plugin isolado](docs/instalacao-plugin.md)
+- [Implementando um plugin](docs/plugin.md)
 
 ## Créditos
 

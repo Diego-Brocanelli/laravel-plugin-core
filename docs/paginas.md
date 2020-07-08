@@ -1,7 +1,5 @@
 # Implementando Páginas
 
-## Funcionalidades 
-
 A criação de páginas conta com várias funcionalidades providas pela aplicação Vue.js. 
 Para conhecê-las, visite a [API Javascript](api-js.md).
 
@@ -103,6 +101,15 @@ Para o objetivo do mecanismo de plugins, essa limitação é irrelevante, pois a
 
 ## Mais informações
 
-[Manipulando o painel](painel.md)
+### Usando em um projeto Laravel
+- [Instalando em um projeto Laravel](instalacao-laravel.md)
+- [Criando páginas no painel](paginas.md)
+- [Manipulando o painel](painel.md)
+- [API Javascript](api-js.md)
+- [API PHP](api-php.md)
+
+### Usando em um plugin isolado
+- [Instalando em um plugin isolado](instalacao-plugin.md)
+- [Implementando um plugin](plugin.md)
 
 [Voltar para o início](../readme.md)

@@ -6,7 +6,7 @@ Isso pode ser feito de duas maneiras:
 
 ## Através da aplicação Vuejs
 
-Dentro da página .vue, usando `this.$root` ou `app` é possível invocar a aplicação a fim de utilizar os recursos disponíveis.
+Dentro da página .vue, usando o objeto `app` é possível invocar a aplicação a fim de utilizar os recursos disponíveis.
 
 Por exemplo:
 
@@ -22,7 +22,7 @@ Por exemplo:
             changePanel: function (message) {
 
                 // Usando a notação do vue
-                this.$root.panel().disableSidebarLeft()
+                app.panel().disableSidebarLeft()
 
                 // Usando diretamente a aplicação
                 app.panel().disableSidebarLeft()
@@ -54,18 +54,53 @@ public function index(Request $request)
 
     // Adiciona um novo item de menu quando esta página for carregada
     $this->sidebar()
-        ->append(new Entry('Item Dinâmico', '/admin/home', 'emoji-smile'));
+        ->append(new Entry('Item Dinâmico', '/admin/home'));
 
     // isso liberará a página 'resources/vue/paginas/form.vue'
     return vue('paginas.form');
 }
 ```
 
-Para conhecer todas as funcionalidades do mecanismo de plugins, siga para a [API PHP](api-php.md).
+Isso também é possível dentro do ServiceProvider da aplicação, bastando que ele estenda `App\Plugin\Core\Providers\PluggableServiceProvider`:
+
+```php 
+
+use App\Plugin\Core\Providers\PluggableServiceProvider;
+
+class ServiceProvider extends PluggableServiceProvider
+{
+    public function boot()
+    {
+        parent::boot();
+
+        // Define os links de navegação de forma global
+        $this->breadcrumb()
+            ->append(new Entry('Home', '/example/home'));
+
+        // Adiciona itens no menu lateral esquerdo
+        $this->sidebar()
+            ->append(new Entry('Grid', '/example/grid'))
+            ->append(new Entry('Form', '/example/form'))
+            ->append(new Entry('Página', '/example/page'));
+        
+    }
+}
+```
+
+Para conhecer todas as funcionalidades do mecanismo de plugins para o PHP, siga para a [API PHP](api-php.md).
 
 
 ## Mais informações
 
-[API Javascript](api-js.md)
+### Usando em um projeto Laravel
+- [Instalando em um projeto Laravel](instalacao-laravel.md)
+- [Criando páginas no painel](paginas.md)
+- [Manipulando o painel](painel.md)
+- [API Javascript](api-js.md)
+- [API PHP](api-php.md)
+
+### Usando em um plugin isolado
+- [Instalando em um plugin isolado](instalacao-plugin.md)
+- [Implementando um plugin](plugin.md)
 
 [Voltar para o início](../readme.md)
