@@ -22,9 +22,9 @@ chmod -Rf 777 bootstrap/cache
 
 ```bash
 composer require bnw/laravel-plugin-core 
-php artisan publish --tag="core-config"
-php artisan publish --tag="core-assets"
-php artisan publish --tag="core-theme"
+php artisan vendor:publish --tag="core-config"
+php artisan vendor:publish --tag="core-assets"
+php artisan vendor:publish --tag="core-theme"
 ```
 
 ### 3. Crie um ServiceProvider para o novo projeto
