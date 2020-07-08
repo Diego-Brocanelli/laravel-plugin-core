@@ -26,9 +26,7 @@ trait CreatesApplication
 
         $pluginsHandler->registerPlugin($className);
 
-        // $class = new ReflectionClass($className);
         $plugin          = $pluginsHandler->plugin($className);
-        $pluginNamespace = $plugin->config()->param('plugin_namespace');
         $pluginPath      = $plugin->path();
         $laravelPath     = $plugin->config()->param('laravel_path');
 

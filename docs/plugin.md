@@ -1,4 +1,4 @@
-# Criando um plugin isolado
+# Desenvolvendo um plugin de forma isolada
 
 > Esta parte está sendo documentada
 

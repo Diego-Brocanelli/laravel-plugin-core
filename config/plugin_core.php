@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 return [
 
-    'plugin_namespace' => 'Core', 
+    'plugin_name' => 'Core',
 
     // Apenas para desenvolvimento do pacote! 
     // Este parâmetro notifica o Artisan sobre a localização 

@@ -53,10 +53,11 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
         PluginsHandler::instance()->registerPlugin($this->selfServiceProvider());
 
         $plugin              = PluginsHandler::instance()->plugin($this->selfServiceProvider());
-        $pluginNamespace     = $plugin->config()->param('plugin_namespace');
+        $pluginNamespace     = $plugin->config()->param('plugin_name');
 
         if ($pluginNamespace === null) {
-            throw new \RuntimeException("O arquivo de configuração não contém o parâmetro 'plugin_namespace'");
+            $packageName = basename($plugin->path());
+            throw new \RuntimeException("O arquivo de configuração do pacote {$packageName} não contém o parâmetro 'plugin_name'");
         }
 
         $this->pluginPath    = $plugin->path();
@@ -73,10 +74,11 @@ abstract class PluggableServiceProvider extends BaseServiceProvider
         PluginsHandler::instance()->registerTheme($this->selfServiceProvider());
 
         $theme              = PluginsHandler::instance()->theme($this->selfServiceProvider());
-        $themeNamespace     = $theme->config()->param('theme_namespace');
+        $themeNamespace     = $theme->config()->param('theme_name');
 
         if ($themeNamespace === null) {
-            throw new \RuntimeException("O arquivo de configuração não contém o parâmetro 'theme_namespace'");
+            $packageName = basename($theme->path());
+            throw new \RuntimeException("O arquivo de configuração do pacote {$packageName} não contém o parâmetro 'theme_name'");
         }
 
         $this->pluginPath    = $theme->path();
