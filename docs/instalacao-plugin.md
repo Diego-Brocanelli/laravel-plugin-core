@@ -35,7 +35,34 @@ cd meu-plugin
 O pacote de exemplo vem com o nome 'Example'. Isso deve ser mudado pelo
 nome do seu plugin. Para esse exemplo vamos usar o nome 'MeuPlugin':
 
-### 3.1. composer.json
+### 3.1. Arquivo de configuração
+
+No pacote de exemplo, o arquivo de configuração se chama `config/plugin_example.php`, 
+vamos mudar isso:
+
+```shell
+mv config/plugin_example.php config/plugin_meu_plugin.php
+```
+
+> OBS: o nome do arquivo de configuração é procurado pelo mecanismo de plugins sob o formato de 'plugin_?????', transformando palavras compostas como "MeuPlugin" para um nome correspondente no formato snake_case. Assim, `MeuPlugin` se tornará `meu_plugin`, onde o nome do arquivo de configuração deverá ser `plugin_meu_plugin.php`.
+
+Dentro do arquivo de configuração, mude o nome do pacote adequadamente.
+
+```php
+<?php
+
+declare(strict_types=1);
+
+return [
+
+    'plugin_name' => 'MeuPlugin',
+```
+
+> Obs: aqui é necessário apenas o nome do pacote, ou seja, `MeuPlugin` pois o mecanismo de plugins irá adicionar automaticamente o prefixo `App\Plugin`:
+
+Não se importe com o parâmetro `laravel_path` agora, pois vamos falar dele mais tarde em [Desenvolvendo um plugin de forma isolada](plugin.md).
+
+### 3.2. composer.json
 
 No arquivo do composer, atualize as seguintes informações:
 
@@ -83,33 +110,6 @@ Por fim, no script `pre-autoload-dump`, será necessário setar o nome do arquiv
 ```
 
 Mais informações sobre a utilidade deste script pode ser lida em [Desenvolvendo um plugin de forma isolada](plugin.md).
-
-### 3.2. Arquivo de configuração
-
-No pacote de exemplo, o arquivo de configuração se chama `config/plugin_example.php`, 
-vamos mudar isso:
-
-```shell
-mv config/plugin_example.php config/plugin_meu_plugin.php
-```
-
-> OBS: o nome do arquivo de configuração é procurado pelo mecanismo de plugins sob o formato de 'plugin_?????', transformando palavras compostas como "MeuPlugin" para um nome correspondente no formato snake_case. Assim, `MeuPlugin` se tornará `meu_plugin`, onde o nome do arquivo de configuração deverá ser `plugin_meu_plugin.php`.
-
-Dentro do arquivo de configuração, mude o nome do pacote adequadamente.
-
-```php
-<?php
-
-declare(strict_types=1);
-
-return [
-
-    'plugin_name' => 'MeuPlugin',
-```
-
-> Obs: aqui é necessário apenas o nome do pacote, ou seja, `MeuPlugin` pois o mecanismo de plugins irá adicionar automaticamente o prefixo `App\Plugin`:
-
-Não se importe com o parâmetro `laravel_path` agora, pois vamos falar dele mais tarde em [Desenvolvendo um plugin de forma isolada](plugin.md).
 
 ### 3.3. O controlador abstrato
 
