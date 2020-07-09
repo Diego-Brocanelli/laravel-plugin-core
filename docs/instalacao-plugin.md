@@ -7,7 +7,7 @@ Existem duas maneiras de instalar o pacote `bnw/laravel-plugin-core`:
 
 ## Instalando como um plugin isolado
 
-Para essa modalidade, os recursos ficarão disponiveis dentro de um plugin isolado sob o contexto de uma pacote do composer.
+Para essa modalidade, os recursos ficarão disponíveis dentro de um plugin isolado sob o contexto de uma pacote do composer.
 O mecanismo utiliza o Laravel como dependência e possibilita o desenvolvimento modular.
 
 É como se o desenvolvedor estivesse dentro do Laravel, mas na verdade está em um pacote totalmente separado.
@@ -155,7 +155,7 @@ public function boot()
 
 > OBS 2: o código acima é apenas para demonstrar que é necessário invocar o parent::boot() caso seja necessário adicionar implementações no método boot(). Caso não precise implementar nada, você pode remover o método boot do ServiceProvider.
 
-> OBS 3: note que o ServiceProvider estende `App\Plugin\Core\Providers\PluggableServiceProvider`. Isso porque ele possui vários recursos adicionais para gerenciemnto de plugins.
+> OBS 3: note que o ServiceProvider estende `App\Plugin\Core\Providers\PluggableServiceProvider`. Isso porque ele possui vários recursos adicionais para gerenciamento de plugins.
 
 ### 3.5. Arquivos de exemplo que podem ser removidos
 
